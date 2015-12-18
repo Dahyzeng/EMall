@@ -1,4 +1,4 @@
-package emall.web.component;
+package emall.web.component.user;
 
 
 import emall.entity.User;

@@ -11,14 +11,22 @@ import java.util.List;
 
 
 @Repository
-public class AdminDao {
+public class AdminProfileDao {
     private SessionFactory sessionFactory;
 
     public void addAdmin(Admin admin){
         sessionFactory.getCurrentSession().save(admin);
     }
 
-    public int checkInfo(Admin admin){
+    /**
+     * function:
+     * admin login, check the admin information
+     * @param admin admin info
+     * @return
+     * 0 login fail
+     * 1 login success
+     */
+    public int checkInfo(Admin admin) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Admin where adminName=? and password=?");
         query.setString(0, admin.getUsername());
         query.setString(1, admin.getPassword());
@@ -28,6 +36,30 @@ public class AdminDao {
         }else {
             return Constants.SUCCESS_NUMBER;
         }
+    }
+
+    /**
+     * function:
+     * check whether admin name exist
+     * @param adminName admin name
+     * @return
+     * 1 represent do exist
+     * 0 represent do not
+     */
+    public int nameMatch(String adminName) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Admin where adminName=?");
+        query.setString(0, adminName);
+        List list = query.list();
+        return list.size();
+    }
+
+    /**
+     * function:
+     * update admin password
+     * @param admin admin
+     */
+    public void updatePassword(Admin admin) {
+        sessionFactory.getCurrentSession().update(admin);
     }
 
     @Autowired
