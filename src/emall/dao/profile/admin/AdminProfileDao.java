@@ -28,7 +28,7 @@ public class AdminProfileDao {
      */
     public int checkInfo(Admin admin) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Admin where adminName=? and password=?");
-        query.setString(0, admin.getUsername());
+        query.setString(0, admin.getAdminName());
         query.setString(1, admin.getPassword());
         List list = query.list();
         if(list.size() == 0){

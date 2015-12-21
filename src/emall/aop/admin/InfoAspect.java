@@ -13,10 +13,11 @@ public class InfoAspect {
     @Autowired
     HttpServletRequest request;
 
-    @Before("@annotation(emall.aop.annotation.CheckUsername)")
+    @Before("@annotation(emall.aop.annotation.CheckAdminName)")
     public void checkLogin(){
-        String username = (String) request.getSession().getAttribute("username");
-        System.out.println("aop get in");
-        System.out.println("aspect get username:"+username);
+        Object adminName = request.getSession().getAttribute("adminName");
+        if (adminName == null) {
+            request.getRequestURL();
+        }
     }
 }

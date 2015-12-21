@@ -1,5 +1,6 @@
 package emall.web.component.admin.profile;
 
+import emall.aop.annotation.CheckAdminName;
 import emall.aop.annotation.CheckUsername;
 import emall.entity.Admin;
 import emall.service.admin.profile.InfoService;
@@ -19,7 +20,7 @@ public class UpdateInfo {
     private InfoService infoService;
 
     @RequestMapping("/update/password")
-    @CheckUsername
+    @CheckAdminName
     public ModelAndView UpdatePassword(Admin admin) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/admin/profile/updatePassword");
