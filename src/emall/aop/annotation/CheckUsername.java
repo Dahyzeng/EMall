@@ -1,7 +1,6 @@
 package emall.aop.annotation;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

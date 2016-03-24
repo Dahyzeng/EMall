@@ -5,7 +5,7 @@
     <title></title>
   </head>
   <body>
-  <jsp:useBean id="user" class="com.entity.User" scope="request"/>
+  <jsp:useBean id="user" class="emall.entity.User" scope="request"/>
   <form:form action="/profile/register" method="post" modelAttribute="user">
       username:<form:input path="username"/><form:errors path="username"/><br/>
       age:     <form:input path="age"/><form:errors path="age"/><br/>
