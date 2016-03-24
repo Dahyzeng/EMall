@@ -15,10 +15,10 @@ public class Admin {
     @Column(name = "UserId")
     private String userId;
 
-    @Column(name = "Username")
-    @NotEmpty(message = "username can not be empty")
-    @Length(min = 2, message = "username must more than 2 chars")
-    private String username;
+    @Column(name = "AdminName")
+    @NotEmpty(message = "admin name can not be empty")
+    @Length(min = 2, message = "admin must more than 2 chars")
+    private String adminName;
 
     @Column(name = "Password")
     @NotEmpty(message = "password can not be empty")
@@ -34,12 +34,12 @@ public class Admin {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public String getPassword() {
