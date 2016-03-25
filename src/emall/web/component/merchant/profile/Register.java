@@ -1,8 +1,8 @@
-package emall.web.component.admin.profile;
+package emall.web.component.merchant.profile;
 
 import emall.aop.annotation.CheckUsername;
-import emall.entity.Admin;
-import emall.service.admin.profile.InfoService;
+import emall.entity.Merchant;
+import emall.service.merchant.profile.InfoService;
 import emall.util.string.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,20 +15,20 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Component
-@RequestMapping("/admin")
+@RequestMapping("/merchant")
 public class Register {
     @Autowired
     private InfoService infoService;
 
-    @RequestMapping("/addAdmin")
+    @RequestMapping("/addMerchant")
     @CheckUsername
-    public ModelAndView addAdmin(@Valid Admin admin, BindingResult bindingResult) {
+    public ModelAndView addAdmin(@Valid Merchant merchant, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/admin/addAdmin");
+        modelAndView.setViewName("/merchant/addMerchant");
         if(bindingResult.hasErrors()) {
             return modelAndView;
         }else {
-            int result = infoService.addAdminService(admin);
+            int result = infoService.addAdminService(merchant);
             if(result == 1) {
                 modelAndView.addObject(Constants.ADD_ADMIN_SUCCESS_MESSAGE);
             }else {
@@ -40,11 +40,11 @@ public class Register {
 
     @RequestMapping(value = "/nameUsable", method = RequestMethod.GET)
     @ResponseBody
-    public int checkAdminNameUsable(String adminName){
-        if ("".equals(adminName)){
+    public int checkAdminNameUsable(String merchantName){
+        if ("".equals(merchantName)){
             return -1;
         }else {
-            return infoService.adminNameMatchService(adminName);
+            return infoService.merchantNameMatchService(merchantName);
         }
     }
 }

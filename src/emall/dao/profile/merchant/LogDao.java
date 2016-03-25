@@ -1,6 +1,6 @@
-package emall.dao.profile.admin;
+package emall.dao.profile.merchant;
 
-import emall.entity.AdminLog;
+import emall.entity.MerchantLog;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,11 +15,11 @@ public class LogDao {
 
     /**
      * function:
-     * add admin operation log
-     * @param adminLog AdminLog entity
+     * add merchant operation log
+     * @param merchantLog MerchantLog entity
      */
-    public void addLog(AdminLog adminLog) {
-        sessionFactory.getCurrentSession().save(adminLog);
+    public void addLog(MerchantLog merchantLog) {
+        sessionFactory.getCurrentSession().save(merchantLog);
     }
 
 

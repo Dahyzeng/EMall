@@ -1,4 +1,4 @@
-package emall.aop.admin;
+package emall.aop.merchant;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,10 +13,10 @@ public class InfoAspect {
     @Autowired
     HttpServletRequest request;
 
-    @Before("@annotation(emall.aop.annotation.CheckAdminName)")
+    @Before("@annotation(emall.aop.annotation.CheckMerchantName)")
     public void checkLogin(){
-        Object adminName = request.getSession().getAttribute("adminName");
-        if (adminName == null) {
+        Object merchantName = request.getSession().getAttribute("merchantName");
+        if (merchantName == null) {
             request.getRequestURL();
         }
     }

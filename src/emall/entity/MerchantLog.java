@@ -9,14 +9,14 @@ import java.sql.Timestamp;
 /**
  * Created by taurinzeng on 2015/12/21.
  */
-public class AdminLog {
+public class MerchantLog {
     @Id
     @Column
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
     @Column
-    private String adminName;
+    private String merchantName;
 
     @Column
     private String operation;
@@ -24,21 +24,21 @@ public class AdminLog {
     @Column
     private Timestamp date;
 
-    public AdminLog() {
+    public MerchantLog() {
     }
 
-    public AdminLog(String operation, String adminName, Timestamp date) {
+    public MerchantLog(String merchantName, String operation, Timestamp date) {
+        this.merchantName = merchantName;
         this.operation = operation;
-        this.adminName = adminName;
         this.date = date;
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getMerchantName() {
+        return merchantName;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
     }
 
     public String getOperation() {

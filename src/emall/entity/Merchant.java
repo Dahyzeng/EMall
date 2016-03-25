@@ -7,18 +7,18 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ADMIN")
-public class Admin {
+@Table(name = "MERCHANT")
+public class Merchant {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name = "system-uuid",strategy="uuid")
     @Column(name = "UserId")
     private String userId;
 
-    @Column(name = "AdminName")
-    @NotEmpty(message = "admin name can not be empty")
-    @Length(min = 2, message = "admin must more than 2 chars")
-    private String adminName;
+    @Column(name = "MerchantName")
+    @NotEmpty(message = "merchant name can not be empty")
+    @Length(min = 2, message = "merchant name must more than 2 chars")
+    private String merchantName;
 
     @Column(name = "Password")
     @NotEmpty(message = "password can not be empty")
@@ -34,12 +34,12 @@ public class Admin {
         this.userId = userId;
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getMerchantName() {
+        return merchantName;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
     }
 
     public String getPassword() {

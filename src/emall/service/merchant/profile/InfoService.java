@@ -1,10 +1,9 @@
-package emall.service.admin.profile;
+package emall.service.merchant.profile;
 
-import emall.dao.profile.admin.AdminProfileDao;
-import emall.entity.Admin;
-import emall.entity.AdminLog;
-import emall.util.string.Constants;
-import emall.util.string.constants.AdminConstants;
+import emall.dao.profile.merchant.MerchantProfileDao;
+import emall.entity.Merchant;
+import emall.entity.MerchantLog;
+import emall.util.string.constants.MerchantConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,7 @@ import java.util.Date;
 @Transactional
 public class InfoService {
     @Autowired
-    private AdminProfileDao adminDao;
+    private MerchantProfileDao merchantDao;
     @Autowired
     private LogService logService;
 
@@ -26,44 +25,44 @@ public class InfoService {
     private HttpServletRequest request;
     /**
      * function:
-     * add admin service
+     * add merchant service
      * if there are any exceptions,
      * the data will roll back and return
      * a default value 0 for fail
-     * @param admin admin info
+     * @param merchant merchant info
      * @return 1 for success
      */
     @Transactional(rollbackFor = Exception.class)
-    public int addAdminService(Admin admin){
-        AdminLog log = getAdminLog(admin);
+    public int addAdminService(Merchant merchant){
+        MerchantLog log = getAdminLog(merchant);
         StringBuilder logMessage = new StringBuilder();
         logMessage.append("管理员：");
         logMessage.append(getSessionName());
         logMessage.append(",");
-        logMessage.append(AdminConstants.ADD_ADMIN_LOG);
-        logMessage.append(admin.getAdminName());
+        logMessage.append(MerchantConstants.ADD_ADMIN_LOG);
+        logMessage.append(merchant.getMerchantName());
         log.setOperation(logMessage.toString());
         logService.addAdminLog(log);
-        adminDao.addAdmin(admin);
+        merchantDao.addAdmin(merchant);
         return 1;
     }
 
     /**
      * function:
-     * admin login service
-     * @param admin admin info
+     * merchant login service
+     * @param merchant merchant info
      * @return
      * 0 login fail
      * 1 login success
      */
     @Transactional(rollbackFor = Exception.class)
-    public int loginService(Admin admin){
-        int loginResult = adminDao.checkInfo(admin);
-        AdminLog log = getAdminLog(admin);
+    public int loginService(Merchant merchant){
+        int loginResult = merchantDao.checkInfo(merchant);
+        MerchantLog log = getAdminLog(merchant);
         if (loginResult == 1) {
-            log.setOperation(AdminConstants.LOGIN_SUCCESS_LOG_MESSAGE);
+            log.setOperation(MerchantConstants.LOGIN_SUCCESS_LOG_MESSAGE);
         }else {
-            log.setOperation(AdminConstants.LOGIN_FAIL__LOG_MESSAGE);
+            log.setOperation(MerchantConstants.LOGIN_FAIL__LOG_MESSAGE);
         }
         logService.addAdminLog(log);
         return loginResult;
@@ -71,42 +70,42 @@ public class InfoService {
 
     /**
      * function:
-     * check whether admin name exist service
-     * @param adminName admin name
+     * check whether merchant name exist service
+     * @param merchantName merchant name
      * @return
      * 1 represent do exist
      * 0 represent do not
      */
-    public int adminNameMatchService(String adminName) {
-        return adminDao.nameMatch(adminName);
+    public int merchantNameMatchService(String merchantName) {
+        return merchantDao.nameMatch(merchantName);
     }
 
     /**
      * function:
-     * admin update password, if there are any
+     * merchant update password, if there are any
      * exception, the data will be rolled back
-     * @param admin admin entity
+     * @param merchant merchant entity
      * @return
      * 1 represent success
      * 0 represent fail
      */
     @Transactional(rollbackFor = Exception.class)
-    public int updatePassword(Admin admin) {
-        AdminLog log = getAdminLog(admin);
-        log.setOperation(AdminConstants.UPDATE_PASSWORD_LOG);
-        adminDao.updatePassword(admin);
+    public int updatePassword(Merchant merchant) {
+        MerchantLog log = getAdminLog(merchant);
+        log.setOperation(MerchantConstants.UPDATE_PASSWORD_LOG);
+        merchantDao.updatePassword(merchant);
         logService.addAdminLog(log);
         return 1;
     }
 
     public String getSessionName() {
-        return request.getSession().getAttribute("adminName").toString();
+        return request.getSession().getAttribute("merchantName").toString();
     }
 
-    public AdminLog getAdminLog(Admin admin) {
+    public MerchantLog getAdminLog(Merchant merchant) {
         Timestamp date = new Timestamp(new Date().getTime());
-        AdminLog log = new AdminLog();
-        log.setAdminName(admin.getAdminName());
+        MerchantLog log = new MerchantLog();
+        log.setMerchantName(merchant.getMerchantName());
         log.setDate(date);
         return log;
     }

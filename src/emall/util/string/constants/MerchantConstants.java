@@ -3,7 +3,7 @@ package emall.util.string.constants;
 /**
  * Created by taurinzeng on 2015/12/21.
  */
-public class AdminConstants {
+public class MerchantConstants {
     public static final String LOGIN_SUCCESS_LOG_MESSAGE = "登录账户成功";
     public static final String LOGIN_FAIL__LOG_MESSAGE = "登录账户失败";
     public static final String ADD_ADMIN_LOG = "添加管理员:";

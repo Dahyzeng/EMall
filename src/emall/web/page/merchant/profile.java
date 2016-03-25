@@ -1,4 +1,4 @@
-package emall.web.page.admin;
+package emall.web.page.merchant;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ public class profile {
 
     @RequestMapping("/login")
     public String loginNavigate() {
-        return "/admin/profile/login";
+        return "/merchant/profile/login";
     }
 
 }

@@ -1,12 +1,11 @@
-package emall.service.admin.category;
+package emall.service.merchant.category;
 
 import emall.dao.category.CategoryDao;
-import emall.dao.profile.admin.LogDao;
-import emall.entity.Admin;
-import emall.entity.AdminLog;
+import emall.dao.profile.merchant.LogDao;
+import emall.entity.MerchantLog;
 import emall.entity.Category;
 import emall.util.string.Constants;
-import emall.util.string.constants.AdminConstants;
+import emall.util.string.constants.MerchantConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,12 +37,12 @@ public class CategoryService {
     @Transactional(rollbackFor = Exception.class)
     public int addCategory(Category category) {
         categoryDao.addCategory(category);
-        AdminLog adminLog = getAdminLog();
+        MerchantLog merchantLog = getAdminLog();
         StringBuilder operation = new StringBuilder();
-        operation.append(AdminConstants.ADD_CATEGORY_LOG);
+        operation.append(MerchantConstants.ADD_CATEGORY_LOG);
         operation.append(category.getCategoryName());
-        adminLog.setOperation(operation.toString());
-        logDao.addLog(adminLog);
+        merchantLog.setOperation(operation.toString());
+        logDao.addLog(merchantLog);
         return Constants.SUCCESS_NUMBER;
     }
 
@@ -70,22 +69,22 @@ public class CategoryService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteCurrentCategory(Category category) {
         categoryDao.deleteCategory(category.getId());
-        AdminLog adminLog = getAdminLog();
+        MerchantLog merchantLog = getAdminLog();
         StringBuilder operation = new StringBuilder();
-        operation.append(AdminConstants.DELETE_CATEGORY_LOG);
+        operation.append(MerchantConstants.DELETE_CATEGORY_LOG);
         operation.append(category.getCategoryName());
-        adminLog.setOperation(operation.toString());
-        logDao.addLog(adminLog);
+        merchantLog.setOperation(operation.toString());
+        logDao.addLog(merchantLog);
         return Constants.SUCCESS_NUMBER;
     }
     public String getSessionName() {
-        return request.getSession().getAttribute("adminName").toString();
+        return request.getSession().getAttribute("merchantName").toString();
     }
 
-    public AdminLog getAdminLog() {
+    public MerchantLog getAdminLog() {
         Timestamp date = new Timestamp(new Date().getTime());
-        AdminLog log = new AdminLog();
-        log.setAdminName(getSessionName());
+        MerchantLog log = new MerchantLog();
+        log.setMerchantName(getSessionName());
         log.setDate(date);
         return log;
     }
