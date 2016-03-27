@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name="USER")
 public class User {
-
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
