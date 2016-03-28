@@ -44,6 +44,19 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>emall.entity.User</value>
+				<value>emall.entity.Address</value>
+				<value>emall.entity.CarouselItem</value>
+				<value>emall.entity.Cart</value>
+				<value>emall.entity.Category</value>
+				<value>emall.entity.Item</value>
+				<value>emall.entity.ItemModel</value>
+				<value>emall.entity.ItemPic</value>
+				<value>emall.entity.Merchant</value>
+				<value>emall.entity.MerchantLog</value>
+				<value>emall.entity.Order</value>
+				<value>emall.entity.OrderItem</value>
+				<value>emall.entity.PromotionItem</value>
+				<value>emall.entity.UserLog</value>
 			</list>
 		</property>
 	</bean>
