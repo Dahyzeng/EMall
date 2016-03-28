@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name="USER")
 public class User {
-
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
@@ -51,6 +50,7 @@ public class User {
     public User(){
 
     }
+
 
     public User(String userId,String username, String password, int age, String gender, String telephone, String email) {
         this.userId = userId;
