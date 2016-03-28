@@ -1,13 +1,14 @@
 package emall.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by taurinzeng on 2016/3/25.
  */
 @Entity
-@Table
-public class PromotionItem {
+@Table(name = "T_PROMOTION_ITEM")
+public class PromotionItem implements Serializable{
     @Id
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "item_id")

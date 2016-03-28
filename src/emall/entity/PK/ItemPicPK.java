@@ -3,13 +3,13 @@ package emall.entity.PK;
 import java.io.Serializable;
 
 /**
- * Created by taurinzeng on 2016/3/28.
+ * Created by taurin on 2016/3/28.
  */
-public class OrderItemPK implements Serializable{
-    private String orderId;
+public class ItemPicPK implements Serializable{
     private String itemId;
+    private String picURL;
 
-    public OrderItemPK() {
+    public ItemPicPK() {
     }
 
     @Override
@@ -17,24 +17,17 @@ public class OrderItemPK implements Serializable{
         if(this == obj) return true;
         if(obj == null) return false;
         if(!(obj instanceof OrderItemPK)) return false;
-        OrderItemPK objKey = (OrderItemPK)obj;
-        return orderId.equalsIgnoreCase(objKey.orderId) && itemId.equalsIgnoreCase(objKey.itemId) && itemId.equalsIgnoreCase(objKey.itemId);
+        ItemPicPK objKey = (ItemPicPK)obj;
+        return itemId.equalsIgnoreCase(objKey.itemId) && picURL.equalsIgnoreCase(objKey.picURL);
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((orderId == null) ? 0 : orderId.hashCode());
+        result = PRIME * result + ((picURL == null) ? 0 : picURL.hashCode());
         result = PRIME * result + ((itemId == null) ? 0 : itemId.hashCode());
         return result;
-    }
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 
     public String getItemId() {
@@ -43,5 +36,13 @@ public class OrderItemPK implements Serializable{
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public String getPicURL() {
+        return picURL;
+    }
+
+    public void setPicURL(String picURL) {
+        this.picURL = picURL;
     }
 }

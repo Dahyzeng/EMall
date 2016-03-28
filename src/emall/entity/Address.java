@@ -1,6 +1,4 @@
 package emall.entity;
-import emall.entity.PK.AddressPK;
-import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +8,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="T_USER_ADDRESS")
-@IdClass(AddressPK.class)
 public class Address {
     @Id
     @Column(name = "address_id")
@@ -18,8 +15,6 @@ public class Address {
     @GenericGenerator(name = "system-uuid",strategy="uuid")
     private String addressId;
 
-    @Id
-    @Column(name = "user_id")
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private String userId;

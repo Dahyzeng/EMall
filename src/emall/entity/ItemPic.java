@@ -1,5 +1,7 @@
 package emall.entity;
 
+import emall.entity.PK.ItemPicPK;
+
 import javax.persistence.*;
 
 /**
@@ -7,11 +9,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "T_ITEM_PIC")
+@IdClass(ItemPicPK.class)
 public class ItemPic {
+    @Id
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "item_id")
     private String itemId;
 
+    @Id
     @Column(name = "pic_url")
     private String picURL;
 

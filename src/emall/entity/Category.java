@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by taurinzeng on 2015/12/21.
  */
 @Entity
-@Table(name = "category")
+@Table(name = "T_CATEGORY")
 public class Category {
     @Id
     @Column(name = "category_id")
