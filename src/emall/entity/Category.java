@@ -3,33 +3,33 @@ package emall.entity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by taurinzeng on 2015/12/21.
  */
+@Entity
+@Table(name = "category")
 public class Category {
-
     @Id
+    @Column(name = "category_id")
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name = "system-uuid",strategy="uuid")
-    private String id;
+    private String categoryId;
 
-    @Column
+    @Column(name = "category_name")
     @NotEmpty(message = "category name can not be empty")
     private String categoryName;
 
-    @Column
+    @Column(name = "father_id")
     private String fatherId;
 
-    public String getId() {
-        return id;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {

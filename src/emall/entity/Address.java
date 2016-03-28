@@ -1,4 +1,5 @@
 package emall.entity;
+import emall.entity.PK.AddressPK;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,23 +9,26 @@ import javax.persistence.*;
  * Created by Taurin on 2015/12/8.
  */
 @Entity
-@Table(name="USER_ADDRESS")
+@Table(name="T_USER_ADDRESS")
+@IdClass(AddressPK.class)
 public class Address {
     @Id
-    @Column(name = "AddressId")
+    @Column(name = "address_id")
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name = "system-uuid",strategy="uuid")
     private String addressId;
 
     @Id
-    @Column(name = "UserId")
+    @Column(name = "user_id")
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "UserId", referencedColumnName = "UserId")
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private String userId;
 
-    @Column(name = "AddressContent")
+    @Column(name = "address_content")
     private String addressContent;
 
+    public Address() {
+    }
 
     public String getAddressId() {
         return addressId;
@@ -34,12 +38,12 @@ public class Address {
         this.addressId = addressId;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getAddressContent() {

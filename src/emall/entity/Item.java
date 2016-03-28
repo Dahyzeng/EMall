@@ -1,17 +1,46 @@
 package emall.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+
 /**
  * Created by taurinzeng on 2016/3/25.
  */
+@Entity
+@Table(name = "T_ITEM")
 public class Item {
+    @Id
+    @Column(name = "item_id")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name = "system-uuid",strategy="uuid")
     private String itemId;
+
+    @Column(name = "item_name")
+    @NotEmpty
     private String itemName;
+
+    @ManyToOne(targetEntity = Category.class)
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private String categoryId;
+
+    @Column(name = "inventory")
     private int inventory;
+
+    @Column(name = "price")
     private float price;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "show_pic_url")
     private String showPicURL;
+
+    @Column(name = "saleQuantity")
     private int saleQuantity;
+
+    @Column(name = "status")
     private int status;
 
     public Item() {

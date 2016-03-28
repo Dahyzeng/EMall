@@ -1,28 +1,29 @@
 package emall.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by taurinzeng on 2015/12/21.
  */
+@Entity
+@Table(name = "T_MERCHANT_LOG")
 public class MerchantLog {
     @Id
-    @Column
+    @Column(name = "log_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private int logId;
 
-    @Column
+    @Column(name = "merchant_name")
     private String merchantName;
 
-    @Column
+    @Column(name = "operation")
     private String operation;
 
-    @Column
-    private Timestamp date;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date")
+    private Date date;
 
     public MerchantLog() {
     }
@@ -49,19 +50,19 @@ public class MerchantLog {
         this.operation = operation;
     }
 
-    public int getId() {
-        return id;
+    public int getLogId() {
+        return logId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLogId(int logId) {
+        this.logId = logId;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

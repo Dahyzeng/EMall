@@ -14,35 +14,35 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
-@Table(name="USER")
+@Table(name="T_USER")
 public class User {
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name = "system-uuid",strategy="uuid")
-	@Column(name = "UserId", length=32)
+	@Column(name = "user_id", length=32)
 	private String userId;
 	
-	@Column(name = "Username")
+	@Column(name = "username")
     @NotEmpty(message = "username can not be empty")
 	private String username;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     @Length(min=6, message = "password length must more than 6 chars")
     private String password;
 
-    @Column(name = "Age")
+    @Column(name = "age")
     @Min(value = 0,message = "age can not less than 0")
 	private int age;
 
-    @Column(name = "Gender")
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name = "Telephone")
+    @Column(name = "telephone")
     @NotEmpty(message = "telephone can not be empty")
     @Length(min = 11, max = 11, message = "telephone should be 11 chars")
     private String telephone;
 
-    @Column(name = "Email")
+    @Column(name = "email")
     @NotEmpty(message = "email can not be empty")
     @Email(message = "please input the right email")
     private String email;

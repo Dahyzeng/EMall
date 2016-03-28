@@ -1,11 +1,27 @@
 package emall.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+
 /**
  * Created by taurinzeng on 2016/3/25.
  */
+@Entity
+@Table(name="T_CAROUSE_ITEM")
 public class CarouselItem {
+
+    @Id
+    @Column(name = "item_id")
+    @OneToOne(targetEntity = Item.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
     private String ItemId;
+
+    @Column(name = "pic_url")
+    @NotEmpty
     private String picURL;
+
+    @Column(name = "sequence")
     private int sequence;
 
     public CarouselItem() {

@@ -7,31 +7,31 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "MERCHANT")
+@Table(name = "T_MERCHANT")
 public class Merchant {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name = "system-uuid",strategy="uuid")
-    @Column(name = "UserId")
-    private String userId;
+    @Column(name = "merchant_id")
+    private String merchantId;
 
-    @Column(name = "MerchantName")
+    @Column(name = "merchant_name")
     @NotEmpty(message = "merchant name can not be empty")
     @Length(min = 2, message = "merchant name must more than 2 chars")
     private String merchantName;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     @NotEmpty(message = "password can not be empty")
     @Length(min = 6, message = "password must more than 6 chars")
     private String password;
 
 
-    public String getUserId() {
-        return userId;
+    public String getMerchantId() {
+        return merchantId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
     }
 
     public String getMerchantName() {

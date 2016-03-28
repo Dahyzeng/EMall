@@ -1,11 +1,22 @@
 package emall.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by taurinzeng on 2016/3/25.
  */
+@Entity
+@Table
 public class PromotionItem {
+    @Id
+    @ManyToOne(targetEntity = Item.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
     private String itemId;
+
+    @Column(name = "discount")
     private float discount;
+
+    @Column(name = "price")
     private float price;
 
     public PromotionItem() {

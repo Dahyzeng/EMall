@@ -1,15 +1,35 @@
 package emall.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by taurinzeng on 2016/3/25.
  */
+@Entity
+@Table
 public class UserLog {
+
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name = "system-uuid",strategy="uuid")
+    @Column(name = "log_id")
     private String logId;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private String userId;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "operation")
     private String operation;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "operationDate")
     private Date operationDate;
 
     public UserLog() {
