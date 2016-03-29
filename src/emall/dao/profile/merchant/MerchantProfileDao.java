@@ -14,8 +14,12 @@ import java.util.List;
 public class MerchantProfileDao {
     private SessionFactory sessionFactory;
 
-    public void addAdmin(Merchant merchant){
+    public void addMerchant(Merchant merchant){
         sessionFactory.getCurrentSession().save(merchant);
+    }
+
+    public void deleteMerchant(String merchantId) {
+        sessionFactory.getCurrentSession().delete(new Merchant(merchantId));
     }
 
     /**
@@ -28,7 +32,7 @@ public class MerchantProfileDao {
      */
     public int checkInfo(Merchant merchant) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where merchantName=? and password=?");
-        query.setString(0, merchant.getAdminName());
+        query.setString(0, merchant.getMerchantName());
         query.setString(1, merchant.getPassword());
         List list = query.list();
         if(list.size() == 0){

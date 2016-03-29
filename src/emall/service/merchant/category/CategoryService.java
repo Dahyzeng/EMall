@@ -68,7 +68,7 @@ public class CategoryService {
      */
     @Transactional(rollbackFor = Exception.class)
     public int deleteCurrentCategory(Category category) {
-        categoryDao.deleteCategory(category.getId());
+        categoryDao.deleteCategory(category.getCategoryId());
         MerchantLog merchantLog = getAdminLog();
         StringBuilder operation = new StringBuilder();
         operation.append(MerchantConstants.DELETE_CATEGORY_LOG);
