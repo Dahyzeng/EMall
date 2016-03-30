@@ -24,6 +24,15 @@ public class MerchantProfileDao {
 
     /**
      * function:
+     * get all merchant account
+     * @return merchantList
+     */
+    public List getMerchants() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant");
+        return query.list();
+    }
+    /**
+     * function:
      * merchant login, check the merchant information
      * @param merchant merchant info
      * @return
