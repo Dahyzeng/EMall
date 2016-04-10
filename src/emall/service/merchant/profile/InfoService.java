@@ -41,7 +41,7 @@ public class InfoService {
         logMessage.append(merchant.getMerchantName());
         log.setOperation(logMessage.toString());
         logService.addAdminLog(log);
-        merchantDao.addAdmin(merchant);
+        merchantDao.addMerchant(merchant);
         return 1;
     }
 

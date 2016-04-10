@@ -16,6 +16,11 @@ public class CategoryDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     * function
+     * add item category
+     * @param category item category
+     */
     public void addCategory(Category category) {
         sessionFactory.getCurrentSession().save(category);
     }
