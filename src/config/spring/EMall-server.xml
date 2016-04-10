@@ -15,18 +15,22 @@
 
 	http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
-	
-	<!-- 注解扫描包 -->
-    <context:component-scan base-package="emall.web" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-    </context:component-scan>
-    <context:component-scan base-package="emall.aop" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-    </context:component-scan>
 
+    <mvc:annotation-driven/>
+	<!-- 注解扫描包 -->
+    <context:component-scan base-package="emall.web" />
+    <context:component-scan base-package="emall.aop" />
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
     <aop:aspectj-autoproxy/>
 	<!-- 开启注解 -->
-	<mvc:annotation-driven />
+
     <bean id="message" class="org.springframework.context.support.ResourceBundleMessageSource"/>
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 	<!-- 定义视图解析器 -->	

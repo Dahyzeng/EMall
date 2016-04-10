@@ -21,7 +21,7 @@ public class MerchantLog {
     @Column(name = "operation")
     private String operation;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "date")
     private Date date;
 

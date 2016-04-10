@@ -1,0 +1,58 @@
+.box .box-header {
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 30px;
+    padding: 10px 15px;
+    *zoom: 1; 
+}
+.box .box-content {
+    padding: 10px;
+    border: 1px solid #dddddd;
+    background: white;
+    display: block;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055); 
+}
+ .box.box-bordered .box-content {
+      border-left: none;
+      border-right: none;
+      border-bottom: none; 
+}
+.accordion .accordion-group {
+  margin-bottom: 0;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-width: 2px; }
+.accordion.accordion-blue .accordion-group {
+  border-color: #00acec;
+  border-bottom-color: #53d0ff; 
+}
+ .accordion.accordion-blue .accordion-heading .accordion-toggle {
+  color: white;
+  background-color: #00acec; 
+}
+.fatherpanel {
+	list-style: none;
+	margin: 0 0 20px 0;
+}
+.fatherpanel li{
+	float: left;
+}
+.fatherpanel .icon{
+	float: right;
+}
+.fatherpanel .icon a{
+	text-decoration:none;
+}
+.categoryPanel{
+	list-style: none;
+}
+.categoryPanel .li{
+	float: left;
+	padding:30px;
+	width: 300px;
+}
+.panel-body:hover{
+	 background-color: #66CC99;
+}

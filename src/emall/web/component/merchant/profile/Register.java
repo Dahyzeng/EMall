@@ -25,13 +25,13 @@ public class Register {
     public ModelAndView addAdmin(@Valid Merchant merchant, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/merchant/addMerchant");
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return modelAndView;
-        }else {
+        } else {
             int result = infoService.addAdminService(merchant);
-            if(result == 1) {
+            if (result == 1) {
                 modelAndView.addObject(Constants.ADD_ADMIN_SUCCESS_MESSAGE);
-            }else {
+            } else {
                 modelAndView.addObject(Constants.ADD_ADMIN_FAIL_MESSAGE);
             }
         }
@@ -41,9 +41,9 @@ public class Register {
     @RequestMapping(value = "/nameUsable", method = RequestMethod.GET)
     @ResponseBody
     public int checkAdminNameUsable(String merchantName){
-        if ("".equals(merchantName)){
+        if ("".equals(merchantName)) {
             return -1;
-        }else {
+        } else {
             return infoService.merchantNameMatchService(merchantName);
         }
     }

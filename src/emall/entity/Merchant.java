@@ -1,6 +1,7 @@
 package emall.entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,11 +21,23 @@ public class Merchant {
     @Length(min = 2, message = "merchant name must more than 2 chars")
     private String merchantName;
 
+    @Column(name = "email")
+    @Email
+    @NotEmpty(message = "merchant email can not be empty")
+    private String email;
+
     @Column(name = "password")
-    @NotEmpty(message = "password can not be empty")
+    @NotEmpty
     @Length(min = 6, message = "password must more than 6 chars")
     private String password;
 
+    public Merchant() {
+    }
+
+    public Merchant(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getMerchantId() {
         return merchantId;
@@ -48,5 +61,13 @@ public class Merchant {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

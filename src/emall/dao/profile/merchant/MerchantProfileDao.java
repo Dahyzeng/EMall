@@ -27,8 +27,8 @@ public class MerchantProfileDao {
      * 1 login success
      */
     public int checkInfo(Merchant merchant) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where merchantName=? and password=?");
-        query.setString(0, merchant.getAdminName());
+        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where email=? and password=?");
+        query.setString(0, merchant.getEmail());
         query.setString(1, merchant.getPassword());
         List list = query.list();
         if(list.size() == 0){
@@ -36,6 +36,13 @@ public class MerchantProfileDao {
         }else {
             return Constants.SUCCESS_NUMBER;
         }
+    }
+
+    public List getMerchant(String email) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where email=?");
+        query.setString(0, email);
+        return query.list();
+
     }
 
     /**

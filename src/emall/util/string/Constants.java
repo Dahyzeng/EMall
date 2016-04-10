@@ -14,7 +14,6 @@ public class Constants {
     public static final String UPDATE_SUCCESS_MESSAGE = "update success";
     public static final String UPDATE_FAIL_MESSAGE = "update fail, please try again later";
 
-
     public static final String LOGIN_LOG_MESSAGE = "登录账户";
     public static final String ADD_AD = "登录账户";
 }

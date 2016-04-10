@@ -35,6 +35,29 @@ public class CategoryDao {
         return list.size();
     }
 
+    public int matchCategoryName(String categoryName, String fatherId) {
+        String sql = "from Category where categoryName=? and fatherId=?";
+        if (fatherId == null) {
+            sql = "from Category where categoryName=? and fatherId IS NULL";
+        }
+        Query query = sessionFactory.getCurrentSession().createQuery(sql);
+        query.setString(0, categoryName);
+        if (fatherId != null) {
+            query.setString(1, fatherId);
+        }
+        return query.list().size();
+    }
+
+    public List getAllFatherCategory() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId IS NULL");
+        return query.list();
+    }
+
+    public List getChildCategory(String fatherCategoryId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId=?");
+        query.setString(0, fatherCategoryId);
+        return query.list();
+    }
     /**
      * function
      * delete current category

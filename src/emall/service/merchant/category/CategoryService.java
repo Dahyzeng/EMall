@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by taurinzeng on 2015/12/23.
@@ -46,6 +46,9 @@ public class CategoryService {
         return Constants.SUCCESS_NUMBER;
     }
 
+    public int matchCategory(Category category) {
+        return categoryDao.matchCategoryName(category.getCategoryName(), category.getFatherId());
+    }
     /**
      * function:
      * find whether current category has child category, if does, can not be deleted
@@ -55,6 +58,19 @@ public class CategoryService {
      */
     public int findChildCategory(String categoryId) {
         return categoryDao.findChildCategory(categoryId);
+    }
+
+    public List getAllCategory() {
+        List<Map> categoryList = new ArrayList();
+        List<Category> fatherCategoryList = categoryDao.getAllFatherCategory();
+        for (Category category : fatherCategoryList) {
+            Map<String, Object> categoryMap = new HashMap<String, Object>();
+            List<Category> childCategoryList = categoryDao.getChildCategory(category.getCategoryId());
+            categoryMap.put("fatherCategory", category);
+            categoryMap.put("childCategories", childCategoryList);
+            categoryList.add(categoryMap);
+        }
+        return categoryList;
     }
 
     /**
@@ -68,7 +84,7 @@ public class CategoryService {
      */
     @Transactional(rollbackFor = Exception.class)
     public int deleteCurrentCategory(Category category) {
-        categoryDao.deleteCategory(category.getId());
+        categoryDao.deleteCategory(category.getCategoryId());
         MerchantLog merchantLog = getAdminLog();
         StringBuilder operation = new StringBuilder();
         operation.append(MerchantConstants.DELETE_CATEGORY_LOG);

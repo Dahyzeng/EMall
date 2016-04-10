@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -36,9 +37,6 @@ public class InfoService {
     public int addAdminService(Merchant merchant){
         MerchantLog log = getAdminLog(merchant);
         StringBuilder logMessage = new StringBuilder();
-        logMessage.append("管理员：");
-        logMessage.append(getSessionName());
-        logMessage.append(",");
         logMessage.append(MerchantConstants.ADD_ADMIN_LOG);
         logMessage.append(merchant.getMerchantName());
         log.setOperation(logMessage.toString());
@@ -58,13 +56,17 @@ public class InfoService {
     @Transactional(rollbackFor = Exception.class)
     public int loginService(Merchant merchant){
         int loginResult = merchantDao.checkInfo(merchant);
-        MerchantLog log = getAdminLog(merchant);
+        MerchantLog log;
         if (loginResult == 1) {
+            List list = merchantDao.getMerchant(merchant.getEmail());
+            if (!list.isEmpty()) {
+                merchant = (Merchant)list.get(0);
+                request.getSession().setAttribute("merchantName", merchant.getMerchantName());
+            }
+            log = getAdminLog(merchant);
             log.setOperation(MerchantConstants.LOGIN_SUCCESS_LOG_MESSAGE);
-        }else {
-            log.setOperation(MerchantConstants.LOGIN_FAIL__LOG_MESSAGE);
+            logService.addAdminLog(log);
         }
-        logService.addAdminLog(log);
         return loginResult;
     }
 
@@ -103,7 +105,7 @@ public class InfoService {
     }
 
     public MerchantLog getAdminLog(Merchant merchant) {
-        Timestamp date = new Timestamp(new Date().getTime());
+        Date date = new Date();
         MerchantLog log = new MerchantLog();
         log.setMerchantName(merchant.getMerchantName());
         log.setDate(date);

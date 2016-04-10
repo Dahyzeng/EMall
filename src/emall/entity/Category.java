@@ -24,6 +24,11 @@ public class Category {
     @Column(name = "father_id")
     private String fatherId;
 
+    @Override
+    public String toString() {
+        return "{name: " + categoryName + ", categoryId: " + categoryId + ", fatherId: " + fatherId +"}";
+    }
+
     public String getCategoryId() {
         return categoryId;
     }
