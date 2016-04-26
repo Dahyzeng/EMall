@@ -10,8 +10,7 @@ import java.io.Serializable;
 @Table(name = "T_PROMOTION_ITEM")
 public class PromotionItem implements Serializable{
     @Id
-    @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
+    @Column(name = "item_id")
     private String itemId;
 
     @Column(name = "discount")
@@ -21,6 +20,12 @@ public class PromotionItem implements Serializable{
     private float price;
 
     public PromotionItem() {
+    }
+
+    public PromotionItem(String itemId, float discount, float price) {
+        this.itemId = itemId;
+        this.discount = discount;
+        this.price = price;
     }
 
     public String getItemId() {

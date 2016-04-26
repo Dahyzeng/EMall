@@ -56,7 +56,3 @@
   .form-page .form-wrapper .select2-container {
     margin-left: 0px; }
 
-/*Responsive*/
-@media (max-width: 767px) {
-  .form-page .form-wrapper label.radio {
-    left: 0px; } }

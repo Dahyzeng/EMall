@@ -13,8 +13,7 @@ import java.io.Serializable;
 public class CarouselItem implements Serializable{
 
     @Id
-    @OneToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
+    @Column(name = "item_id")
     private String ItemId;
 
     @Column(name = "pic_url")
@@ -25,6 +24,12 @@ public class CarouselItem implements Serializable{
     private int sequence;
 
     public CarouselItem() {
+    }
+
+    public CarouselItem(String itemId, String picURL, int sequence) {
+        ItemId = itemId;
+        this.picURL = picURL;
+        this.sequence = sequence;
     }
 
     public String getItemId() {

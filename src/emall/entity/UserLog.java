@@ -18,18 +18,14 @@ public class UserLog {
     @Column(name = "log_id")
     private String logId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private String userId;
-
     @Column(name = "username")
     private String username;
 
     @Column(name = "operation")
     private String operation;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "operationDate")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "operation_date")
     private Date operationDate;
 
     public UserLog() {
@@ -41,14 +37,6 @@ public class UserLog {
 
     public void setLogId(String logId) {
         this.logId = logId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {

@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Date;
+
 
 @Entity
 @Table(name="T_USER")
@@ -30,17 +32,11 @@ public class User {
     @Length(min=6, message = "password length must more than 6 chars")
     private String password;
 
-    @Column(name = "age")
-    @Min(value = 0,message = "age can not less than 0")
-	private int age;
+    @Column(name = "birthday")
+	private Date birthday;
 
     @Column(name = "gender")
     private String gender;
-
-    @Column(name = "telephone")
-    @NotEmpty(message = "telephone can not be empty")
-    @Length(min = 11, max = 11, message = "telephone should be 11 chars")
-    private String telephone;
 
     @Column(name = "email")
     @NotEmpty(message = "email can not be empty")
@@ -51,23 +47,9 @@ public class User {
 
     }
 
-
-    public User(String userId,String username, String password, int age, String gender, String telephone, String email) {
-        this.userId = userId;
-        this.username = username;
+    public User(String password, String email) {
         this.password = password;
-        this.age = age;
-        this.gender = gender;
-        this.telephone = telephone;
         this.email = email;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
     }
 
     public String getPassword() {
@@ -94,14 +76,6 @@ public class User {
         this.username = username;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -118,4 +92,11 @@ public class User {
         this.email = email;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 }

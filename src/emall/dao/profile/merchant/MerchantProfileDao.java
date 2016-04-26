@@ -14,7 +14,7 @@ import java.util.List;
 public class MerchantProfileDao {
     private SessionFactory sessionFactory;
 
-    public void addAdmin(Merchant merchant){
+    public void addMerchant(Merchant merchant){
         sessionFactory.getCurrentSession().save(merchant);
     }
 

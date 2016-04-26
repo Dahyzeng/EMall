@@ -13,20 +13,13 @@ import javax.persistence.*;
 @Table(name = "T_CART")
 @IdClass(CartPK.class)
 public class Cart {
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
-    @Column(name = "cart_id")
-    private String cartId;
 
     @Id
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @Column(name = "user_id")
     private String userId;
 
     @Id
-    @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
+    @Column(name = "item_id")
     private String itemId;
 
     @Column(name = "quantity")
@@ -35,12 +28,11 @@ public class Cart {
     public Cart() {
     }
 
-    public String getCartId() {
-        return cartId;
-    }
 
-    public void setCartId(String cartId) {
-        this.cartId = cartId;
+    public Cart(String userId, String itemId, int quantity) {
+        this.userId = userId;
+        this.itemId = itemId;
+        this.quantity = quantity;
     }
 
     public String getUserId() {

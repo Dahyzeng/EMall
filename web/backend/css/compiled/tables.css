@@ -40,8 +40,7 @@
     color: #516372; }
   .table-wrapper .table ul.actions {
     margin: 5px 0 0 0;
-    padding: 0;
-    float: right; }
+    padding: 0; }
     .table-wrapper .table ul.actions li {
       display: inline;
       padding: 5px 6px 0px 3px; }

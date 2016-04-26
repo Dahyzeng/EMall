@@ -1,18 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="sidebar-nav">
     <ul id="dashboard-menu">
-        <li class="active">
+        <li <c:if test="${requestScope.activeTab eq 'home'}">class="active" >
             <div class="pointer">
                 <div class="arrow"></div>
                 <div class="arrow_border"></div>
-            </div>
+            </div </c:if>>
             <a href="/merchant/home">
                 <i class="icon-home"></i>
                 <span>Home</span>
             </a>
         </li>
-        <li>
+        <li <c:if test="${requestScope.activeTab eq 'user'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
             <a class="dropdown-toggle" href="#">
                 <i class="icon-group"></i>
                 <span>Users</span>
@@ -25,15 +29,23 @@
             </ul>
         </li>
 
-        <li>
+        <li <c:if test="${requestScope.activeTab eq 'category'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
             <a href="/merchant/category">
                 <i class="icon-sitemap"></i>
                 <span>Item Category</span>
             </a>
         </li>
 
-        <li>
-            <a href="product.html">
+        <li <c:if test="${requestScope.activeTab eq 'product'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
+            <a href="/merchant/product">
                 <i class="icon-leaf"></i>
                 <span>Product</span>
             </a>

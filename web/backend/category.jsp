@@ -60,7 +60,7 @@
                 </h3>
             </div>
             <div class="modal-body">
-                Category Name: <input type="text" data-bind="value: fatherCategoryName" name="fatherCategoryName"/>
+                Category Name: <input type="text" data-bind="value: fatherCategoryName" name="fatherCategoryName"/><br/>
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" id="fatherClose" aria-hidden="true">关闭</button>
@@ -83,12 +83,17 @@
                                             </h4>
                                         </li>
                                         <li class="icon">
-                                            <a href="#AddSubCategory" data-bind="click: $root.addSubCategory" data-toggle="modal"  title="Add A Sub Category">
+                                            <a href="#modifyCategory" data-bind="click: $root.setModifyCategoryData" data-toggle="modal" title="modify the category name">
+                                                <i class="icon-wrench"></i>
+                                            </a>
+                                        </li>
+                                        <li class="icon">
+                                            <a href="#AddSubCategory" data-bind="click: $root.setSubCategoryFatherId" data-toggle="modal"  title="Add A Sub Category">
                                                 <i class="icon-plus"></i>
                                             </a>
                                         </li>
                                         <li class="icon">
-                                            <a href="#" data-toggle="modal" title="Delete the Category">
+                                            <a href="#" data-toggle="modal" data-bind="click: $root.deleteCategory" title="Delete the Category">
                                                 <i class="icon-remove"></i>
                                             </a>
                                         </li>
@@ -98,6 +103,9 @@
                                 <div class="panel-collapse collapse in" data-bind="foreach: { data: category.childCategories, as: 'childCategory'}">
                                     <div class="panel-body" style="padding: 10px">
                                         <span data-bind="text: childCategory.categoryName"></span>
+                                        <a href="#" style="float: right" title="delete this category" data-bind="click: $root.deleteChildCategory">
+                                            <i class="icon-remove"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -112,17 +120,35 @@
 
 <div id="AddSubCategory" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="close" id="subCategoryClose" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">
             Add A Sub Category
         </h3>
     </div>
     <div class="modal-body">
-        Sub Category Name: <input type="text" name="subCategoryName"/>
+        <input type="hidden" id="fatherCategoryId" data-bind="value: fatherCategoryId" name="fatherCategoryId"/>
+        Sub Category Name: <input type="text" data-bind="value: subCategoryName" name="subCategoryName"/>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn btn-primary">Save</button>
+        <button class="btn btn-primary" data-bind="click: addSubCategory">Save</button>
+    </div>
+</div>
+
+<div id="modifyCategory" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="modifyClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>
+            Modify Category Name
+        </h3>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" id="modifyCategoryId" data-bind="value: modifyCategoryId" name="modifyCategoryId"/>
+        Category Name: <input type="text" data-bind="value: modifyCategoryName" name="modifyCategoryName"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" data-bind="click: modifyCategory">Save</button>
     </div>
 </div>
 <script type="text/javascript">
@@ -130,6 +156,11 @@
         var self = this;
         self.fatherCategoryName = ko.observable();
         self.returnMessage = ko.observable();
+        self.fatherCategoryId = ko.observable();
+        self.subCategoryName = ko.observable();
+        self.modifyCurrentCategoryName = ko.observable();
+        self.modifyCategoryName = ko.observable();
+        self.modifyCategoryId = ko.observable();
         self.categoryArray = ko.observableArray();
         (function() {
             $.get("/category/getAll", function(responseArray){
@@ -151,8 +182,61 @@
             })
         };
 
+        self.setSubCategoryFatherId = function() {
+            self.fatherCategoryId(this.fatherCategory.categoryId)
+        };
+        self.setModifyCategoryData = function() {
+            self.modifyCategoryId(this.fatherCategory.categoryId);
+            self.modifyCategoryName(this.fatherCategory.categoryName);
+            self.modifyCurrentCategoryName(this.fatherCategory.categoryName);
+        };
+
+        self.modifyCategory = function() {
+            if (self.modifyCurrentCategoryName == self.modifyCategoryName) {
+                return;
+            }
+            $.post("/category/modify", {fatherId: self.modifyCurrentCategoryName, categoryName: self.modifyCategoryName, categoryId: self.modifyCategoryId}, function (responseJson) {
+                if (responseJson['success']) {
+                    self.modifyCategoryId('');
+                    self.modifyCategoryName('');
+                    self.categoryArray(responseJson['categoryArray']);
+                } else {
+                    self.returnMessage(responseJson['errorMessage']);
+                }
+                $('#modifyClose').trigger('click');
+            })
+        };
+
+        self.deleteCategory = function () {
+            $.post("/category/delete", {categoryName: this.fatherCategory.categoryName, categoryId: this.fatherCategory.categoryId}, function(responseJson) {
+                if (responseJson['success']) {
+                    self.categoryArray(responseJson['categoryArray']);
+                } else {
+                    self.returnMessage(responseJson['errorMessage']);
+                }
+            })
+        };
+        self.deleteChildCategory = function() {
+            $.post("/category/delete", {categoryName: this.categoryName, categoryId: this.categoryId, fatherId: this.fatherId}, function(responseJson) {
+                if (responseJson['success']) {
+                    self.categoryArray(responseJson['categoryArray']);
+                } else {
+                    self.returnMessage(responseJson['errorMessage']);
+                }
+            })
+        };
+
         self.addSubCategory = function() {
-            alert(this.fatherCategory.categoryId);
+            $.post("/category/add", {fatherId: self.fatherCategoryId, categoryName: self.subCategoryName}, function(responseJson) {
+                if (responseJson['success']) {
+                    self.fatherCategoryId('');
+                    self.subCategoryName('');
+                    self.categoryArray(responseJson['categoryArray']);
+                } else {
+                    self.returnMessage(responseJson['errorMessage']);
+                }
+                $('#subCategoryClose').trigger('click');
+            })
         }
     }
     ko.applyBindings(new categoryPage())

@@ -25,7 +25,7 @@ public class AddMerchant {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        merchantProfileDao.addAdmin(merchant);
+        merchantProfileDao.addMerchant(merchant);
         result = 1;
         return result;
     }

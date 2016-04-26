@@ -60,8 +60,12 @@ public class CategoryService {
         return categoryDao.findChildCategory(categoryId);
     }
 
+    public int findItem(String categoryId) {
+        return categoryDao.findItem(categoryId);
+    }
+
     public List getAllCategory() {
-        List<Map> categoryList = new ArrayList();
+        List<Map> categoryList = new ArrayList<Map>();
         List<Category> fatherCategoryList = categoryDao.getAllFatherCategory();
         for (Category category : fatherCategoryList) {
             Map<String, Object> categoryMap = new HashMap<String, Object>();
@@ -93,6 +97,34 @@ public class CategoryService {
         logDao.addLog(merchantLog);
         return Constants.SUCCESS_NUMBER;
     }
+
+    /**
+     * function:
+     * modify category name
+     * @param category current category
+     *        categoryId: old category name, categoryName: modified category name
+     * @return
+     * 1 for success
+     * 0 for fail
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public int modifyCategory(Category category) {
+        categoryDao.modifyCategory(category);
+        MerchantLog merchantLog = getAdminLog();
+        StringBuilder operation = new StringBuilder();
+        operation.append(MerchantConstants.MODIFY_CATEGORY_LOG);
+        operation.append(category.getFatherId());
+        operation.append(" --> ");
+        operation.append(category.getCategoryName());
+        merchantLog.setOperation(operation.toString());
+        logDao.addLog(merchantLog);
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    public String getCategoryName(String categoryId) {
+        return (String) categoryDao.getCategoryName(categoryId);
+    }
+
     public String getSessionName() {
         return request.getSession().getAttribute("merchantName").toString();
     }
@@ -103,5 +135,9 @@ public class CategoryService {
         log.setMerchantName(getSessionName());
         log.setDate(date);
         return log;
+    }
+
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
     }
 }

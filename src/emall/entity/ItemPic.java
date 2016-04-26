@@ -12,8 +12,7 @@ import javax.persistence.*;
 @IdClass(ItemPicPK.class)
 public class ItemPic {
     @Id
-    @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
+    @Column(name = "item_id")
     private String itemId;
 
     @Id
@@ -22,6 +21,14 @@ public class ItemPic {
 
     public String getItemId() {
         return itemId;
+    }
+
+    public ItemPic() {
+    }
+
+    public ItemPic(String itemId, String picURL) {
+        this.itemId = itemId;
+        this.picURL = picURL;
     }
 
     public void setItemId(String itemId) {

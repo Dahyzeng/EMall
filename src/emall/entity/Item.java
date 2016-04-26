@@ -21,8 +21,7 @@ public class Item {
     @NotEmpty
     private String itemName;
 
-    @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @Column(name = "category_id")
     private String categoryId;
 
     @Column(name = "inventory")
@@ -37,13 +36,31 @@ public class Item {
     @Column(name = "show_pic_url")
     private String showPicURL;
 
-    @Column(name = "saleQuantity")
+    @Column(name = "sale_quantity")
     private int saleQuantity;
+
+    @Column(name = "discount")
+    private float discount;
 
     @Column(name = "status")
     private int status;
 
     public Item() {
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemId='" + itemId + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", inventory=" + inventory +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", showPicURL='" + showPicURL + '\'' +
+                ", saleQuantity=" + saleQuantity +
+                ", status=" + status +
+                '}';
     }
 
     public String getItemId() {
@@ -112,6 +129,14 @@ public class Item {
 
     public int getStatus() {
         return status;
+    }
+
+    public float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
     }
 
     public void setStatus(int status) {

@@ -2,6 +2,7 @@ package emall.web.component.merchant.category;
 
 import emall.entity.Category;
 import emall.service.merchant.category.CategoryService;
+import emall.util.string.Constants;
 import emall.util.string.constants.ErrorMessageConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,19 +25,18 @@ public class ItemCategory {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    HttpServletRequest request;
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    @Transactional(rollbackFor = Exception.class)
-    public Map addCategory(Category category, HttpServletRequest request) {
-        Map<String, Object> categoryMap = new HashMap<String, Object>();
-        Object merchantName = request.getSession().getAttribute("merchantName");
-        if (merchantName == null) {
-            categoryMap.put("success", false);
-            categoryMap.put("errorMessage", ErrorMessageConstant.NO_LOGIN_ERROR);
+    public Map addCategory(Category category) {
+        Map<String, Object> categoryMap = checkStatus();
+        if (!(Boolean)categoryMap.get("success")) {
             return categoryMap;
         }
+        categoryMap.put("success", false);
         if (categoryService.matchCategory(category) == 1) {
-            categoryMap.put("success", false);
             categoryMap.put("errorMessage", ErrorMessageConstant.ADD_CATEGORY_SAME_NAME_ERROR);
             return categoryMap;
         }
@@ -45,20 +45,67 @@ public class ItemCategory {
             categoryMap.put("success", true);
             categoryMap.put("categoryArray", categoryList);
         } else {
-            categoryMap.put("success", false);
             categoryMap.put("errorMessage", ErrorMessageConstant.ADD_CATEGORY_SYSTEM_ERROR);
         }
         return categoryMap;
     }
 
-    @RequestMapping("/getAll")
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
-    public Map getAllCategory(HttpServletRequest request) {
-        Map<String, Object> categoryMap = new HashMap<String, Object>();
-        Object merchantName = request.getSession().getAttribute("merchantName");
-        if (merchantName == null) {
-            categoryMap.put("success", false);
-            categoryMap.put("errorMessage", ErrorMessageConstant.NO_LOGIN_ERROR);
+    public Map modifyCategory(Category category) {
+        Map<String, Object> categoryMap = checkStatus();
+        if (!(Boolean)categoryMap.get("success")) {
+            return categoryMap;
+        }
+        String oldCategoryName = category.getFatherId();
+        category.setFatherId(null);
+        categoryMap.put("success", false);
+        if (categoryService.matchCategory(category) == 1) {
+            categoryMap.put("errorMessage", ErrorMessageConstant.MODIFY_CATEGORY_SAME_NAME_ERROR);
+            return categoryMap;
+        }
+        category.setFatherId(oldCategoryName);
+        if (categoryService.modifyCategory(category) == 1) {
+            List categoryList = categoryService.getAllCategory();
+            categoryMap.put("success", true);
+            categoryMap.put("categoryArray", categoryList);
+        } else {
+            categoryMap.put("errorMessage", ErrorMessageConstant.MODIFY_CATEGORY_SYSTEM_ERROR);
+        }
+
+        return categoryMap;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Map deleteCategory(Category category) {
+        Map<String, Object> categoryMap = checkStatus();
+        if (!(Boolean)categoryMap.get("success")) {
+            return categoryMap;
+        }
+        categoryMap.put("success", false);
+        if (category.getFatherId() == null) {
+            if (categoryService.findChildCategory(category.getCategoryId()) > 0) {
+                categoryMap.put("errorMessage", ErrorMessageConstant.DELETE_CATEGORY_HAS_CHILD);
+                return categoryMap;
+            }
+        }
+        if (categoryService.findItem(category.getCategoryId()) > 0) {
+            categoryMap.put("errorMessage", ErrorMessageConstant.DELETE_CATEGORY_HAS_ITEM);
+        } else if (categoryService.deleteCurrentCategory(category) == Constants.SUCCESS_NUMBER) {
+            List categoryList = categoryService.getAllCategory();
+            categoryMap.put("success", true);
+            categoryMap.put("categoryArray", categoryList);
+        } else {
+            categoryMap.put("errorMessage", ErrorMessageConstant.ADD_CATEGORY_SYSTEM_ERROR);
+        }
+        return categoryMap;
+    }
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @ResponseBody
+    public Map getAllCategory() {
+        Map<String, Object> categoryMap = checkStatus();
+        if (!(Boolean)categoryMap.get("success")) {
             return categoryMap;
         }
         categoryMap.put("success", true);
@@ -66,7 +113,21 @@ public class ItemCategory {
         return categoryMap;
     }
 
+    public Map<String, Object> checkStatus() {
+        Map<String, Object> categoryMap = new HashMap<String, Object>();
+        categoryMap.put("success",true);
+        Object merchantName = request.getSession().getAttribute("merchantName");
+        if (merchantName == null) {
+            categoryMap.put("success", false);
+            categoryMap.put("errorMessage", ErrorMessageConstant.NO_LOGIN_ERROR);
+        }
+        return categoryMap;
+    }
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
     }
 }

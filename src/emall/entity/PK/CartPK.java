@@ -6,15 +6,13 @@ import java.io.Serializable;
  * Created by taurinzeng on 2016/3/28.
  */
 public class CartPK implements Serializable{
-    private String cartId;
     private String userId;
     private String itemId;
 
     public CartPK() {
     }
 
-    public CartPK(String cartId, String userId, String itemId) {
-        this.cartId = cartId;
+    public CartPK(String userId, String itemId) {
         this.userId = userId;
         this.itemId = itemId;
     }
@@ -25,25 +23,16 @@ public class CartPK implements Serializable{
         if(obj == null) return false;
         if(!(obj instanceof CartPK)) return false;
         CartPK objKey = (CartPK)obj;
-        return cartId.equalsIgnoreCase(objKey.cartId) && userId.equalsIgnoreCase(objKey.userId) && itemId.equalsIgnoreCase(objKey.itemId);
+        return userId.equalsIgnoreCase(objKey.userId) && itemId.equalsIgnoreCase(objKey.itemId);
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((cartId == null) ? 0 : cartId.hashCode());
         result = PRIME * result + ((userId == null) ? 0 : userId.hashCode());
         result = PRIME * result + ((itemId == null) ? 0 : itemId.hashCode());
         return result;
-    }
-
-    public String getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(String cartId) {
-        this.cartId = cartId;
     }
 
     public String getUserId() {

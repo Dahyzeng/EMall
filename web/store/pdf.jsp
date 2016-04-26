@@ -1,45 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE HTML>
 <html>
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-<!-- /Added by HTTrack -->
-
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <title>Product view</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="css/grid.css" media="screen" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/jquery.jqzoom.css" type="text/css">
-    <script src="js/jquery-1.7.2.min.js"></script>
-    <script src="js/html5.js"></script>
-    <script src="js/jflow.plus.js"></script>
-    <script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
-    <script src="js/checkbox.js"></script>
-    <script src="js/radio.js"></script>
-    <script src="js/selectBox.js"></script>
-    <script src="js/jquery.jqzoom-core.js"></script>
+    <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<%request.getContextPath();%>/store/css/jquery.jqzoom.css" type="text/css">
+    <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/html5.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/jflow.plus.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/jquery.carouFredSel-5.2.2-packed.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/checkbox.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/radio.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/selectBox.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/jquery.jqzoom-core.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
     <script>
-        $(document).ready(function () {
-            $('.jqzoom').jqzoom({
-                zoomType: 'standard',
-                lens: true,
-                preloadImages: true,
-                alwaysOn: false
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("select").selectBox();
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $('#wrapper_tab a').click(function () {
+        $(document).ready(function() {
+            $('#wrapper_tab a').click(function() {
                 if ($(this).attr('class') != $('#wrapper_tab').attr('class')) {
                     $('#wrapper_tab').attr('class', $(this).attr('class'));
                 }
@@ -48,7 +27,7 @@
         });
     </script>
     <script>
-        $(function () {
+        $(function() {
             $('#list_product').carouFredSel({
                 prev: '#prev_c1',
                 next: '#next_c1',
@@ -70,13 +49,6 @@
             $(window).resize();
         });
     </script>
-    <script>
-        $(document).ready(function () {
-            $("button").click(function () {
-                $(this).addClass('click')
-            });
-        })
-    </script>
 </head>
 
 <body>
@@ -89,50 +61,21 @@
 
             <div class="product_page">
                 <div class="grid_4 img_slid" id="products">
-                    <img class="sale" src="images/sale.png" alt="Sale"/>
-
                     <div class="preview slides_container">
                         <div class="prev_bg">
-                            <a href="images/produkt_slid.png" class="jqzoom" rel='gal1' title="">
-                                <img src="images/produkt_slid.png" title="" alt=""/>
+                            <a data-bind="attr: { href: currentShowPicURL }">
+                                <img data-bind="attr: { src: currentShowPicURL }" style="width:294px; height:294px" title="" alt=""/>
                             </a>
                         </div>
                     </div>
-                    <!-- .prev -->
-                    <ul class="pagination clearfix" id="thumblist">
+                    <ul data-bind="foreach: {data: itemPicArray, as: 'pic'}" class="pagination clearfix">
                         <li>
-                            <a class="zoomThumbActive" href='javascript:void(0);'
-                               rel="{gallery: 'gal1', smallimage: './images/produkt_slid.png',largeimage: './images/produkt_slid.png'}"><img
-                                    src='images/produkt_slid.png' alt=""></a>
-                        </li>
-                        <li>
-                            <a href='javascript:void(0);'
-                               rel="{gallery: 'gal1', smallimage: './images/produkt_slid1.png',largeimage: './images/produkt_slid1.png'}"><img
-                                    src='images/produkt_slid1.png' alt=""></a>
-                        </li>
-                        <li>
-                            <a href='javascript:void(0);'
-                               rel="{gallery: 'gal1', smallimage: './images/produkt_slid2.png',largeimage: './images/produkt_slid2.png'}"><img
-                                    src='images/produkt_slid2.png' alt=""></a>
-                        </li>
-                        <li>
-                            <a href='javascript:void(0);'
-                               rel="{gallery: 'gal1', smallimage: './images/produkt_slid3.png',largeimage: './images/produkt_slid3.png'}"><img
-                                    src='images/produkt_slid3.png' alt=""></a>
-                        </li>
-                        <li>
-                            <a href='javascript:void(0);'
-                               rel="{gallery: 'gal1', smallimage: './images/produkt_slid4.png',largeimage: './images/produkt_slid4.png'}"><img
-                                    src='images/produkt_slid4.png' alt=""></a>
+                            <a href="#" data-bind="click: $root.changeShowPic">
+                                <img data-bind="attr: { src: pic.picURL}"/>
+                            </a>
                         </li>
                     </ul>
-                    <div class="next_prev">
-                        <a id="img_prev" class="arows" href="#"><span>Prev</span></a>
-                        <a id="img_next" class="arows" href="#"><span>Next</span></a>
-                    </div>
-                    <!-- . -->
                 </div>
-                <!-- .grid_4 -->
                 <div class="grid_7">
                     <div class="entry_content">
                         <div class="review">
@@ -144,48 +87,43 @@
                             <span>1 REVIEW(S)</span>
                             <a class="add_review" href="#">ADD YOUR REVIEW</a>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue.
-                            Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus
-                            fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
+                        <p><span data-bind="text: itemDetail().itemName"></span></p>
 
                         <div class="ava_price">
                             <div class="availability_sku">
                                 <div class="availability">
-                                    Availability: <span>In stock</span>
-                                </div>
-                                <div class="sku">
-                                    SKU: <span>Candles OV</span>
+                                    Availability:
+                                    <!-- ko if: itemDetail().inventory !=0 -->
+                                    <span>In stock</span>
+                                    <!-- /ko -->
+                                    <!-- ko if: itemDetail().inventory ==0 -->
+                                    <span>Out of stock</span>
+                                    <!-- /ko -->
                                 </div>
                             </div>
-                            <!-- .availability_sku -->
                             <div class="price">
-                                <div class="price_new">$550.00</div>
-                                <div class="price_old">$725.00</div>
+                                <!-- ko ifnot: itemDetail().discount==0 -->
+                                <div class="price_new">$<span data-bind="text: itemDetail().price - itemDetail().discount"></span></div>
+                                <div class="price_old">$<span data-bind="text: itemDetail().price"></span></div>
+                                <!-- /ko -->
+                                <!-- ko if: itemDetail().discount==0 -->
+                                <div class="price_new">$<span data-bind="text: itemDetail().price"></span></div>
+                                <!-- /ko -->
                             </div>
-                            <!-- .price -->
                         </div>
-                        <!-- .ava_price -->
                         <div class="block_cart">
                             <div class="obn_like">
                                 <div class="obn"><a href="#" class="obn">Add to Compare</a></div>
                                 <div class="like"><a href="#" class="like">Add to Wishlist</a></div>
                             </div>
                             <div class="cart">
-                                <a href="#" class="bay">Add to Cart</a>
-                                <input type="text" name="" class="number" value="1"/>
+                                <a href="#" data-bind="click: addToCart" class="bay">Add to Cart</a>
+                                <input style="width:35px;height: 35px;" type="text" class="number" data-bind="value: itemQuantity"/>
                                 <span>Quantity:</span>
                             </div>
-                            <div class="clear"></div>
                         </div>
-                        <!-- .block_cart -->
-                        <div class="soc">
-                            <img src="images/soc.png" alt="Soc"/>
-                        </div>
-                        <!-- .soc -->
                     </div>
-                    <!-- .entry_content -->
                 </div>
-                <!-- .grid_5 -->
                 <div class="clear"></div>
                 <div class="grid_12">
                     <div id="wrapper_tab" class="tab1">
@@ -355,19 +293,16 @@
                                     </div>
                                     <div class="clear"></div>
                                 </div>
-                                <!-- .evaluation -->
                                 <div class="nickname">
                                     <strong>Nickname</strong><sup class="surely">*</sup>
                                     <br/>
                                     <input type="text" name="" class="" value=""/>
                                 </div>
-                                <!-- .nickname -->
                                 <div class="your_review">
                                     <strong>Summary of Your Review</strong><sup class="surely">*</sup>
                                     <br/>
                                     <input type="text" name="" class="" value=""/>
                                 </div>
-                                <!-- .your_review -->
                                 <div class="clear"></div>
                                 <div class="text_review">
                                     <strong>Review</strong><sup class="surely">*</sup>
@@ -375,40 +310,31 @@
                                     <textarea name="text"></textarea>
                                     <i>Note: HTML is not translated!</i>
                                 </div>
-                                <!-- .text_review -->
                                 <input type="submit" value="Submit Review"/>
                             </form>
-                            <!-- .add_comments -->
                             <div class="clear"></div>
                         </div>
-                        <!-- .tab2 .tab_body -->
                         <div class="tab3 tab_body">
                             <h4>Custom Tab</h4>
 
                             <div class="clear"></div>
                         </div>
-                        <!-- .tab3 .tab_body -->
                         <div class="clear"></div>
                     </div>
-                    ​
-                    <!-- #wrapper_tab -->
                     <div class="clear"></div>
                 </div>
-                <!-- .grid_9 -->
+
                 <div class="clear"></div>
                 <div class="related">
                     <div class="c_header">
                         <div class="grid_4">
                             <h2>Related Products</h2>
                         </div>
-                        <!-- .grid_7 -->
                         <div class="grid_5">
                             <a id="next_c1" class="next arows" href="#"><span>Next</span></a>
                             <a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
                         </div>
-                        <!-- .grid_2 -->
                     </div>
-                    <!-- .c_header -->
                     <div class="list_carousel">
                         <ul id="list_product" class="list_product">
                             <li class="">
@@ -419,7 +345,6 @@
                                         <a href="product_page.html"><img src="images/product_1.png" alt=""
                                                                          title=""/></a>
                                     </div>
-                                    <!-- .prev -->
                                     <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
 
                                     <div class="cart">
@@ -433,9 +358,7 @@
                                         <a href="#" class="like"></a>
                                         <a href="#" class="bay"></a>
                                     </div>
-                                    <!-- .cart -->
                                 </div>
-                                <!-- .grid_3 -->
                             </li>
                             <li class="">
                                 <div class="grid_3 product">
@@ -443,7 +366,6 @@
                                         <a href="product_page.html"><img src="images/product_2.png" alt=""
                                                                          title=""/></a>
                                     </div>
-                                    <!-- .prev -->
                                     <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
 
                                     <div class="cart">
@@ -457,9 +379,7 @@
                                         <a href="#" class="like"></a>
                                         <a href="#" class="bay"></a>
                                     </div>
-                                    <!-- .cart -->
                                 </div>
-                                <!-- .grid_3 -->
                             </li>
                             <li class="">
                                 <div class="grid_3 product">
@@ -467,7 +387,6 @@
                                         <a href="product_page.html"><img src="images/product_3.png" alt=""
                                                                          title=""/></a>
                                     </div>
-                                    <!-- .prev -->
                                     <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
 
                                     <div class="cart">
@@ -481,9 +400,7 @@
                                         <a href="#" class="like"></a>
                                         <a href="#" class="bay"></a>
                                     </div>
-                                    <!-- .cart -->
                                 </div>
-                                <!-- .grid_3 -->
                             </li>
                             <li class="">
                                 <div class="grid_3 product">
@@ -491,7 +408,6 @@
                                         <a href="product_page.html"><img src="images/product_4.png" alt=""
                                                                          title=""/></a>
                                     </div>
-                                    <!-- .prev -->
                                     <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
 
                                     <div class="cart">
@@ -505,27 +421,58 @@
                                         <a href="#" class="like"></a>
                                         <a href="#" class="bay"></a>
                                     </div>
-                                    <!-- .cart -->
                                 </div>
-                                <!-- .grid_3 -->
                             </li>
                         </ul>
-                        <!-- #list_product -->
                     </div>
-                    <!-- .list_carousel -->
                 </div>
-                <!-- .carousel -->
             </div>
-            <!-- .product_page -->
             <div class="clear"></div>
         </div>
-        <!-- #content -->
         <div class="clear"></div>
     </div>
-    <!-- .container_12 -->
 </section>
 <jsp:include page="common/footer.jsp"/>
 </body>
+<script>
+    function pdfPage() {
+        var self = this;
+        var itemId = '${requestScope.itemId}';
+        self.itemDetail = ko.observable({});
+        self.currentShowPicURL = ko.observable();
+        self.itemPicArray = ko.observableArray();
+        self.itemQuantity = ko.observable(1);
+        self.changeShowPic = function (p) {
+            self.currentShowPicURL(p.picURL);
+        };
 
+        self.addToCart = function() {
+            $.post("/cart/add", {itemId: itemId, quantity: self.itemQuantity}, function(resultJson) {
+                if (resultJson['success']) {
+                    alert("add success");
+                    getCartItem();
+                } else {
+                    if (resultJson['errorMessage'] == 'no_login') {
+                        if (resultJson['url']) {
+                            window.location.href = "/login?url=" + resultJson['url'];
+                        } else {
+                            window.location.href = "/login";
+                        }
+                    }
+                }
+            })
+        };
+        (function () {
+            headerPage();
+            $.get('/store/get_item_id/' + itemId, function (itemJson) {
+                self.itemDetail(itemJson['item']);
+                self.currentShowPicURL(itemJson['item'].showPicURL);
+                self.itemPicArray(itemJson['itemPicList']);
+                self.itemPicArray.push({picURL: itemJson['item'].showPicURL});
+            });
+        })();
+    }
+    ko.applyBindings(new pdfPage());
+</script>
 </html>
 
