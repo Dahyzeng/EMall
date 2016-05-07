@@ -169,6 +169,7 @@
             $.post("/cart/add", {itemId: p.itemId, quantity: 1}, function(resultJson) {
                 if (resultJson['success']) {
                     alert("add success");
+                    getCartItem();
                 } else {
                     if (resultJson['errorMessage'] == 'no_login') {
                         if (resultJson['url']) {

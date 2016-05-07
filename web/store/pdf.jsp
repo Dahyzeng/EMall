@@ -113,7 +113,7 @@
                         </div>
                         <div class="block_cart">
                             <div class="obn_like">
-                                <div class="obn"><a href="#" class="obn">Add to Compare</a></div>
+                                <div class="obn"><a href="#" data-bind="click: addCompare" class="obn">Add to Compare</a></div>
                                 <div class="like"><a href="#" class="like">Add to Wishlist</a></div>
                             </div>
                             <div class="cart">
@@ -459,6 +459,14 @@
                             window.location.href = "/login";
                         }
                     }
+                }
+            })
+        };
+
+        self.addCompare = function() {
+            $.get("/compare/add?itemId=" + itemId, function(result) {
+                if (result['success']) {
+                    window.location.href = "/compare";
                 }
             })
         };

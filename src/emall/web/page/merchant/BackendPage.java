@@ -32,6 +32,15 @@ public class BackendPage {
         return mav;
     }
 
+    @RequestMapping("/message")
+    public ModelAndView messageNavigate() {
+        ModelAndView mav = commonFunction("/leave_message");
+        if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
+            mav.addObject("activeTab", "home");
+        }
+        return mav;
+    }
+
     @RequestMapping("/category")
     public ModelAndView categoryNavigate() {
         ModelAndView mav = commonFunction("/category");

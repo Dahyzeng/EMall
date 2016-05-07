@@ -27,6 +27,11 @@ public class StoreNavigation {
         return "/store/cart";
     }
 
+    @RequestMapping("/compare")
+    public String comparePage() {
+        return "/store/compare";
+    }
+
     @RequestMapping("/search/{pageType}")
     public ModelAndView searchPage(@PathVariable String pageType,Category category) {
         ModelAndView mav = new ModelAndView();

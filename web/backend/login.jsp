@@ -20,62 +20,13 @@
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="<%request.getContextPath();%>/backend/css/compiled/signin.css" type="text/css" media="screen"/>
-
+    <script src="<%request.getContextPath();%>/backend/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/bootstrap.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/theme.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/knockoutjs.js"></script>
-    <script src="<%request.getContextPath();%>/backend/js/jquery-1.7.1.js"></script>
-
-    <!-- pre load bg imgs -->
-    <script type="text/javascript">
-        $(function () {
-            // bg switcher
-            var $btns = $(".bg-switch .bg");
-            $btns.click(function (e) {
-                e.preventDefault();
-                $btns.removeClass("active");
-                $(this).addClass("active");
-                var bg = $(this).data("img");
-
-                $("html").css("background-image", "url('img/bgs/" + bg + "')");
-            });
-
-        });
-    </script>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 <body>
-
-
-<!-- background switcher -->
-<div class="bg-switch visible-desktop">
-    <div class="bgs">
-        <a href="#" data-img="landscape.jpg" class="bg active">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/landscape.jpg"/>
-        </a>
-        <a href="#" data-img="blueish.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/blueish.jpg"/>
-        </a>
-        <a href="#" data-img="7.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/7.jpg"/>
-        </a>
-        <a href="#" data-img="8.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/8.jpg"/>
-        </a>
-        <a href="#" data-img="9.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/9.jpg"/>
-        </a>
-        <a href="#" data-img="10.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/10.jpg"/>
-        </a>
-        <a href="#" data-img="11.jpg" class="bg">
-            <img src="<%request.getContextPath();%>/backend/img/bgs/11.jpg"/>
-        </a>
-    </div>
-</div>
-
-
 <div class="row-fluid login-wrapper">
     <a href="index.html">
         <img class="logo" src="<%request.getContextPath();%>/backend/img/logo-white.png"/>

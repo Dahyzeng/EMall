@@ -1,7 +1,10 @@
 package emall.web.component.store;
 
 
+import emall.entity.Address;
 import emall.entity.User;
+import emall.service.user.address.AddressService;
+import emall.service.user.order.OrderService;
 import emall.service.user.profile.ProfileService;
 import emall.util.encryption.EncryptionByMD5;
 import emall.util.string.Constants;
@@ -24,6 +27,12 @@ public class ProfileInfo {
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private HttpServletRequest request;
@@ -79,5 +88,25 @@ public class ProfileInfo {
             loginMap.put("message", "system error");
             return loginMap;
         }
+    }
+
+    @RequestMapping("/account")
+    @ResponseBody
+    public Map getProfileInfo() {
+        Map<String, Object> personalMap = new HashMap<String, Object>();
+        Object userId = request.getSession().getAttribute("userId");
+        if (userId == null) {
+            personalMap.put("success", false);
+            personalMap.put("errorMessage", "no_login");
+            return personalMap;
+        }
+        User user = (User) profileService.getUserById(userId.toString()).get(0);
+        List addressList = addressService.getUserAddress(userId.toString());
+        List orderList = orderService.getUserOrder(userId.toString());
+        personalMap.put("success", true);
+        personalMap.put("personalInfo", user);
+        personalMap.put("addressArray", addressList);
+        personalMap.put("orderArray", orderList);
+        return personalMap;
     }
 }

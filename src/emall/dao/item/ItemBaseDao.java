@@ -144,4 +144,10 @@ public class ItemBaseDao {
         query.setString(0, itemId);
         return query.list();
     }
+
+    public List getItemInventory(String itemId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("select inventory from Item where itemId=?");
+        query.setString(0, itemId);
+        return query.list();
+    }
 }

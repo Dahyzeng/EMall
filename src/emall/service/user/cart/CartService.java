@@ -1,5 +1,6 @@
 package emall.service.user.cart;
 
+import emall.dao.item.ItemBaseDao;
 import emall.dao.profile.user.CartDao;
 import emall.entity.Cart;
 import emall.util.string.Constants;
@@ -17,6 +18,9 @@ public class CartService {
     @Autowired
     private CartDao cartDao;
 
+    @Autowired
+    private ItemBaseDao itemBaseDao;
+
     @Transactional(rollbackFor = Exception.class)
     public int addToCart(Cart cart) {
         List list = cartDao.matchItemInCart(cart);
@@ -27,6 +31,12 @@ public class CartService {
             cart.setQuantity(cart.getQuantity() + cart1.getQuantity());
             cartDao.updateQuantity(cart);
         }
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateCartItem(Cart cart) {
+        cartDao.addToCart(cart);
         return Constants.SUCCESS_NUMBER;
     }
 
@@ -49,5 +59,14 @@ public class CartService {
 
     public List getAllItemFromCart(String useId) {
         return cartDao.getAllItemInCart(useId);
+    }
+
+    public int getItemInventory(String itemId) {
+        List list = itemBaseDao.getItemInventory(itemId);
+        if (list.size() == 0) {
+            return 0;
+        } else {
+            return Integer.parseInt(list.get(0).toString());
+        }
     }
 }

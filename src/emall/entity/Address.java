@@ -15,8 +15,7 @@ public class Address {
     @GenericGenerator(name = "system-uuid",strategy="uuid")
     private String addressId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @Column(name = "user_id")
     private String userId;
 
     @Column(name = "address_content")

@@ -1,25 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE HTML>
 <html>
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-<!-- /Added by HTTrack -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <title>Proceed to checkout</title>
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="css/grid.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="js/jquery-1.7.2.min.js"></script>
+    <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
     <script src="js/html5.js"></script>
-    <script src="js/jflow.plus.js"></script>
-    <script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
-    <script src="js/checkbox.js"></script>
-    <script src="js/radio.js"></script>
-    <script src="js/selectBox.js"></script>
 </head>
 
 <body>

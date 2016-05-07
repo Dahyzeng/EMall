@@ -13,8 +13,7 @@ import java.util.List;
 
 @Repository
 public class ProfileDao {
-
-
+    @Autowired
     private SessionFactory sessionFactory;
     public void userRegister(User user){
         sessionFactory.getCurrentSession().saveOrUpdate(user);
@@ -49,11 +48,6 @@ public class ProfileDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from User where email=?");
         query.setString(0, email);
         return query.list();
-    }
-
-    @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
 }

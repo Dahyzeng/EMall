@@ -1,0 +1,21 @@
+.status{
+    margin-bottom: 10px;
+}
+.divide{
+    border-bottom: solid;
+}
+.message{
+    margin-top: 20px;
+
+}
+.content_panel{
+    list-style: none;
+}
+.panel_style{
+    width: 10%;
+    float: left;
+    padding-right: 30px;
+}
+.panel_style .panel-body{
+    height: 40px;
+}

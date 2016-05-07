@@ -306,7 +306,9 @@ th{
 	border-bottom: 1px solid #a8dade;
 	font:normal 13px Bitter, Myriad Pro, Verdana, serif;
 }
-td.bg, th.bg{}
+.compare ul li.bg {
+    background: #f7f7f7;
+}
 
 /*************
  * Structure *
@@ -2143,17 +2145,17 @@ form.contact .field {
 /********************
  * Compare Products *
  ********************/
-table.compare{
-	text-align: center;
-	border-top: 0 none;
+.compare {
+    text-align: center;
+    border-top: 0 none;
 }
-table.compare td{
+.compare li{
 	text-align: center;
 	padding: 15px 20px;
 	height: auto;
 	color: #444;
 }
-table.compare tr .desc{
+.compare ul .desc{
 	padding: 15px 0 020px;
 	width: 160px;
 	color: #444!important;
@@ -2161,15 +2163,14 @@ table.compare tr .desc{
 	text-align: left;
 	vertical-align: top;
 }
-table.compare tr.close_top td{padding: 14px 0 6px;}
-table.compare tr.close_top a.close {
+.compare .close_top a.close {
 	margin: 0 auto;
 	width: 11px;
 	height: 11px;
 	display: block;
 	background: url(../images/close.png) no-repeat 0 0;
 }
-table.compare tr.images a{
+.compare .images a{
 	display: block;
 	width: 110px;
 	height: 110px;
@@ -2182,33 +2183,40 @@ table.compare tr.images a{
 	-khtml-border-radius: 2px;
 	behavior: url(PIE.htc);
 }
-table.compare tr.images a div{
+.compare ul{float: left;border-bottom: 1px solid #e0e0e0;}
+.compare ul li{ float: left; list-style: none; display: inline-block; width: 234px;}
+.compare ul li.width162{ width: 160px;}
+.compare .images a div{
 	display: block;
 	width: 110px;
 	height: 110px;
 	background: #f3f3f3;
 }
-table.compare tr.images img{
+.compare .images img{
 	max-width: 110px;
 	max-height: 110px;
 }
-table.compare tr.prise td{
+.compare .price_new{
 	color: #2e8f9a;
 	font:normal 18px/18px Bitter, Myriad Pro, Verdana, serif;
 }
-table.compare tr.prise td .price_old{
+.compare .price_old{
 	color: #777;
 	font:normal 14px/20px Segoeui, Arial, Verdana, serif;
 	text-decoration: line-through;
 }
-table.compare tr.availbility td{color: #277127;}
-table.compare tr.rating td .quality{
+.compare .availbility li{color: #277127;}
+.compare .rating li .quality{
 	width: 80px;
 	padding: 0;
 	height: 14px;
 	margin: 0 auto;
 }
-table.compare tr.rating td .quality a {
+.compare .prise li {
+    color: #2e8f9a;
+    font: normal 18px/18px Bitter, Myriad Pro, Verdana, serif;
+}
+.compare .rating .quality a {
 	display: block;
 	float: left;
 	height: 14px;
@@ -2216,22 +2224,22 @@ table.compare tr.rating td .quality a {
 	margin: 0px 2px 0 0;
 	background: url(../images/review.png) no-repeat 0 0;
 }
-table.compare tr.rating td .quality a.plus {background-position: 100% 0;}
-table.compare tr.rating td .quality a.plus_minus {background-position: 50% 0;}
-table.compare tr.description td{
+.compare .rating  .quality a.plus {background-position: 100% 0;}
+.compare .rating  .quality a.plus_minus {background-position: 50% 0;}
+.compare .description li{
 	text-align: left;
 	font-size: 12px;
 }
-table.compare tr.add_cart td button.add{
+.compare .add_cart li button.add{
 	margin: 0 auto;
 	width: 120px;
 	font:bold 12px/35px Segoeui-Bold, Arial, Verdana, serif;
 }
-table.compare tr.close_botttom td{
+.compare .close_botttom li{
 	padding: 6px 0 49px;
 	border: 0 none;
 }
-table.compare tr.close_botttom a.close {
+.compare .close_botttom a.close {
 	margin: 0 auto;
 	width: 11px;
 	height: 11px;

@@ -8,6 +8,7 @@ import emall.util.string.constants.ErrorMessageConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,6 +78,52 @@ public class CartComponent {
         map.put("success", true);
         return map;
     }
+
+    @RequestMapping(value = "/cart/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Map updateCartItem(Cart cart) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Object username = request.getSession().getAttribute("username");
+        map.put("success", true);
+        if (username == null) {
+            map.put("success", false);
+            map.put("errorMessage", "please login first");
+            return map;
+        }
+        String userId = (String) request.getSession().getAttribute("userId");
+        cart.setUserId(userId);
+        if (cart.getQuantity() <= 0) {
+            cartService.deleteItemFromCart(cart.getUserId(), cart.getItemId());
+            return map;
+        }
+        int inventory = cartService.getItemInventory(cart.getItemId());
+        if (inventory < cart.getQuantity()) {
+            map.put("success", false);
+            map.put("errorMessage", "Sorry, the item is out of inventory");
+        } else {
+            cartService.updateCartItem(cart);
+        }
+        return map;
+    }
+
+    @RequestMapping("/cart/delete")
+    @ResponseBody
+    public Map deleteCartItem(String itemId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Object username = request.getSession().getAttribute("username");
+        map.put("success", true);
+        if (username == null) {
+            map.put("success", false);
+            map.put("errorMessage", "please login first");
+            return map;
+        }
+        String userId = (String) request.getSession().getAttribute("userId");
+        if (cartService.deleteItemFromCart(userId, itemId) != 1) {
+            map.put("success", false);
+            map.put("errorMessage", ErrorMessageConstant.SYSTEM_ERROR);
+        }
+        return map;
+    }
     public Map<String, Object> checkUsername() {
         Map<String, Object> map = new HashMap<String, Object>();
         Object username = request.getSession().getAttribute("username");
@@ -91,7 +138,6 @@ public class CartComponent {
                     e.printStackTrace();
                 }
             }
-
             map.put("success", false);
             map.put("errorMessage", "no_login");
         } else {

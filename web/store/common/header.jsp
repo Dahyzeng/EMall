@@ -32,7 +32,7 @@
                                 <h4><span data-bind="text: itemMap.item.itemName"></span></h4>
                                 <div class="price"><span data-bind="text: 'x ' + itemMap.quantity + '  $' + itemMap.item.price"></span></div>
                             </div>
-                            <a title="close" class="close" href="#"></a>
+                            <a title="close" data-bind="click: headerDeleteItem" class="close" href="#"></a>
 
                             <div class="clear"></div>
                         </li>
@@ -46,7 +46,7 @@
             </ul>
             <nav class="private">
                 <ul>
-                    <li><a href="#">My Account</a></li>
+                    <li><a href="/account">My Account</a></li>
                     <li class="separator">|</li>
                     <li><a href="#">My Wishlist</a></li>
                     <li class="separator">|</li>
@@ -104,6 +104,16 @@
         self.headerCategories = ko.observableArray();
         self.cartItemArray = ko.observableArray();
         self.totalPrice = ko.observableArray();
+        self.headerDeleteItem = function (p) {
+            $.get("/cart/delete?itemId=" + p.item.itemId, function(resultJson) {
+                if (resultJson['success']) {
+                    self.cartItemArray.remove(p);
+                    self.message('');
+                } else {
+                    self.message(resultJson['errorMessage']);
+                }
+            });
+        };
         (function() {
             $.get("/store/get_categories", function(categoryJson) {
                 self.headerCategories(categoryJson);

@@ -1,5 +1,7 @@
 package emall.service.user.profile;
 
+import emall.dao.profile.user.AddressDao;
+import emall.dao.profile.user.OrderDao;
 import emall.dao.profile.user.ProfileDao;
 import emall.dao.profile.user.UserLogDao;
 import emall.entity.User;
@@ -59,6 +61,10 @@ public class ProfileService {
 
     public List getUserByEmail(String email) {
         return profileDao.getUserByEmail(email);
+    }
+
+    public List getUserById(String userId) {
+        return profileDao.getUserById(userId);
     }
 
     public int nameMatch(String username) {

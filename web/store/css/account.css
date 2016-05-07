@@ -1,0 +1,10 @@
+#account_tab-content{height: 227px; width: 839px; border:1px solid #ccc;position: absolute;  margin-left: 149px;}
+#account_content ul{ list-style: none;position: absolute;}
+#account_content ul li{position: relative; z-index: 1000;}
+a{ text-decoration: none;}
+.update_button{
+    width: 50px;
+    float: right;
+    margin-right: 50px;
+    margin-top: 10px;
+}

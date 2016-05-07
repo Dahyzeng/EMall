@@ -1,217 +1,193 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE HTML>
 <html>
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-<!-- /Added by HTTrack -->
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-
     <title>Products comparison</title>
+    <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
 
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="css/grid.css" media="screen" rel="stylesheet" type="text/css">
-
-    <script src="js/jquery-1.7.2.min.js"></script>
-    <script src="js/html5.js"></script>
-    <script src="js/jflow.plus.js"></script>
-    <script src="js/jquery.carouFredSel-5.2.2-packed.js"></script>
-    <script src="js/checkbox.js"></script>
-    <script src="js/radio.js"></script>
-    <script src="js/selectBox.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $("#myController").jFlow({
-                controller: ".control", // must be class, use . sign
-                slideWrapper: "#jFlowSlider", // must be id, use # sign
-                slides: "#slider",  // the div where all your sliding divs are nested in
-                selectedWrapper: "jFlowSelected",  // just pure text, no sign
-                width: "984px",  // this is the width for the content-slider
-                height: "480px",  // this is the height for the content-slider
-                duration: 400,  // time in miliseconds to transition one slide
-                prev: ".slidprev", // must be class, use . sign
-                next: ".slidnext", // must be class, use . sign
-                auto: true
-            });
-        });
-    </script>
-    <script>
-        $(function () {
-            $('#list_product').carouFredSel({
-                prev: '#prev_c1',
-                next: '#next_c1',
-                auto: false
-            });
-            $('#list_product2').carouFredSel({
-                prev: '#prev_c2',
-                next: '#next_c2',
-                auto: false
-            });
-            $(window).resize();
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("button").click(function () {
-                $(this).addClass('click')
-            });
-        })
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("select").selectBox();
-        });
-    </script>
-
+    <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
 </head>
 <body>
 <jsp:include page="common/header.jsp"/>
-<section id="main" class="entire_width">
+<section id="main" class="entire_width" style="margin-top: 30px">
     <div class="container_12">
         <div class="grid_12">
             <h1 class="page_title">Compare Products</h1>
-
-            <table class="compare">
-                <tr class="close_top">
-                    <td class="desc"></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                </tr>
-                <tr>
-                    <th class="desc">Product Name</th>
-                    <th class="bg name">Product Name</th>
-                    <th class="edit"></th>
-                    <th class="bg price">Unit Price</th>
-                </tr>
-                <tr class="images">
-                    <td class="desc">Image</td>
-                    <td class="bg"><a href="product_page.html">
-                        <div><img src="images/produkt_slid1.png" alt="Product slide 1"></div>
-                    </a></td>
-                    <td><a href="product_page.html">
-                        <div><img src="images/product_6.png" alt="Product 6"></div>
-                    </a></td>
-                    <td class="bg"><a href="product_page.html">
-                        <div><img src="images/product_2.png" alt="Product 2"></div>
-                    </a></td>
-                </tr>
-                <tr class="prise">
-                    <td class="desc">Price</td>
-                    <td class="bg">$550.00
-                        <div class="price_old">$725.00</div>
-                    </td>
-                    <td>$550.00
-                        <div class="price_old">$725.00</div>
-                    </td>
-                    <td class="bg">$550.00
-                        <div class="price_old">$725.00</div>
-                    </td>
-                </tr>
-                <tr class="model">
-                    <td class="desc">Model</td>
-                    <td class="bg">Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</td>
-                    <td>Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</td>
-                    <td class="bg">Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</td>
-                </tr>
-                <tr class="brand">
-                    <td class="desc">Brand</td>
-                    <td class="bg">Breeze</td>
-                    <td>Breeze</td>
-                    <td class="bg">Breeze</td>
-                </tr>
-                <tr class="availbility">
-                    <td class="desc">Availbility</td>
-                    <td class="bg">In Stock</td>
-                    <td>In Stock</td>
-                    <td class="bg">In Stock</td>
-                </tr>
-                <tr class="rating">
-                    <td class="desc">Rating</td>
-                    <td class="bg">
-                        <div class="quality">
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="quality">
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </td>
-                    <td class="bg">
-                        <div class="quality">
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="description">
-                    <td class="desc">Description</td>
-                    <td class="bg">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue.
-                            Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus
-                            fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p><br/>
-
-                        <p>Cras ullamcorper nisl non odio congue accumsan. Class aptent taciti sociosqu ad litora
-                            torquent per conubia nostra, per inceptos himenaeos. Aliquam erat volutpat.</p>
-                    </td>
-                    <td>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue.
-                            Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus
-                            fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p><br/>
-
-                        <p>Cras ullamcorper nisl non odio congue accumsan. Class aptent taciti sociosqu ad litora
-                            torquent per conubia nostra, per inceptos himenaeos. Aliquam erat volutpat.</p>
-                    </td>
-                    <td class="bg">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue.
-                            Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus
-                            fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p><br/>
-
-                        <p>Cras ullamcorper nisl non odio congue accumsan. Class aptent taciti sociosqu ad litora
-                            torquent per conubia nostra, per inceptos himenaeos. Aliquam erat volutpat.</p>
-                    </td>
-                </tr>
-                <tr class="add_cart">
-                    <td class="desc"></td>
-                    <td class="bg">
-                        <button class="add">Add to Cart</button>
-                    </td>
-                    <td>
-                        <button class="add">Add to Cart</button>
-                    </td>
-                    <td class="bg">
-                        <button class="add">Add to Cart</button>
-                    </td>
-                </tr>
-                <tr class="close_botttom">
-                    <td class="desc"></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                    <td><a title="close" class="close" href="#"></a></td>
-                </tr>
-            </table>
+            <!-- ko ifnot: isEmpty -->
+            <div class="compare">
+                <ul class="close_top">
+                    <li class="desc width162"></li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li><a title="close" class="close" data-bind="click: $root.deleteCompareItem" href="#"></a></li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <ul style="border-bottom: 1px solid #a8dade;">
+                    <li class="desc width162">Product Name</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg name" data-bind="text: item.itemName"></li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <ul class="images ">
+                    <li class="desc width162">Image</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg">
+                            <a data-bind="attr: {href: '/pdf/' + item.itemId}">
+                                <div>
+                                    <img data-bind="attr: {src: item.showPicURL}" alt="Product slide 1">
+                                </div>
+                            </a>
+                        </li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <ul class="prise">
+                    <li class="desc width162">Price</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg">
+                            <!-- ko ifnot: item.discount==0 -->
+                            <div class="price_new">$<span data-bind="text: item.price - item.discount"></span></div>
+                            <div class="price_old">$<span data-bind="text: item.price"></span></div>
+                            <!-- /ko -->
+                            <!-- ko if: item.discount==0 -->
+                            <div class="price_new">$<span data-bind="text: item.price"></span></div>
+                            <!-- /ko -->
+                        </li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <%--<ul class="model">--%>
+                    <%--<li class="desc width162">Model</li>--%>
+                    <%--<li class="bg">Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</li>--%>
+                    <%--<li>Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</li>--%>
+                    <%--<li class="bg">Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</li>--%>
+                <%--</ul>--%>
+                <ul class="brand">
+                    <li class="desc width162">Sale Quantity</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg" data-bind="text: item.saleQuantity"></li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <ul class="availbility">
+                    <li class="desc width162">Availbility</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg">
+                            <!-- ko if: item.inventory !=0 -->
+                            <span>In stock</span>
+                            <!-- /ko -->
+                            <!-- ko if: item.inventory ==0 -->
+                            <span>Out of stock</span>
+                            <!-- /ko -->
+                        </li>
+                    </span>
+                </ul><p style="clear: both;"></p>
+                <%--<ul class="rating">--%>
+                    <%--<li class="desc width162">Rating</li>--%>
+                    <%--<li class="bg">--%>
+                        <%--<div class="quality">--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div class="quality">--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li class="bg">--%>
+                        <%--<div class="quality">--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a class="plus" href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                            <%--<a href="#"></a>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+                <ul class="description">
+                    <li class="desc">Description</li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg">
+                            <p style="text-align: center"><span data-bind="text: item.description"></span></p>
+                        </li>
+                    </span>
+                </ul>
+                <p style="clear: both;"></p>
+                <ul class="add_cart">
+                    <li class="desc"></li>
+                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
+                        <li class="bg">
+                            <button class="add" data-bind="click: $root.addToCart">Add to Cart</button>
+                        </li>
+                    </span>
+                </ul>
+            </div>
+            <!-- /ko -->
+            <!-- ko if: isEmpty -->
+            <div>
+                Empty
+            </div>
+            <!-- /ko -->
         </div>
-        <!-- .grid_12 -->
+        <div class="clear"></div>
     </div>
-    <!-- .container_12 -->
 </section>
-<jsp:include page="common/footer.jsp"/>
+<div>
+    <jsp:include page="common/footer.jsp"/>
+</div>
 </body>
+<script>
+    function comparePage() {
+        var self = this;
+        self.itemArray = ko.observableArray();
+        self.isEmpty = ko.observable(true);
+
+        self.deleteCompareItem = function (p) {
+            $.get("/compare/delete?itemId=" + p.itemId, function(json) {
+                if (json['success']) {
+                    self.itemArray.remove(p);
+                    if (self.itemArray().length != 0) {
+                        self.isEmpty(false);
+                    } else {
+                        self.isEmpty(true);
+                    }
+                }
+            })
+        };
+
+        self.addToCart = function(p) {
+            $.post("/cart/add", {itemId: p.itemId, quantity: 1}, function(resultJson) {
+                if (resultJson['success']) {
+                    alert("add success");
+                    getCartItem();
+                } else {
+                    if (resultJson['errorMessage'] == 'no_login') {
+                        if (resultJson['url']) {
+                            window.location.href = "/login?url=" + resultJson['url'];
+                        } else {
+                            window.location.href = "/login";
+                        }
+                    }
+                }
+            })
+        };
+        (function () {
+            headerPage();
+            $.get("/compare/get", function (itemList) {
+                self.itemArray(itemList);
+                if (self.itemArray().length != 0) {
+                    self.isEmpty(false);
+                } else {
+                    self.isEmpty(true);
+                }
+            });
+        })();
+    }
+    ko.applyBindings(new comparePage());
+</script>
 </html>
