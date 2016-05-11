@@ -3,6 +3,7 @@ package emall.dao.item;
 import emall.entity.Item;
 import emall.entity.PromotionItem;
 import emall.util.string.constants.MerchantConstants;
+import emall.util.string.constants.PageSizeConstant;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,16 @@ public class ItemBaseDao {
         sessionFactory.getCurrentSession().persist(item);
     }
 
-    public void deleteItem(String itemId) {
+    public void deleteItem(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete Item where itemId=? and status=0");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         query.executeUpdate();
     }
 
     public void updateItemDiscount(Item item) {
         Query query = sessionFactory.getCurrentSession().createQuery("update Item set discount=? where itemId=?");
         query.setFloat(0, item.getDiscount());
-        query.setString(1, item.getItemId());
+        query.setInteger(1, item.getItemId());
         query.executeUpdate();
     }
 
@@ -47,23 +48,23 @@ public class ItemBaseDao {
         sql += "where itemId=?";
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setString(0, item.getItemName());
-        query.setString(1, item.getCategoryId());
+        query.setInteger(1, item.getCategoryId());
         query.setFloat(2, item.getPrice());
         query.setInteger(3, item.getInventory());
         query.setString(4, item.getDescription());
         if (flag == 1) {
             query.setString(5, item.getShowPicURL());
-            query.setString(6, item.getItemId());
+            query.setInteger(6, item.getItemId());
         } else {
-            query.setString(5, item.getItemId());
+            query.setInteger(5, item.getItemId());
         }
         query.executeUpdate();
     }
 
-    public void changeStatus(String itemId, int status) {
+    public void changeStatus(int itemId, int status) {
         Query query = sessionFactory.getCurrentSession().createQuery("update Item set status=? where itemId=?");
         query.setInteger(0, status);
-        query.setString(1, itemId);
+        query.setInteger(1, itemId);
         query.executeUpdate();
     }
 
@@ -71,7 +72,7 @@ public class ItemBaseDao {
         String sql = "from Item";
         int flag = 0;
         if (categoryId != null) {
-            if (categoryId.getClass() == String.class) {
+            if (categoryId.getClass() == Integer.class) {
                 sql += " where categoryId=?";
                 flag = 1;
             } else if (categoryId.getClass() == StringBuilder.class) {
@@ -88,10 +89,10 @@ public class ItemBaseDao {
         }
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         if (flag == 1) {
-            query.setString(0, categoryId.toString());
+            query.setInteger(0, (Integer) categoryId);
         }
-        query.setFirstResult((page - 1) * MerchantConstants.PAGE_SIZE);
-        query.setMaxResults(MerchantConstants.PAGE_SIZE);
+        query.setFirstResult((page - 1) * PageSizeConstant.ITEM_PAGE_SIZE);
+        query.setMaxResults(PageSizeConstant.ITEM_PAGE_SIZE);
         return query.list();
     }
 
@@ -99,7 +100,7 @@ public class ItemBaseDao {
         String sql = "from Item";
         int flag = 0;
         if (categoryId != null) {
-            if (categoryId.getClass() == String.class) {
+            if (categoryId.getClass() == Integer.class) {
                 sql += " where categoryId=?";
                 flag = 1;
             } else if (categoryId.getClass() == StringBuilder.class) {
@@ -116,22 +117,22 @@ public class ItemBaseDao {
         }
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         if (flag == 1) {
-            query.setString(0, categoryId.toString());
+            query.setInteger(0, (Integer) categoryId);
         }
         query.setFirstResult((page - 1) * pageSize);
         query.setMaxResults(pageSize);
         return query.list();
     }
 
-    public List getItemById(String itemId) {
+    public List getItemById(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Item where itemId=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         return query.list();
     }
 
-    public Object getItemNameById(String itemId) {
+    public Object getItemNameById(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("select itemName from Item where itemId=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         return query.list().get(0);
     }
 
@@ -139,15 +140,15 @@ public class ItemBaseDao {
         sessionFactory.getCurrentSession().saveOrUpdate(promotionItem);
     }
 
-    public List getDiscount(String itemId) {
+    public List getDiscount(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from PromotionItem where itemId=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         return query.list();
     }
 
-    public List getItemInventory(String itemId) {
+    public List getItemInventory(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("select inventory from Item where itemId=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         return query.list();
     }
 }

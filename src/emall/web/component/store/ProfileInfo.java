@@ -77,6 +77,7 @@ public class ProfileInfo {
                     User user = (User) list.get(0);
                     request.getSession().setAttribute("username", user.getUsername());
                     request.getSession().setAttribute("userId", user.getUserId());
+                    request.getSession().setAttribute("email", user.getEmail());
                 }
                 loginMap.put("success", true);
             } else {
@@ -100,13 +101,55 @@ public class ProfileInfo {
             personalMap.put("errorMessage", "no_login");
             return personalMap;
         }
-        User user = (User) profileService.getUserById(userId.toString()).get(0);
-        List addressList = addressService.getUserAddress(userId.toString());
-        List orderList = orderService.getUserOrder(userId.toString());
+        User user = (User) profileService.getUserById((Integer)userId).get(0);
         personalMap.put("success", true);
         personalMap.put("personalInfo", user);
-        personalMap.put("addressArray", addressList);
-        personalMap.put("orderArray", orderList);
+        return personalMap;
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Map updateProfileInfo(User user) {
+        Map<String, Object> personalMap = new HashMap<String, Object>();
+        Object userId = request.getSession().getAttribute("userId");
+        if (userId == null) {
+            personalMap.put("success", false);
+            personalMap.put("errorMessage", "no_login");
+            return personalMap;
+        }
+        user.setUserId((Integer)userId);
+        if (profileService.updateUser(user) == 1) {
+            personalMap.put("success", true);
+        } else {
+            personalMap.put("success", false);
+        }
+        return personalMap;
+    }
+
+    @RequestMapping("/update_password")
+    @ResponseBody
+    public Map updatePassword(String oldPassword, String newPassword) throws NoSuchAlgorithmException {
+        Map<String, Object> personalMap = new HashMap<String, Object>();
+        personalMap.put("success", false);
+        Object userId = request.getSession().getAttribute("userId");
+        if (userId == null) {
+            personalMap.put("errorMessage", "no_login");
+            return personalMap;
+        }
+        String email = request.getSession().getAttribute("email").toString();
+        String encodePassword = new EncryptionByMD5().encodeByMD5(oldPassword);
+        if (profileService.checkLoginInfo(email, encodePassword) != 1) {
+            personalMap.put("errorMessage", "old password error");
+            return personalMap;
+        }
+        String password = new EncryptionByMD5().encodeByMD5(newPassword);
+        String username = (String) request.getSession().getAttribute("username");
+
+        if (profileService.updatePassword(username, (Integer)userId, password) == 1) {
+            personalMap.put("success", true);
+        } else {
+            personalMap.put("errorMessage", "update failed");
+        }
         return personalMap;
     }
 }

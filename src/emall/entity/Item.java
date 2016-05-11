@@ -13,16 +13,15 @@ import javax.persistence.*;
 public class Item {
     @Id
     @Column(name = "item_id")
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
-    private String itemId;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int itemId;
 
     @Column(name = "item_name")
     @NotEmpty
     private String itemName;
 
     @Column(name = "category_id")
-    private String categoryId;
+    private int categoryId;
 
     @Column(name = "inventory")
     private int inventory;
@@ -63,11 +62,11 @@ public class Item {
                 '}';
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 
@@ -79,11 +78,11 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 

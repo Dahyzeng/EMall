@@ -15,7 +15,7 @@ public class AddressService {
     @Autowired
     private AddressDao addressDao;
 
-    public List getUserAddress(String userId) {
+    public List getUserAddress(int userId) {
         return addressDao.getUserAddress(userId);
     }
 
@@ -23,7 +23,7 @@ public class AddressService {
         addressDao.addAddress(address);
     }
 
-    public void deleteAddress(String addressId) {
+    public void deleteAddress(int addressId) {
         addressDao.deleteAddress(addressId);
     }
 }

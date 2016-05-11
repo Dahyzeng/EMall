@@ -26,9 +26,9 @@ public class ItemCarouselDao {
         return query.list();
     }
 
-    public void deleteCarouselPic(String itemId) {
+    public void deleteCarouselPic(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete CarouselItem where item_id=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         query.executeUpdate();
     }
 }

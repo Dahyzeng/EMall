@@ -16,12 +16,12 @@ public class UploadFile {
     @Autowired
     private CategoryService categoryService;
 
-    public String uploadPic(HttpServletRequest request, MultipartFile file, String categoryId) throws IOException {
+    public String uploadPic(HttpServletRequest request, MultipartFile file, int categoryId) throws IOException {
         String filePicURL = request.getSession().getServletContext().getRealPath("/") + "images";
         StringBuilder savePicURL = new StringBuilder("/images/");
         String categoryName;
-        if (categoryId.equals("carousel")) {
-            categoryName = categoryId;
+        if (categoryId == -1) {
+            categoryName = "carousel";
         } else {
             categoryName = categoryService.getCategoryName(categoryId);
         }

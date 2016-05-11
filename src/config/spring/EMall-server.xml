@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <mvc:annotation-driven/>
-	<!-- 注解扫描包 -->
+    <!-- 注解扫描包 -->
     <context:component-scan base-package="emall.web" />
     <context:component-scan base-package="emall.aop" />
     <context:component-scan base-package="emall.util.file" />

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ItemPicService {
     @Autowired
     private HttpServletRequest request;
 
-    public List getItemPic(String itemId) {
+    public List getItemPic(int itemId) {
         return itemPicDao.getItemPic(itemId);
     }
 
@@ -64,7 +65,8 @@ public class ItemPicService {
         return request.getSession().getAttribute("merchantName").toString();
     }
     public MerchantLog getMerchantLog() {
-        Timestamp date = new Timestamp(new Date().getTime());
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         MerchantLog log = new MerchantLog();
         log.setMerchantName(getSessionName());
         log.setDate(date);

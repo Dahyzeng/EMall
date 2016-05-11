@@ -17,9 +17,9 @@ public class ItemPicDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List getItemPic(String itemId) {
+    public List getItemPic(int itemId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from ItemPic where itemId=?");
-        query.setString(0, itemId);
+        query.setInteger(0, itemId);
         return query.list();
     }
 
@@ -29,7 +29,7 @@ public class ItemPicDao {
 
     public void deleteItemPic(ItemPic itemPic) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete ItemPic where itemId=? and picURL=?");
-        query.setString(0, itemPic.getItemId());
+        query.setInteger(0, itemPic.getItemId());
         query.setString(1, itemPic.getPicURL());
         query.executeUpdate();
     }

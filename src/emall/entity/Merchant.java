@@ -11,10 +11,9 @@ import javax.persistence.*;
 @Table(name = "T_MERCHANT")
 public class Merchant {
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "merchant_id")
-    private String merchantId;
+    private int merchantId;
 
     @Column(name = "merchant_name")
     @NotEmpty(message = "merchant name can not be empty")
@@ -39,11 +38,11 @@ public class Merchant {
         this.password = password;
     }
 
-    public String getMerchantId() {
+    public int getMerchantId() {
         return merchantId;
     }
 
-    public void setMerchantId(String merchantId) {
+    public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
     }
 

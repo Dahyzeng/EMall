@@ -4,6 +4,7 @@ import emall.dao.category.CategoryDao;
 import emall.dao.item.ItemBaseDao;
 import emall.dao.item.ItemPicDao;
 import emall.entity.Category;
+import emall.util.string.constants.PageSizeConstant;
 import emall.util.string.constants.StoreConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,12 @@ public class StoreItemService {
     private ItemPicDao itemPicDao;
     public List getItemByCategory(Category category, int page, int status, String pageType) {
         List itemList;
-        if (category.getFatherId() == null) {
+        if (category.getFatherId() == 0) {
             if ("grid".equals(pageType)) {
-                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, StoreConstants.GRID_PAGE_SIZE);
+                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, PageSizeConstant.GRID_PAGE_SIZE);
             } else {
-                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, StoreConstants.LIST_PAGE_SIZE);
+                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, PageSizeConstant.LIST_PAGE_SIZE);
             }
-
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
             if (childCategory.size() != 0) {
@@ -51,11 +51,11 @@ public class StoreItemService {
         return itemList;
     }
 
-    public List getItemById(String itemId) {
+    public List getItemById(int itemId) {
         return itemBaseDao.getItemById(itemId);
     }
 
-    public List getItemPic(String itemId) {
+    public List getItemPic(int itemId) {
         return itemPicDao.getItemPic(itemId);
     }
 }

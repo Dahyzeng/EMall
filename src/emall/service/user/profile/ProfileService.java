@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +38,41 @@ public class ProfileService {
         profileDao.userRegister(user);
         UserLog userLog = getUserLog(user);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("register or update an account named ");
+        stringBuilder.append("register an account named ");
         stringBuilder.append(user.getUsername());
+        userLog.setOperation(stringBuilder.toString());
+        userLogDao.addLog(userLog);
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateUser(User user) {
+        if (!profileDao.getUserName(user.getUserId()).equals(user.getUsername())) {
+            if (profileDao.nameMatch(user.getUsername()).size() != 0) {
+                return Constants.FAIL_NUMBER;
+            }
+        }
+
+        if (profileDao.emailMatch(user.getEmail()) != 0) {
+            return Constants.FAIL_NUMBER;
+        }
+        profileDao.userUpdate(user);
+        UserLog userLog = getUserLog(user);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("update user information ");
+        userLog.setOperation(stringBuilder.toString());
+        userLogDao.addLog(userLog);
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updatePassword(String username, int userId, String password) {
+        profileDao.passwordUpdate(password, userId);
+        User user = new User();
+        user.setUsername(username);
+        UserLog userLog = getUserLog(user);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("update password ");
         userLog.setOperation(stringBuilder.toString());
         userLogDao.addLog(userLog);
         return Constants.SUCCESS_NUMBER;
@@ -63,7 +97,7 @@ public class ProfileService {
         return profileDao.getUserByEmail(email);
     }
 
-    public List getUserById(String userId) {
+    public List getUserById(int userId) {
         return profileDao.getUserById(userId);
     }
 
@@ -74,7 +108,8 @@ public class ProfileService {
         return profileDao.emailMatch(email);
     }
     public UserLog getUserLog(User user) {
-        Timestamp date = new Timestamp(new Date().getTime());
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         UserLog log = new UserLog();
         log.setUsername(user.getUsername());
         log.setOperationDate(date);

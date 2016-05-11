@@ -19,7 +19,6 @@
 
                 <aside id="community_poll">
                     <h4>Choose Address</h4>
-
                     <ul style="list-style: none; padding: 0 0 0">
                         <li><input class="niceRadio" type="radio" name="" value=""/> less than 18 years</li>
                         <li><input class="niceRadio" type="radio" name="" value=""/> 18-24 years</li>

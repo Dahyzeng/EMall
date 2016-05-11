@@ -1,5 +1,8 @@
 package emall.entity;
 
+import emall.util.string.JsonDateFormat.DetailDateFormat;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -21,9 +24,8 @@ public class MerchantLog {
     @Column(name = "operation")
     private String operation;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "date")
-    private Date date;
+    private Timestamp date;
 
     public MerchantLog() {
     }
@@ -58,11 +60,12 @@ public class MerchantLog {
         this.logId = logId;
     }
 
-    public Date getDate() {
+    @JsonSerialize(using = DetailDateFormat.class)
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 }

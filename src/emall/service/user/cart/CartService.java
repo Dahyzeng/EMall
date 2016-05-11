@@ -41,7 +41,7 @@ public class CartService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int deleteItemFromCart(String userId, String ...itemId) {
+    public int deleteItemFromCart(int userId, int ...itemId) {
         StringBuilder stringBuilder = new StringBuilder();
         if (itemId.length > 0) {
             for (int i = 0; i < itemId.length; i++) {
@@ -57,11 +57,11 @@ public class CartService {
         }
     }
 
-    public List getAllItemFromCart(String useId) {
+    public List getAllItemFromCart(int useId) {
         return cartDao.getAllItemInCart(useId);
     }
 
-    public int getItemInventory(String itemId) {
+    public int getItemInventory(int itemId) {
         List list = itemBaseDao.getItemInventory(itemId);
         if (list.size() == 0) {
             return 0;

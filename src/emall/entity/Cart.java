@@ -16,11 +16,11 @@ public class Cart {
 
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private int userId;
 
     @Id
     @Column(name = "item_id")
-    private String itemId;
+    private int itemId;
 
     @Column(name = "quantity")
     private int quantity;
@@ -29,25 +29,25 @@ public class Cart {
     }
 
 
-    public Cart(String userId, String itemId, int quantity) {
+    public Cart(int userId, int itemId, int quantity) {
         this.userId = userId;
         this.itemId = itemId;
         this.quantity = quantity;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 

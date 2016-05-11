@@ -35,7 +35,16 @@ public class Profile {
         if (username == null) {
             return "/store/login";
         } else
-        return "/store/my_account";
+        return "/store/personal_info";
+    }
+
+    @RequestMapping("/account/address")
+    public String addressPage() {
+        Object username = request.getSession().getAttribute("username");
+        if (username == null) {
+            return "/store/login";
+        } else
+            return "/store/address";
     }
 
     @RequestMapping("/checkout")

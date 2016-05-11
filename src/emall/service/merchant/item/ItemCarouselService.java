@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class ItemCarouselService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int deleteCarousel(String itemId, String itemName) {
+    public int deleteCarousel(int itemId, String itemName) {
         itemCarouselDao.deleteCarouselPic(itemId);
         MerchantLog log = getAdminLog();
         StringBuilder stringBuilder = new StringBuilder();
@@ -62,7 +63,8 @@ public class ItemCarouselService {
         return request.getSession().getAttribute("merchantName").toString();
     }
     public MerchantLog getAdminLog() {
-        Timestamp date = new Timestamp(new Date().getTime());
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         MerchantLog log = new MerchantLog();
         log.setMerchantName(getSessionName());
         log.setDate(date);

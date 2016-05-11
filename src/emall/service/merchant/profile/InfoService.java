@@ -3,6 +3,7 @@ package emall.service.merchant.profile;
 import emall.dao.profile.merchant.MerchantProfileDao;
 import emall.entity.Merchant;
 import emall.entity.MerchantLog;
+import emall.service.merchant.log.LogService;
 import emall.util.string.constants.MerchantConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class InfoService {
         logMessage.append(MerchantConstants.ADD_ADMIN_LOG);
         logMessage.append(merchant.getMerchantName());
         log.setOperation(logMessage.toString());
-        logService.addAdminLog(log);
+        logService.addMerchantLog(log);
         merchantDao.addMerchant(merchant);
         return 1;
     }
@@ -65,7 +67,7 @@ public class InfoService {
             }
             log = getAdminLog(merchant);
             log.setOperation(MerchantConstants.LOGIN_SUCCESS_LOG_MESSAGE);
-            logService.addAdminLog(log);
+            logService.addMerchantLog(log);
         }
         return loginResult;
     }
@@ -96,7 +98,7 @@ public class InfoService {
         MerchantLog log = getAdminLog(merchant);
         log.setOperation(MerchantConstants.UPDATE_PASSWORD_LOG);
         merchantDao.updatePassword(merchant);
-        logService.addAdminLog(log);
+        logService.addMerchantLog(log);
         return 1;
     }
 
@@ -105,7 +107,8 @@ public class InfoService {
     }
 
     public MerchantLog getAdminLog(Merchant merchant) {
-        Date date = new Date();
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         MerchantLog log = new MerchantLog();
         log.setMerchantName(merchant.getMerchantName());
         log.setDate(date);

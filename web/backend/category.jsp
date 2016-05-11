@@ -192,10 +192,10 @@
         };
 
         self.modifyCategory = function() {
-            if (self.modifyCurrentCategoryName == self.modifyCategoryName) {
+            if (self.modifyCurrentCategoryName() == self.modifyCategoryName()) {
                 return;
             }
-            $.post("/category/modify", {fatherId: self.modifyCurrentCategoryName, categoryName: self.modifyCategoryName, categoryId: self.modifyCategoryId}, function (responseJson) {
+            $.post("/category/modify", {fatherId: self.fatherCategoryId(), categoryName: self.modifyCategoryName(), categoryId: self.modifyCategoryId()}, function (responseJson) {
                 if (responseJson['success']) {
                     self.modifyCategoryId('');
                     self.modifyCategoryName('');
@@ -227,7 +227,7 @@
         };
 
         self.addSubCategory = function() {
-            $.post("/category/add", {fatherId: self.fatherCategoryId, categoryName: self.subCategoryName}, function(responseJson) {
+            $.post("/category/add", {fatherId: self.fatherCategoryId(), categoryName: self.subCategoryName()}, function(responseJson) {
                 if (responseJson['success']) {
                     self.fatherCategoryId('');
                     self.subCategoryName('');

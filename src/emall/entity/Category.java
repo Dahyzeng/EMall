@@ -13,27 +13,26 @@ import javax.persistence.*;
 public class Category {
     @Id
     @Column(name = "category_id")
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
-    private String categoryId;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int categoryId;
 
     @Column(name = "category_name")
     @NotEmpty(message = "category name can not be empty")
     private String categoryName;
 
     @Column(name = "father_id")
-    private String fatherId;
+    private int fatherId;
 
     @Override
     public String toString() {
         return "{name: " + categoryName + ", categoryId: " + categoryId + ", fatherId: " + fatherId +"}";
     }
 
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -45,11 +44,11 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public String getFatherId() {
+    public int getFatherId() {
         return fatherId;
     }
 
-    public void setFatherId(String fatherId) {
+    public void setFatherId(int fatherId) {
         this.fatherId = fatherId;
     }
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class PromotionItem implements Serializable{
     @Id
     @Column(name = "item_id")
-    private String itemId;
+    private int itemId;
 
     @Column(name = "discount")
     private float discount;
@@ -22,17 +22,17 @@ public class PromotionItem implements Serializable{
     public PromotionItem() {
     }
 
-    public PromotionItem(String itemId, float discount, float price) {
+    public PromotionItem(int itemId, float discount, float price) {
         this.itemId = itemId;
         this.discount = discount;
         this.price = price;
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 

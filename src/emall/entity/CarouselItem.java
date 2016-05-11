@@ -14,7 +14,7 @@ public class CarouselItem implements Serializable{
 
     @Id
     @Column(name = "item_id")
-    private String ItemId;
+    private int ItemId;
 
     @Column(name = "pic_url")
     @NotEmpty
@@ -26,17 +26,17 @@ public class CarouselItem implements Serializable{
     public CarouselItem() {
     }
 
-    public CarouselItem(String itemId, String picURL, int sequence) {
+    public CarouselItem(int itemId, String picURL, int sequence) {
         ItemId = itemId;
         this.picURL = picURL;
         this.sequence = sequence;
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return ItemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         ItemId = itemId;
     }
 

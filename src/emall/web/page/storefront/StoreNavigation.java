@@ -32,10 +32,15 @@ public class StoreNavigation {
         return "/store/compare";
     }
 
+    @RequestMapping("/contact_us")
+    public String contactUsPage() {
+        return "/store/contact_us";
+    }
+
     @RequestMapping("/search/{pageType}")
     public ModelAndView searchPage(@PathVariable String pageType,Category category) {
         ModelAndView mav = new ModelAndView();
-        if (category.getFatherId() != null) {
+        if (category.getFatherId() != 0) {
             mav.addObject("type", "f");
             mav.addObject("id", category.getFatherId());
         } else {

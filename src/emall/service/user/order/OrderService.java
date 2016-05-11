@@ -14,7 +14,7 @@ public class OrderService {
     @Autowired
     OrderDao orderDao;
 
-    public List getUserOrder(String userId) {
+    public List getUserOrder(int userId) {
         return orderDao.getUserOrder(userId);
     }
 }

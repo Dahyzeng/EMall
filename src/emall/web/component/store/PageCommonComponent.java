@@ -54,12 +54,13 @@ public class PageCommonComponent {
     @RequestMapping("/get_item_category")
     @ResponseBody
     public List getItemByCategory(Category category, int page, String pageType) {
-        return storeItemService.getItemByCategory(category, page, 1, pageType);
+        List list = storeItemService.getItemByCategory(category, page, 1, pageType);
+        return list;
     }
 
     @RequestMapping("/get_item_id/{itemId}")
     @ResponseBody
-    public Map getItemById(@PathVariable String itemId) {
+    public Map getItemById(@PathVariable int itemId) {
         List itemList = storeItemService.getItemById(itemId);
         List itemPicList = storeItemService.getItemPic(itemId);
         Item item = new Item();

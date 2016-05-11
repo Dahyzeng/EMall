@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -56,11 +57,11 @@ public class CategoryService {
      * @return 0 for none
      * other for having child category
      */
-    public int findChildCategory(String categoryId) {
+    public int findChildCategory(int categoryId) {
         return categoryDao.findChildCategory(categoryId);
     }
 
-    public int findItem(String categoryId) {
+    public int findItem(int categoryId) {
         return categoryDao.findItem(categoryId);
     }
 
@@ -121,7 +122,7 @@ public class CategoryService {
         return Constants.SUCCESS_NUMBER;
     }
 
-    public String getCategoryName(String categoryId) {
+    public String getCategoryName(int categoryId) {
         return (String) categoryDao.getCategoryName(categoryId);
     }
 
@@ -130,7 +131,8 @@ public class CategoryService {
     }
 
     public MerchantLog getAdminLog() {
-        Timestamp date = new Timestamp(new Date().getTime());
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         MerchantLog log = new MerchantLog();
         log.setMerchantName(getSessionName());
         log.setDate(date);

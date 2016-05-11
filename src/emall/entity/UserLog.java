@@ -1,6 +1,10 @@
 package emall.entity;
 
+import emall.util.string.JsonDateFormat.DetailDateFormat;
+import emall.util.string.JsonDateFormat.NormalDateFormat;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,10 +17,9 @@ import java.util.Date;
 public class UserLog {
 
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "log_id")
-    private String logId;
+    private int logId;
 
     @Column(name = "username")
     private String username;
@@ -31,11 +34,11 @@ public class UserLog {
     public UserLog() {
     }
 
-    public String getLogId() {
+    public int getLogId() {
         return logId;
     }
 
-    public void setLogId(String logId) {
+    public void setLogId(int logId) {
         this.logId = logId;
     }
 
@@ -55,6 +58,7 @@ public class UserLog {
         this.operation = operation;
     }
 
+    @JsonSerialize(using = DetailDateFormat.class)
     public Date getOperationDate() {
         return operationDate;
     }

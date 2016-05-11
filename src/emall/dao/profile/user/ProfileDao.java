@@ -16,7 +16,23 @@ public class ProfileDao {
     @Autowired
     private SessionFactory sessionFactory;
     public void userRegister(User user){
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
+        sessionFactory.getCurrentSession().save(user);
+    }
+
+    public void userUpdate(User user) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update User set username=?, birthday=?, gender=? where userId=?");
+        query.setString(0, user.getUsername());
+        query.setDate(1, user.getBirthday());
+        query.setString(2, user.getGender());
+        query.setInteger(3, user.getUserId());
+        query.executeUpdate();
+    }
+
+    public void passwordUpdate(String password, int userId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update User set password=? where userId=?");
+        query.setString(0, password);
+        query.setInteger(1, userId);
+        query.executeUpdate();
     }
 
     public List nameMatch(String username) {
@@ -38,10 +54,16 @@ public class ProfileDao {
         return query.list().size();
     }
 
-    public List getUserById(String userId) {
+    public List getUserById(int userId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from User where userId=?");
-        query.setString(0, userId);
+        query.setInteger(0, userId);
         return query.list();
+    }
+
+    public String getUserName(int userId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("select username from User where userId=?");
+        query.setInteger(0, userId);
+        return query.list().get(0).toString();
     }
 
     public List getUserByEmail(String email) {

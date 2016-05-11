@@ -57,8 +57,8 @@ public class ItemCategory {
         if (!(Boolean)categoryMap.get("success")) {
             return categoryMap;
         }
-        String oldCategoryName = category.getFatherId();
-        category.setFatherId(null);
+        int oldCategoryName = category.getFatherId();
+        category.setFatherId(0);
         categoryMap.put("success", false);
         if (categoryService.matchCategory(category) == 1) {
             categoryMap.put("errorMessage", ErrorMessageConstant.MODIFY_CATEGORY_SAME_NAME_ERROR);
@@ -84,7 +84,7 @@ public class ItemCategory {
             return categoryMap;
         }
         categoryMap.put("success", false);
-        if (category.getFatherId() == null) {
+        if (category.getFatherId() == 0) {
             if (categoryService.findChildCategory(category.getCategoryId()) > 0) {
                 categoryMap.put("errorMessage", ErrorMessageConstant.DELETE_CATEGORY_HAS_CHILD);
                 return categoryMap;

@@ -49,7 +49,7 @@ public class ShowItemComponent {
     }
 
     @RequestMapping(value = "/add_pic/{itemId}", method = RequestMethod.POST)
-    public String addItemPic(@PathVariable String itemId, @RequestParam MultipartFile file) {
+    public String addItemPic(@PathVariable int itemId, @RequestParam MultipartFile file) {
         Object merchantName = request.getSession().getAttribute("merchantName");
         if (merchantName == null) {
             return "redirect:/merchant/signIn";
@@ -70,7 +70,7 @@ public class ShowItemComponent {
 
     @RequestMapping("/get_pic/{itemId}")
     @ResponseBody
-    public Map getItemPic(@PathVariable String itemId) {
+    public Map getItemPic(@PathVariable int itemId) {
         Map<String, Object> itemMap = checkStatus();
         if (!(Boolean)itemMap.get("success")) {
             return itemMap;
@@ -82,7 +82,7 @@ public class ShowItemComponent {
 
     @RequestMapping("/delete_pic/{itemId}")
     @ResponseBody
-    public Map deleteItemPic(@PathVariable String itemId, String picURL) {
+    public Map deleteItemPic(@PathVariable int itemId, String picURL) {
         Map<String, Object> itemMap = checkStatus();
         if (!(Boolean)itemMap.get("success")) {
             return itemMap;

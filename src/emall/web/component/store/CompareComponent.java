@@ -58,8 +58,8 @@ public class CompareComponent {
         List<Item> itemList = new ArrayList<Item>();
         Object tmp = request.getSession().getAttribute("compareItemList");
         if (tmp != null) {
-            List<String> compareList = (List<String>) tmp;
-            for (String itemId : compareList) {
+            List<Integer> compareList = (List<Integer>) tmp;
+            for (int itemId : compareList) {
                 itemList.add((Item) itemBaseService.getItemById(itemId).get(0));
             }
         }

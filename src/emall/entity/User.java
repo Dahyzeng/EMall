@@ -1,12 +1,9 @@
 package emall.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 
+import emall.util.string.JsonDateFormat.NormalDateFormat;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -19,10 +16,9 @@ import java.util.Date;
 @Table(name="T_USER")
 public class User {
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name = "system-uuid",strategy="uuid")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name = "user_id", length=32)
-	private String userId;
+	private int userId;
 	
 	@Column(name = "username")
     @NotEmpty(message = "username can not be empty")
@@ -52,6 +48,8 @@ public class User {
         this.email = email;
     }
 
+
+
     public String getPassword() {
         return password;
     }
@@ -60,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -92,6 +90,7 @@ public class User {
         this.email = email;
     }
 
+    @JsonSerialize(using = NormalDateFormat.class)
     public Date getBirthday() {
         return birthday;
     }

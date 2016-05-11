@@ -57,7 +57,7 @@
                 <div class="arrow_border"></div>
             </div </c:if>>
             <a href="/merchant/message">
-                <i class="icon-leaf"></i>
+                <i class="icon-envelope"></i>
                 <span>Leave Message</span>
             </a>
         </li>
@@ -75,16 +75,15 @@
             </a>
         </li>
 
-        <li>
-            <a class="dropdown-toggle" href="#">
+        <li <c:if test="${requestScope.activeTab eq 'log'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
+            <a href="/merchant/log">
                 <i class="icon-book"></i>
                 <span>Logs</span>
-                <i class="icon-chevron-down"></i>
             </a>
-            <ul class="submenu">
-                <li><a href="#">Merchant</a></li>
-                <li><a href="#">User</a></li>
-            </ul>
         </li>
 
     </ul>

@@ -33,46 +33,46 @@ public class CategoryDao {
      * 0 for none
      * other for have child category
      */
-    public int findChildCategory(String categoryId) {
+    public int findChildCategory(int categoryId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId=?");
-        query.setString(0, categoryId);
+        query.setInteger(0, categoryId);
         List list = query.list();
         return list.size();
     }
 
-    public int findItem(String categoryId) {
+    public int findItem(int categoryId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Item where categoryId=?");
-        query.setString(0, categoryId);
+        query.setInteger(0, categoryId);
         return query.list().size();
     }
 
-    public Object getCategoryName(String categoryId) {
+    public Object getCategoryName(int categoryId) {
         Query query = sessionFactory.getCurrentSession().createQuery("select categoryName from Category where categoryId=?");
-        query.setString(0, categoryId);
+        query.setInteger(0, categoryId);
         return query.list().get(0);
     }
 
-    public int matchCategoryName(String categoryName, String fatherId) {
+    public int matchCategoryName(String categoryName, int fatherId) {
         String sql = "from Category where categoryName=? and fatherId=?";
-        if (fatherId == null) {
-            sql = "from Category where categoryName=? and fatherId IS NULL";
+        if (fatherId == 0) {
+            sql = "from Category where categoryName=? and fatherId='0'";
         }
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         query.setString(0, categoryName);
-        if (fatherId != null) {
-            query.setString(1, fatherId);
+        if (fatherId != 0) {
+            query.setInteger(1, fatherId);
         }
         return query.list().size();
     }
 
     public List getAllFatherCategory() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId IS NULL");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId='0'");
         return query.list();
     }
 
-    public List getChildCategory(String fatherCategoryId) {
+    public List getChildCategory(int fatherCategoryId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Category where fatherId=?");
-        query.setString(0, fatherCategoryId);
+        query.setInteger(0, fatherCategoryId);
         return query.list();
     }
     /**
@@ -80,16 +80,16 @@ public class CategoryDao {
      * delete current category
      * @param categoryId current category id
      */
-    public void deleteCategory(String categoryId) {
+    public void deleteCategory(int categoryId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete from Category where categoryId=?");
-        query.setString(0, categoryId);
+        query.setInteger(0, categoryId);
         query.executeUpdate();
     }
 
     public void modifyCategory(Category category) {
         Query query = sessionFactory.getCurrentSession().createQuery("update Category set categoryName=? where categoryId=?");
         query.setString(0, category.getCategoryName());
-        query.setString(1, category.getCategoryId());
+        query.setInteger(1, category.getCategoryId());
         query.executeUpdate();
     }
     

@@ -12,14 +12,13 @@ import java.util.Date;
 @Table(name = "T_ORDER")
 public class Order {
     @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private String orderId;
+    private int orderId;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private String userId;
+    private int userId;
 
     @ManyToOne(targetEntity = Address.class)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
@@ -42,19 +41,19 @@ public class Order {
     public Order() {
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

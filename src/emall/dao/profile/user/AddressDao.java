@@ -16,9 +16,9 @@ public class AddressDao {
     @Autowired
     SessionFactory sessionFactory;
 
-    public List getUserAddress(String userId) {
+    public List getUserAddress(int userId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Address where userId=?");
-        query.setString(0, userId);
+        query.setInteger(0, userId);
         return query.list();
     }
 
@@ -26,9 +26,9 @@ public class AddressDao {
         sessionFactory.getCurrentSession().saveOrUpdate(address);
     }
 
-    public void deleteAddress(String addressId) {
+    public void deleteAddress(int addressId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete Address where addressId=?");
-        query.setString(0, addressId);
+        query.setInteger(0, addressId);
         query.executeUpdate();
     }
 }

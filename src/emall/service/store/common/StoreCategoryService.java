@@ -18,7 +18,7 @@ public class StoreCategoryService {
         return categoryDao.getAllFatherCategory();
     }
 
-    public List getChildCategory(String fatherId) {
+    public List getChildCategory(int fatherId) {
         return categoryDao.getChildCategory(fatherId);
     }
 }

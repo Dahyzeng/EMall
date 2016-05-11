@@ -20,9 +20,9 @@ public class LeaveMessageDao {
         sessionFactory.getCurrentSession().save(leaveMessage);
     }
 
-    public void deleteMessage(String messageId) {
+    public void deleteMessage(int messageId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete LeaveMessage where id=?");
-        query.setString(0, messageId);
+        query.setInteger(0, messageId);
         query.executeUpdate();
     }
 
@@ -31,6 +31,12 @@ public class LeaveMessageDao {
         query.setInteger(0, status);
         query.setMaxResults(size);
         query.setFirstResult((page - 1) * size);
+        return query.list();
+    }
+
+    public List getDetailMessage(int id) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from LeaveMessage where id=?");
+        query.setInteger(0, id);
         return query.list();
     }
 }

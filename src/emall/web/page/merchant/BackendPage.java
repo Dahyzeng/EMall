@@ -36,7 +36,7 @@ public class BackendPage {
     public ModelAndView messageNavigate() {
         ModelAndView mav = commonFunction("/leave_message");
         if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
-            mav.addObject("activeTab", "home");
+            mav.addObject("activeTab", "leaveMessage");
         }
         return mav;
     }
@@ -99,6 +99,16 @@ public class BackendPage {
         }
         return mav;
     }
+
+    @RequestMapping("/log")
+    public ModelAndView merchantLog() {
+        ModelAndView mav = commonFunction("/merchant_log");
+        if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
+            mav.addObject("activeTab", "log");
+        }
+        return mav;
+    }
+
     public ModelAndView commonFunction(String url) {
         ModelAndView mav = new ModelAndView();
         Object merchantName = request.getSession().getAttribute("merchantName");

@@ -11,24 +11,44 @@ import javax.persistence.*;
 public class Address {
     @Id
     @Column(name = "address_id")
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name = "system-uuid",strategy="uuid")
-    private String addressId;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int addressId;
 
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "address_content")
-    private String addressContent;
+    @Column(name = "detail")
+    private String detail;
+
+    @Column(name = "consignee")
+    private String consignee;
+
+    @Column(name = "province")
+    private String province;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "telephone")
+    private String telephone;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "default_address")
+    private int defaultAddress;
 
     public Address() {
     }
 
-    public String getAddressId() {
+    public int getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
 
@@ -40,11 +60,67 @@ public class Address {
         this.userId = userId;
     }
 
-    public String getAddressContent() {
-        return addressContent;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setAddressContent(String addressContent) {
-        this.addressContent = addressContent;
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(int defaultAddress) {
+        this.defaultAddress = defaultAddress;
     }
 }

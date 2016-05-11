@@ -16,12 +16,16 @@ public class MessageService {
     private LeaveMessageDao leaveMessageDao;
 
     @Transactional(rollbackFor = Exception.class)
-    public void deleteMessage(String messageId) {
+    public void deleteMessage(int messageId) {
         leaveMessageDao.deleteMessage(messageId);
 
     }
 
     public List getMessage(int status, int page, int size) {
         return leaveMessageDao.getMessages(status, page, size);
+    }
+
+    public List getDetailMessage(int id) {
+        return leaveMessageDao.getDetailMessage(id);
     }
 }

@@ -10,9 +10,10 @@
 }
 .content_panel{
     list-style: none;
+    margin-left: 60px;
 }
 .panel_style{
-    width: 10%;
+    width: 15%;
     float: left;
     padding-right: 30px;
 }

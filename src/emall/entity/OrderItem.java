@@ -14,11 +14,11 @@ public class OrderItem {
     @Id
     @ManyToOne(targetEntity = Order.class)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
-    private String orderId;
+    private int orderId;
 
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "item_id")
-    private String itemId;
+    private int itemId;
 
     @Column(name = "quantity")
     private int quantity;
@@ -26,19 +26,19 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 

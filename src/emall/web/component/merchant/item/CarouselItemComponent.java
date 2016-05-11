@@ -69,14 +69,14 @@ public class CarouselItemComponent {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addCarousePic(String itemId, MultipartFile file, int sequence) {
+    public String addCarousePic(int itemId, MultipartFile file, int sequence) {
         Object merchantName = request.getSession().getAttribute("merchantName");
         if (merchantName == null) {
             return "redirect:/merchant/signIn";
         }
         try {
             String itemName = itemBaseService.getItemNameById(itemId);
-            String savePicURL = uploadFile.uploadPic(request, file, "carousel");
+            String savePicURL = uploadFile.uploadPic(request, file, -1);
             if (itemCarouselService.addCarousel(new CarouselItem(itemId, savePicURL, sequence), itemName) == 1) {
                 return "redirect:/merchant/product/carousel/" + itemId + "?success=true";
             } else {
@@ -90,7 +90,7 @@ public class CarouselItemComponent {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Map deleteCarouselPic(String itemId, String itemName) {
+    public Map deleteCarouselPic(int itemId, String itemName) {
         Map<String, Object> finalMap = new HashMap<String, Object>();
         Object merchantName = request.getSession().getAttribute("merchantName");
         if (merchantName == null) {

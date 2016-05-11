@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Product</title>
@@ -75,7 +76,9 @@
                             <label>Textarea:</label>
                             <textarea name="description" class="span8" rows="4">${requestScope.item.description}</textarea>
                         </div>
-                        <input type="hidden" name="itemId" value="${requestScope.item.itemId}">
+                        <c:if test="${requestScope.item.itemId ne null}">
+                            <input type="hidden" name="itemId" value="${requestScope.item.itemId}">
+                        </c:if>
                         <input type="submit" value="Save"/>
                     </form>
                 </div>
@@ -109,7 +112,7 @@
                 }
             })
         })();
-        self.beforeSubmit = function() {
+        self.beforeSubmit = function(p) {
             if ($('#categoryId').val()) {
                 return true;
             }

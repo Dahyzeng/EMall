@@ -13,25 +13,27 @@ import javax.persistence.*;
 public class ItemPic {
     @Id
     @Column(name = "item_id")
-    private String itemId;
+    private int itemId;
 
     @Id
     @Column(name = "pic_url")
     private String picURL;
 
-    public String getItemId() {
-        return itemId;
-    }
+
 
     public ItemPic() {
     }
 
-    public ItemPic(String itemId, String picURL) {
+    public ItemPic(int itemId, String picURL) {
         this.itemId = itemId;
         this.picURL = picURL;
     }
 
-    public void setItemId(String itemId) {
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -109,13 +110,13 @@ public class ItemBaseService {
         return Constants.SUCCESS_NUMBER;
     }
 
-    public List getDiscount(String itemId) {
+    public List getDiscount(int itemId) {
         return itemBaseDao.getDiscount(itemId);
     }
 
     public List getItemByCategory(Category category, int page, int status) {
         List itemList;
-        if (category.getFatherId() == null) {
+        if (category.getFatherId() == 0) {
             itemList = itemBaseDao.getItemsByCategoryId(category.getCategoryId(), page, status);
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
@@ -136,10 +137,10 @@ public class ItemBaseService {
         return itemList;
     }
 
-    public List getItemById(String itemId) {
+    public List getItemById(int itemId) {
         return itemBaseDao.getItemById(itemId);
     }
-    public String getItemNameById(String itemId) {
+    public String getItemNameById(int itemId) {
         return itemBaseDao.getItemNameById(itemId).toString();
     }
 
@@ -147,7 +148,8 @@ public class ItemBaseService {
         return request.getSession().getAttribute("merchantName").toString();
     }
     public MerchantLog getAdminLog() {
-        Timestamp date = new Timestamp(new Date().getTime());
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         MerchantLog log = new MerchantLog();
         log.setMerchantName(getSessionName());
         log.setDate(date);

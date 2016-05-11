@@ -28,13 +28,20 @@ public class LogDao {
     /**
      * function:
      * get merchant's logs by page
-     * @param merchantId start pageSize
+     * @param merchantName start pageSize
      * @return logList
      */
-    public List getMerchantLogByMerchantId(String merchantId, int start, int pageSize) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where merchantId=?");
-        query.setString(0, merchantId);
-        query.setFirstResult(start);
+    public List getLogByName(String merchantName, int page, int pageSize) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from MerchantLog where merchantName=? order by date DESC ");
+        query.setString(0, merchantName);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return query.list();
+    }
+
+    public List getAllLog(int page, int pageSize) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from MerchantLog order by date DESC");
+        query.setFirstResult((page - 1) * pageSize);
         query.setMaxResults(pageSize);
         return query.list();
     }

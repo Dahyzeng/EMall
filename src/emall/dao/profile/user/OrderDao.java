@@ -15,9 +15,9 @@ public class OrderDao {
     @Autowired
     SessionFactory sessionFactory;
 
-    public List getUserOrder(String userId) {
+    public List getUserOrder(int userId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Order where userId=?");
-        query.setString(0, userId);
+        query.setInteger(0, userId);
         return query.list();
     }
 }

@@ -59,7 +59,7 @@ public class ItemComponent {
             }
         }
         mav.addObject("operationSuccess", true);
-        if (!item.getItemId().equals("")) {
+        if (item.getItemId() != 0) {
             if (discount != 0) {
                 item.setDiscount(discount);
                 itemBaseService.updateItemDiscount(item);
@@ -69,7 +69,7 @@ public class ItemComponent {
                 mav.setViewName("redirect:/merchant/product");
             }
         } else {
-            item.setItemId(null);
+            item.setItemId(0);
             if (itemBaseService.addItem(item) == 1) {
                 mav.setViewName("redirect:/merchant/product");
             }
@@ -96,7 +96,7 @@ public class ItemComponent {
     }
 
     @RequestMapping("/edit/{itemId}")
-    public ModelAndView itemEdit(@PathVariable String itemId) {
+    public ModelAndView itemEdit(@PathVariable int itemId) {
         ModelAndView mav = checkStatus();
         if (!(Boolean)mav.getModelMap().get("success")) {
             mav.setViewName("redirect:/merchant/signIn");

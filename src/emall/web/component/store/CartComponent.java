@@ -35,12 +35,12 @@ public class CartComponent {
 
     @RequestMapping("/cart/add")
     @ResponseBody
-    public Map addToCart(String itemId, int quantity) {
+    public Map addToCart(int itemId, int quantity) {
         Map<String, Object> map = checkUsername();
         if (!(Boolean) map.get("success")) {
             return map;
         }
-        String userId = (String) request.getSession().getAttribute("userId");
+        int userId = (Integer) request.getSession().getAttribute("userId");
         if (cartService.addToCart(new Cart(userId, itemId, quantity)) != 1) {
             map.put("success", false);
             map.put("errorMessage", ErrorMessageConstant.SYSTEM_ERROR);
@@ -59,7 +59,7 @@ public class CartComponent {
         }
         float totalPrice = 0;
         List<Map> itemList = new ArrayList<Map>();
-        String userId = (String) request.getSession().getAttribute("userId");
+        int userId = (Integer) request.getSession().getAttribute("userId");
         List list = cartService.getAllItemFromCart(userId);
         if (list.size()  != 0) {
             for (Object tmp : list) {
@@ -90,7 +90,7 @@ public class CartComponent {
             map.put("errorMessage", "please login first");
             return map;
         }
-        String userId = (String) request.getSession().getAttribute("userId");
+        int userId = (Integer) request.getSession().getAttribute("userId");
         cart.setUserId(userId);
         if (cart.getQuantity() <= 0) {
             cartService.deleteItemFromCart(cart.getUserId(), cart.getItemId());
@@ -108,7 +108,7 @@ public class CartComponent {
 
     @RequestMapping("/cart/delete")
     @ResponseBody
-    public Map deleteCartItem(String itemId) {
+    public Map deleteCartItem(int itemId) {
         Map<String, Object> map = new HashMap<String, Object>();
         Object username = request.getSession().getAttribute("username");
         map.put("success", true);
@@ -117,7 +117,7 @@ public class CartComponent {
             map.put("errorMessage", "please login first");
             return map;
         }
-        String userId = (String) request.getSession().getAttribute("userId");
+        int userId = (Integer) request.getSession().getAttribute("userId");
         if (cartService.deleteItemFromCart(userId, itemId) != 1) {
             map.put("success", false);
             map.put("errorMessage", ErrorMessageConstant.SYSTEM_ERROR);

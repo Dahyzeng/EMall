@@ -28,7 +28,7 @@ public class OrderComponent {
         if (!(Boolean)infoMap.get("success")) {
             return infoMap;
         }
-        List orderArray = orderService.getUserOrder(infoMap.get("userId").toString());
+        List orderArray = orderService.getUserOrder(Integer.parseInt(infoMap.get("userId").toString()));
         infoMap.put("orderArray", orderArray);
         return infoMap;
     }

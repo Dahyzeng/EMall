@@ -2,6 +2,7 @@ package emall.service.user.message;
 
 import emall.dao.message.LeaveMessageDao;
 import emall.entity.LeaveMessage;
+import emall.util.string.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,8 @@ public class LeaveMessageService {
     private LeaveMessageDao leaveMessageDao;
 
     @Transactional(rollbackFor = Exception.class)
-    public void addMessage(LeaveMessage leaveMessage) {
+    public int addMessage(LeaveMessage leaveMessage) {
         leaveMessageDao.addLeaveMessage(leaveMessage);
+        return Constants.SUCCESS_NUMBER;
     }
 }

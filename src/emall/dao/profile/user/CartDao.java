@@ -23,27 +23,27 @@ public class CartDao {
     public void updateQuantity(Cart cart) {
         Query query = sessionFactory.getCurrentSession().createQuery("update Cart set quantity=? where userId=? and itemId=?");
         query.setInteger(0, cart.getQuantity());
-        query.setString(1, cart.getUserId());
-        query.setString(2, cart.getItemId());
+        query.setInteger(1, cart.getUserId());
+        query.setInteger(2, cart.getItemId());
         query.executeUpdate();
     }
 
     public List matchItemInCart(Cart cart) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Cart where userId=? and itemId=?");
-        query.setString(0, cart.getUserId());
-        query.setString(1, cart.getItemId());
+        query.setInteger(0, cart.getUserId());
+        query.setInteger(1, cart.getItemId());
         return query.list();
     }
 
-    public List getAllItemInCart(String userId) {
+    public List getAllItemInCart(int userId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Cart where userId=?");
-        query.setString(0, userId);
+        query.setInteger(0, userId);
         return query.list();
     }
 
-    public void deleteItemFromCart(String itemId, String userId) {
-        Query query = sessionFactory.getCurrentSession().createQuery("delete Cart where userId=? and itemId in (" + itemId + ")" );
-        query.setString(0, userId);
+    public void deleteItemFromCart(String itemIds, int userId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("delete Cart where userId=? and itemId in (" + itemIds + ")" );
+        query.setInteger(0, userId);
         query.executeUpdate();
     }
 }

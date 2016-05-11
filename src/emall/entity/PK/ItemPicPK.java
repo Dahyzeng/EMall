@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by taurin on 2016/3/28.
  */
 public class ItemPicPK implements Serializable{
-    private String itemId;
+    private Integer itemId;
     private String picURL;
 
     public ItemPicPK() {
@@ -18,7 +18,7 @@ public class ItemPicPK implements Serializable{
         if(obj == null) return false;
         if(!(obj instanceof OrderItemPK)) return false;
         ItemPicPK objKey = (ItemPicPK)obj;
-        return itemId.equalsIgnoreCase(objKey.itemId) && picURL.equalsIgnoreCase(objKey.picURL);
+        return itemId.equals(objKey.itemId) && picURL.equalsIgnoreCase(objKey.picURL);
     }
 
     @Override
@@ -30,11 +30,11 @@ public class ItemPicPK implements Serializable{
         return result;
     }
 
-    public String getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 

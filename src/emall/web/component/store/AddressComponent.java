@@ -43,14 +43,14 @@ public class AddressComponent {
         if (!(Boolean)infoMap.get("success")) {
             return infoMap;
         }
-        List addressArray = addressService.getUserAddress(infoMap.get("userId").toString());
+        List addressArray = addressService.getUserAddress(Integer.parseInt(infoMap.get("userId").toString()));
         infoMap.put("addressArray", addressArray);
         return infoMap;
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Map deleteAddress(String addressId) {
+    public Map deleteAddress(int addressId) {
         Map<String, Object> infoMap = checkUserStatus();
         if (!(Boolean)infoMap.get("success")) {
             return infoMap;
