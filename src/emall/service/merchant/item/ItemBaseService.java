@@ -117,7 +117,11 @@ public class ItemBaseService {
     public List getItemByCategory(Category category, int page, int status) {
         List itemList;
         if (category.getFatherId() == 0) {
-            itemList = itemBaseDao.getItemsByCategoryId(category.getCategoryId(), page, status);
+            if (category.getCategoryId() == 0) {
+                itemList = itemBaseDao.getItemsByCategoryId(null, page, status);
+            } else {
+                itemList = itemBaseDao.getItemsByCategoryId(category.getCategoryId(), page, status);
+            }
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
             if (childCategory.size() != 0) {

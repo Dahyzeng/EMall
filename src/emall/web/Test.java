@@ -2,6 +2,7 @@ package emall.web;
 
 import emall.entity.Category;
 import emall.entity.Merchant;
+import emall.util.EmailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,5 +32,11 @@ public class Test {
     @RequestMapping("/string_to_object")
     public void stringToObject(Category category) {
         System.out.print("get in  "+category.toString());
+    }
+
+    @RequestMapping("/mailSend")
+
+    public void emailSend() {
+        new EmailSender().sendEmail("734711226@qq.com", "test email sender", "if u see this mail, it means success");
     }
 }

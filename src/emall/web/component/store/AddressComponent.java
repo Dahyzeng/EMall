@@ -32,7 +32,9 @@ public class AddressComponent {
             return infoMap;
         }
         address.setUserId(infoMap.get("userId").toString());
-        addressService.addOrUpdateAddress(address);
+        if (addressService.addOrUpdateAddress(address) != 1) {
+            infoMap.put("success", false);
+        }
         return infoMap;
     }
 

@@ -30,7 +30,7 @@
                 </tr>
                 <tbody data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
                 <tr>
-                    <td><input type="checkbox" name="selectItem" data-bind="checked: selectItems, value: itemMap.item"></td>
+                    <td><input type="checkbox" name="selectItem" data-bind="checked: selectItems, value: itemMap"></td>
                     <td class="images">
                         <a data-bind="attr: {href: '/pdf/' + itemMap.item.itemId}">
                             <img data-bind="attr: {src: itemMap.item.showPicURL}" alt="Product 6">
@@ -107,13 +107,17 @@
         self.selectItems.subscribe (function () {
             var totalPrice = 0;
             for (var i = 0; i < self.selectItems().length; i ++) {
-                totalPrice = self.selectItems()[i].price - self.selectItems()[i].discount + totalPrice;
+                totalPrice = (self.selectItems()[i].item.price - self.selectItems()[i].item.discount) * self.selectItems()[i].quantity + totalPrice;
             }
             self.total(totalPrice);
         });
 
         self.placeOrder = function () {
-            alert(self.selectItems());
+            $.post("/order/items", {items: JSON.stringify(self.selectItems())}, function (json) {
+                if (json['success']) {
+                    window.location.href = "/checkout";
+                }
+            })
         };
 
         self.deleteItem = function (p) {

@@ -46,4 +46,11 @@ public class CartDao {
         query.setInteger(0, userId);
         query.executeUpdate();
     }
+
+    public void orderDeleteItem(int itemId, int userId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("delete Cart where userId=? and itemId=?");
+        query.setInteger(0, userId);
+        query.setInteger(1, itemId);
+        query.executeUpdate();
+    }
 }

@@ -34,7 +34,7 @@
                     <ul class="nav nav-pills nav-stacked" id="account_menu">
                         <li class="active"><a href="#">Personal Info</a></li>
                         <li><a href="/account/address">Address</a></li>
-                        <li><a href="#">Order</a></li>
+                        <li><a href="/account/order">Order</a></li>
                     </ul>
                     <div class="info_content">
                         <div class="p_inside">

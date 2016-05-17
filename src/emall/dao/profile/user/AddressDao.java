@@ -26,6 +26,11 @@ public class AddressDao {
         sessionFactory.getCurrentSession().saveOrUpdate(address);
     }
 
+    public List getAddressByAddressId(int addressId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Address where addressId=?");
+        query.setInteger(0, addressId);
+        return query.list();
+    }
     public void deleteAddress(int addressId) {
         Query query = sessionFactory.getCurrentSession().createQuery("delete Address where addressId=?");
         query.setInteger(0, addressId);

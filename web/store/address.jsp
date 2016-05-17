@@ -33,7 +33,7 @@
                 <ul class="nav nav-pills nav-stacked" id="account_menu">
                     <li><a href="/account">Personal Info</a></li>
                     <li class="active"><a href="/account/address">Address</a></li>
-                    <li><a href="#">Order</a></li>
+                    <li><a href="/account/order">Order</a></li>
                 </ul>
                 <div class="info_content">
                     <div style="padding: 10px 20px 20px">
@@ -53,7 +53,7 @@
                                         <span class="default_address">Default Address</span>
                                     </h3>
                                     <div class="del">
-                                        <a class="delete_button" href="#"></a>
+                                        <a class="delete_button" href="#" data-bind="click: $root.deleteAddress"></a>
                                     </div>
                                 </div>
                                 <div class="detail">
@@ -97,7 +97,7 @@
                                         </div>
 
                                         <div class="address_info_footer">
-                                                <a class="edit" href="#" data-bind="click: $root.showAddressModal">Edit</a>
+                                                <a class="edit" href="#" data-bind="click: $root.editAddressModal">Edit</a>
                                         </div>
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@
             </div>
             <div class="a_label">
                 <p><span style="color: red;">*</span>Email：</p>
-                <input type="text" data-bind="value: currentAddress().Email"/>
+                <input type="text" data-bind="value: currentAddress().email"/>
             </div>
             <div style="margin: 10px 0 0;">
                 <input class="a_save" type="submit" data-bind="click: saveAddress" value="Save">
@@ -177,9 +177,17 @@
         var self = this;
         self.addressArray = ko.observableArray();
         self.currentAddress = ko.observable({});
+        self.operationType = ko.observable();
 
-        self.showAddressModal = function (p) {
+        self.showAddressModal = function () {
             openModal();
+            self.operationType('add');
+        };
+        self.editAddressModal = function (p) {
+            openModal();
+            self.currentAddress(p);
+            addressInit('cmbProvince', 'cmbCity', 'cmbArea', p.province, p.city, p.district);
+            self.operationType('edit');
         };
         self.modalClose = function () {
             closeModal();
@@ -191,7 +199,27 @@
             self.currentAddress().district = ($('#cmbArea').val());
             $.post("/address/edit", self.currentAddress(), function (json) {
                 if (json['success']) {
-                    alert("success")
+                    alert("success");
+                    if (self.operationType() == 'add') {
+                        self.addressArray.push(self.currentAddress());
+                    } else {
+                        $.get("/address/getAll", function (json) {
+                            if (json['success']) {
+                                self.addressArray(json['addressArray']);
+                            }
+                        });
+                    }
+                    self.currentAddress({});
+                    closeModal();
+                }
+            })
+        };
+
+        self.deleteAddress = function (p) {
+            $.get("/address/delete?addressId=" + p.addressId, function (json) {
+                if (json['success']) {
+                    alert("delete successful");
+                    self.addressArray.remove(p);
                 }
             })
         };

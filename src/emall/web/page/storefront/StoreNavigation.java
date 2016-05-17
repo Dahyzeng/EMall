@@ -37,6 +37,18 @@ public class StoreNavigation {
         return "/store/contact_us";
     }
 
+    @RequestMapping("/thanks")
+    public ModelAndView thanksPage(String orderId) {
+        ModelAndView mav = new ModelAndView();
+        if (orderId == null) {
+            mav.setViewName("redirect:/home");
+            return mav;
+        }
+        mav.addObject("orderId", orderId);
+        mav.setViewName("/store/order_thanks");
+        return mav;
+    }
+
     @RequestMapping("/search/{pageType}")
     public ModelAndView searchPage(@PathVariable String pageType,Category category) {
         ModelAndView mav = new ModelAndView();

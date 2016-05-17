@@ -1,5 +1,6 @@
 package emall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import emall.util.string.JsonDateFormat.DetailDateFormat;
 import emall.util.string.JsonDateFormat.NormalDateFormat;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -27,9 +29,8 @@ public class UserLog {
     @Column(name = "operation")
     private String operation;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "operation_date")
-    private Date operationDate;
+    private Timestamp operationDate;
 
     public UserLog() {
     }
@@ -58,12 +59,14 @@ public class UserLog {
         this.operation = operation;
     }
 
-    @JsonSerialize(using = DetailDateFormat.class)
-    public Date getOperationDate() {
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+
+    public Timestamp getOperationDate() {
         return operationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(Timestamp operationDate) {
         this.operationDate = operationDate;
     }
 }

@@ -15,7 +15,7 @@
                         Welcome visitor you can <a href="/login">login</a> or <a href="/register">create an account</a>.
                     </c:if>
                     <c:if test="${sessionScope.username ne null}">
-                        Welcome, <a href="/account">${sessionScope.username}</a>&nbsp;&nbsp;<a href="">(Not me? Click here)</a>
+                        Welcome, <a href="/account">${sessionScope.username}</a>&nbsp;&nbsp;<a href="#" data-bind="click: logout">(Not me? Click here)</a>
                     </c:if>
                 </div>
             </div>
@@ -139,6 +139,9 @@
                     self.message(resultJson['errorMessage']);
                 }
             });
+        };
+        self.logout = function () {
+            $.get("/profile/logout")
         };
         (function () {
             $.get("/store/get_categories", function (categoryJson) {

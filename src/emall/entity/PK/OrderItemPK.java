@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class OrderItemPK implements Serializable{
     private String orderId;
-    private String itemId;
+    private Integer itemId;
 
     public OrderItemPK() {
     }
@@ -18,7 +18,7 @@ public class OrderItemPK implements Serializable{
         if(obj == null) return false;
         if(!(obj instanceof OrderItemPK)) return false;
         OrderItemPK objKey = (OrderItemPK)obj;
-        return orderId.equalsIgnoreCase(objKey.orderId) && itemId.equalsIgnoreCase(objKey.itemId) && itemId.equalsIgnoreCase(objKey.itemId);
+        return orderId.equalsIgnoreCase(objKey.orderId) && itemId.equals(objKey.itemId);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class OrderItemPK implements Serializable{
         this.orderId = orderId;
     }
 
-    public String getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 }

@@ -6,13 +6,13 @@ import java.io.Serializable;
  * Created by taurinzeng on 2016/3/28.
  */
 public class CartPK implements Serializable{
-    private String userId;
-    private String itemId;
+    private Integer userId;
+    private Integer itemId;
 
     public CartPK() {
     }
 
-    public CartPK(String userId, String itemId) {
+    public CartPK(int userId, int itemId) {
         this.userId = userId;
         this.itemId = itemId;
     }
@@ -23,7 +23,7 @@ public class CartPK implements Serializable{
         if(obj == null) return false;
         if(!(obj instanceof CartPK)) return false;
         CartPK objKey = (CartPK)obj;
-        return userId.equalsIgnoreCase(objKey.userId) && itemId.equalsIgnoreCase(objKey.itemId);
+        return userId.equals(objKey.userId) && itemId.equals(objKey.itemId);
     }
 
     @Override
@@ -35,19 +35,19 @@ public class CartPK implements Serializable{
         return result;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getItemId() {
+    public Integer getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 }

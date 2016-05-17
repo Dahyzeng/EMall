@@ -2,12 +2,14 @@ package emall.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import emall.util.string.JsonDateFormat.NormalDateFormat;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -90,7 +92,8 @@ public class User {
         this.email = email;
     }
 
-    @JsonSerialize(using = NormalDateFormat.class)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getBirthday() {
         return birthday;
     }

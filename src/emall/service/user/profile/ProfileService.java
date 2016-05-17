@@ -111,7 +111,7 @@ public class ProfileService {
         SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         UserLog log = new UserLog();
-        log.setUsername(user.getUsername());
+        log.setUsername(user.getEmail());
         log.setOperationDate(date);
         return log;
     }

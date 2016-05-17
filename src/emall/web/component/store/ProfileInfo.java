@@ -91,6 +91,17 @@ public class ProfileInfo {
         }
     }
 
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Map profileLogout() {
+        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        request.getSession().removeAttribute("username");
+        request.getSession().removeAttribute("userId");
+        request.getSession().removeAttribute("email");
+        map.put("success", false);
+        return map;
+    }
+
     @RequestMapping("/account")
     @ResponseBody
     public Map getProfileInfo() {

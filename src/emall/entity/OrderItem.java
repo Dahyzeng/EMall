@@ -12,25 +12,34 @@ import javax.persistence.*;
 @IdClass(OrderItemPK.class)
 public class OrderItem {
     @Id
-    @ManyToOne(targetEntity = Order.class)
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
-    private int orderId;
+    @Column(name = "order_id")
+    private String orderId;
 
-    @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", referencedColumnName = "item_id")
+    @Id
+    @Column(name = "item_id")
     private int itemId;
 
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "unit_cost")
+    private float unitCost;
+
     public OrderItem() {
     }
 
-    public int getOrderId() {
+    public OrderItem(String orderId, int itemId, int quantity, float unitCost) {
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.quantity = quantity;
+        this.unitCost = unitCost;
+    }
+
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -48,5 +57,13 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public float getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(float unitCost) {
+        this.unitCost = unitCost;
     }
 }

@@ -47,6 +47,15 @@ public class Profile {
             return "/store/address";
     }
 
+    @RequestMapping("/account/order")
+    public String orderPage() {
+        Object username = request.getSession().getAttribute("username");
+        if (username == null) {
+            return "/store/login";
+        } else
+            return "/store/order";
+    }
+
     @RequestMapping("/checkout")
     public String checkoutPage() {
         Object username = request.getSession().getAttribute("username");
@@ -59,6 +68,18 @@ public class Profile {
             } else {
                 return "/store/checkout";
             }
+        }
+    }
+
+    @RequestMapping("/checkout/confirm")
+    public String confirmPage() {
+        Object step = request.getSession().getAttribute("checkoutStep");
+        if (step == null) {
+            return "redirect:/cart";
+        } else if ((Integer)step == 1){
+            return "/store/checkout";
+        } else {
+            return "/store/checkout_confirm";
         }
     }
 }

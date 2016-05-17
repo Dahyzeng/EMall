@@ -1,8 +1,11 @@
 package emall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -12,28 +15,28 @@ import java.util.Date;
 @Table(name = "T_ORDER")
 public class Order {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(generator = "ud")
+    @GenericGenerator(name = "ud", strategy = "assigned")
     @Column(name = "order_id")
-    private int orderId;
+    private String orderId;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @Column(name = "user_id")
     private int userId;
 
-    @ManyToOne(targetEntity = Address.class)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
-    private String addressId;
+    @Column(name = "address_id")
+    private int addressId;
 
     @Column(name = "status")
     private int status;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_time")
-    private Date createTime;
+    @Column(name = "pay_method")
+    private String payMethod;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Timestamp createTime;
+
     @Column(name = "last_modified_time")
-    private Date lastModifiedTime;
+    private Timestamp lastModifiedTime;
 
     @Column(name = "total_price")
     private float totalPrice;
@@ -41,11 +44,19 @@ public class Order {
     public Order() {
     }
 
-    public int getOrderId() {
+    public Order(int userId, int addressId, String payMethod, float totalPrice, String orderId) {
+        this.userId = userId;
+        this.addressId = addressId;
+        this.payMethod = payMethod;
+        this.totalPrice = totalPrice;
+        this.orderId = orderId;
+    }
+
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -57,11 +68,11 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getAddressId() {
+    public int getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(String addressId) {
+    public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
 
@@ -73,24 +84,34 @@ public class Order {
         this.status = status;
     }
 
-    public Date getCreateTime() {
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Date getLastModifiedTime() {
+    public Timestamp getLastModifiedTime() {
         return lastModifiedTime;
     }
 
-    public void setLastModifiedTime(Date lastModifiedTime) {
+    public void setLastModifiedTime(Timestamp lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
 
     public float getTotalPrice() {
         return totalPrice;
+    }
+
+    public String getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(String payMethod) {
+        this.payMethod = payMethod;
     }
 
     public void setTotalPrice(float totalPrice) {

@@ -1,7 +1,9 @@
 package emall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import emall.util.string.JsonDateFormat.DetailDateFormat;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -60,7 +62,8 @@ public class MerchantLog {
         this.logId = logId;
     }
 
-    @JsonSerialize(using = DetailDateFormat.class)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Timestamp getDate() {
         return date;
     }
