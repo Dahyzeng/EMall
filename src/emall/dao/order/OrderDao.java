@@ -1,4 +1,4 @@
-package emall.dao.profile.user;
+package emall.dao.order;
 
 import emall.entity.Order;
 import emall.entity.OrderItem;
@@ -18,8 +18,39 @@ public class OrderDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    public List getOrderByStatus (int status, int page, int pageSize) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where status=? order by createTime desc");
+        query.setInteger(0, status);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return query.list();
+    }
+
+    public int getFinishedOrderCount() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where status=3");
+        return query.list().size();
+    }
+
+    public int getStatusOrderCount(int status) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where status=?");
+        query.setInteger(0, status);
+        return query.list().size();
+    }
+
+    public int getAllOrderCount() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order");
+        return query.list().size();
+    }
+
+    public List getAllOrder(int page, int pageSize) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order order by createTime desc");
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return query.list();
+    }
+
     public List getUserOrder(int userId) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Order where userId=?");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where userId=? and status != 5");
         query.setInteger(0, userId);
         return query.list();
     }

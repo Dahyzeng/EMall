@@ -1,11 +1,10 @@
 package emall.service.user.order;
 
 import emall.dao.profile.user.CartDao;
-import emall.dao.profile.user.OrderDao;
+import emall.dao.order.OrderDao;
 import emall.dao.profile.user.UserLogDao;
 import emall.entity.Order;
 import emall.entity.OrderItem;
-import emall.entity.User;
 import emall.entity.UserLog;
 import emall.util.string.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

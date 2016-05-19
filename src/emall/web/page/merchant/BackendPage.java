@@ -109,6 +109,15 @@ public class BackendPage {
         return mav;
     }
 
+    @RequestMapping("/order")
+    public ModelAndView merchantOrder() {
+        ModelAndView mav = commonFunction("/order");
+        if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
+            mav.addObject("activeTab", "order");
+        }
+        return mav;
+    }
+
     public ModelAndView commonFunction(String url) {
         ModelAndView mav = new ModelAndView();
         Object merchantName = request.getSession().getAttribute("merchantName");

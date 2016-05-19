@@ -9,4 +9,6 @@ public class PageSizeConstant {
     public static final int LOG_PAGE_SIZE = 10;
     public static final int GRID_PAGE_SIZE = 12;
     public static final int LIST_PAGE_SIZE = 6;
+
+    public static final int BACKEND_ORDER_PAGE_SIZE = 1;
 }

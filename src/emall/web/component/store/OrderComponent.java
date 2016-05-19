@@ -87,7 +87,7 @@ public class OrderComponent {
         if (!(Boolean)infoMap.get("success")) {
             return infoMap;
         }
-        if (orderService.deleteOrder(orderId) != 1) {
+        if (orderService.updateOrderStatus(orderId, 5) != 1) {
             infoMap.put("success", false);
         }
         return infoMap;

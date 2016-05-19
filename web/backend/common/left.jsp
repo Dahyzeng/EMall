@@ -61,8 +61,12 @@
                 <span>Leave Message</span>
             </a>
         </li>
-        <li>
-            <a href="order.html">
+        <li <c:if test="${requestScope.activeTab eq 'order'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
+            <a href="/merchant/order">
                 <i class="icon-truck"></i>
                 <span>Order</span>
             </a>

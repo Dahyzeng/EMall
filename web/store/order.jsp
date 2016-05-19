@@ -54,7 +54,7 @@
                                         <table style="margin: 0">
                                             <tr>
                                                 <td colspan="2">Total Price: <span>$499</span></td>
-                                                <!-- ko if: order.status == "Not Confirm" -->
+                                                <!-- ko if: order.status == "Unconfirmed" -->
                                                 <td colspan="1">Status: <span data-bind="text: order.status"></span></td>
                                                 <td><span><button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)">Cancel</button></span></td>
                                                 <!-- /ko -->

@@ -11,10 +11,11 @@ public class MapConstant {
         {
             put(-2, "Non-payment");
             put(-1, "Canceled");
-            put(0, "Not Confirm");
+            put(0, "Unconfirmed");
             put(1, "Confirmed");
             put(2, "Delivered ");
             put(3, "Finished");
+            put(5, "Deleted");
         }
     };
 }
