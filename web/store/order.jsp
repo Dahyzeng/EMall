@@ -53,21 +53,24 @@
                                     <div class="detail">
                                         <table style="margin: 0">
                                             <tr>
-                                                <td colspan="2">Total Price: <span>$499</span></td>
+                                                <td colspan="1">Total Price: <span>$499</span></td>
                                                 <!-- ko if: order.status == "Unconfirmed" -->
-                                                <td colspan="1">Status: <span data-bind="text: order.status"></span></td>
+                                                <td colspan="2">Status: <span data-bind="text: order.status"></span></td>
                                                 <td><span><button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)">Cancel</button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Non-payment" -->
-                                                <td colspan="1">Status: <span data-bind="text: order.status"></span></td>
+                                                <td colspan="2">Status: <span data-bind="text: order.status"></span></td>
                                                 <td><span><button style="width: 65px; height: 28px; margin-left: 60px">Pay</button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Delivered" -->
                                                 <td colspan="1">Status: <span data-bind="text: order.status"></span></td>
-                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px">Pay</button></span></td>
+                                                <td colspan="2">
+                                                    <span style="float: left; margin-right: 20px"><button style="width: 65px; height: 28px; margin-left: 60px">Check</button></span>
+                                                    <span><button style="width: 100px; height: 28px; margin-left: 60px">Confirm Receipt</button></span>
+                                                </td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Canceled" || order.status == "Confirmed" || order.status == "Finished" -->
-                                                <td colspan="2">Status: <span data-bind="text: order.status"></span></td>
+                                                <td colspan="3">Status: <span data-bind="text: order.status"></span></td>
                                                 <!-- /ko -->
 
                                             </tr>

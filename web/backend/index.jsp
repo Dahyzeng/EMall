@@ -26,20 +26,175 @@
     <script src="<%request.getContextPath();%>/backend/js/bootstrap.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/jquery-ui-1.10.2.custom.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/theme.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="<%request.getContextPath();%>/backend/js/knockoutjs.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/chart.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/morris.min.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/jquery.flot.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/jquery.flot.resize.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/jquery.flot.stack.js"></script>
 </head>
 <body>
 <jsp:include page="common/header.jsp"/>
 <jsp:include page="common/left.jsp"/>
 <div class="content">
-
-    <div class="contentHeader">
-        <h1 class="page-title">Help</h1>
+    <div id="main-stats">
+        <div class="row-fluid stats-row">
+            <div class="span3 stat">
+                <div class="data">
+                    <span class="number" data-bind="text: statistic().users"></span>
+                    Users
+                </div>
+            </div>
+            <div class="span3 stat">
+                <div class="data">
+                    <span class="number" data-bind="text: statistic().totalFinishedOrder"></span>
+                    finished order
+                </div>
+            </div>
+            <div class="span3 stat">
+                <div class="data">
+                    <span class="number" data-bind="text: statistic().items"></span>
+                    total items
+                </div>
+            </div>
+            <div class="span3 stat last">
+                <div class="data">
+                    <span class="number" data-bind="text: '$' + statistic().sales"></span>
+                    sales
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="breadcrumb">
-        <li><a href="index.html">Home</a></li>
-    </ul>
+
+    <div class="row-fluid section">
+        <h4 class="title">
+            jQuery Flot <small>Monthly growth</small>
+            <div class="btn-group pull-right">
+                <button class="glow left">DAY</button>
+                <button class="glow middle active">MONTH</button>
+                <button class="glow right">YEAR</button>
+            </div>
+        </h4>
+        <div class="span12">
+            <div id="statsChart"></div>
+        </div>
+    </div>
+
 </div>
 
 </body>
+<script>
+//    var visits = [[1, 5], [2, 4], [3, 4], [4, 2],[5, 5],[6, 6],[7, 6],[8, 7],[9, 6],[10, 7],[11, 5],[12, 5]];
+
+
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y - 30,
+            left: x - 50,
+            color: "#fff",
+            padding: '2px 5px',
+            'border-radius': '6px',
+            'background-color': '#000',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previousPoint = null;
+    $("#statsChart").bind("plothover", function (event, pos, item) {
+        if (item) {
+            if (previousPoint != item.dataIndex) {
+                previousPoint = item.dataIndex;
+
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1].toFixed(0);
+
+                var month = item.series.xaxis.ticks[item.dataIndex].label;
+
+                showTooltip(item.pageX, item.pageY,
+                        item.series.label + " of " + month + ": " + y);
+            }
+        }
+        else {
+            $("#tooltip").remove();
+            previousPoint = null;
+        }
+    });
+</script>
+<script>
+    function initData(orderCount) {
+        var saleCount = [];
+        var ticks = [];
+        for (var i = 1; i <= orderCount.length; i++) {
+            var unit = [];
+            var tick = [];
+            unit.push(i);
+            tick.push(i);
+            for (var key in orderCount[i - 1]) {
+                unit.push(orderCount[i - 1][key]);
+                tick.push(key);
+            }
+            saleCount.push(unit);
+            ticks.push(tick);
+        }
+        var plot = $.plot($("#statsChart"),
+                [ { data: saleCount, label: "Week"}], {
+                    series: {
+                        lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                        },
+                        points: { show: true,
+                            lineWidth: 2,
+                            radius: 3
+                        },
+                        shadowSize: 0,
+                        stack: true
+                    },
+                    grid: { hoverable: true,
+                        clickable: true,
+                        tickColor: "#f9f9f9",
+                        borderWidth: 0
+                    },
+                    legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                    colors: ["#30a0eb"],
+                    xaxis: {
+                        ticks: ticks,
+                        font: {
+                            size: 12,
+                            family: "Open Sans, Arial",
+                            variant: "small-caps",
+                            color: "#9da3a9"
+                        }
+                    },
+                    yaxis: {
+                        ticks:3,
+                        tickDecimals: 0,
+                        font: {size:12, color: "#9da3a9"}
+                    }
+                });
+    }
+    function homePage() {
+        var self = this;
+        self.statistic = ko.observable({});
+        self.orderCount = ko.observableArray();
+        (function () {
+            $.get("/statistic/total", function (json) {
+                if (json['success']) {
+                    self.statistic(json['statistic']);
+                    self.orderCount(json['orderCount'])
+                    initData(self.orderCount());
+                }
+            });
+        })();
+    }
+    ko.applyBindings(new homePage());
+</script>
 </html>

@@ -3,6 +3,7 @@ package emall.service.merchant.item;
 import emall.dao.category.CategoryDao;
 import emall.dao.item.ItemBaseDao;
 import emall.dao.profile.merchant.LogDao;
+import emall.dao.statistic.StatisticDao;
 import emall.entity.Category;
 import emall.entity.Item;
 import emall.entity.MerchantLog;
@@ -37,9 +38,13 @@ public class ItemBaseService {
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private StatisticDao statisticDao;
+
     @Transactional(rollbackFor = Exception.class)
     public int addItem(Item item) {
         itemBaseDao.addItem(item);
+        statisticDao.updateItemCount();
         MerchantLog merchantLog = getAdminLog();
         StringBuilder operation = new StringBuilder();
         operation.append(MerchantConstants.ADD_ITEM_LOG);

@@ -3,8 +3,6 @@
 <head>
     <title>Detail Admin - Sign in</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     <!-- bootstrap -->
     <link href="<%request.getContextPath();%>/backend/css/bootstrap/bootstrap.css" rel="stylesheet"/>
     <link href="<%request.getContextPath();%>/backend/css/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
@@ -24,7 +22,6 @@
     <script src="<%request.getContextPath();%>/backend/js/bootstrap.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/theme.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/knockoutjs.js"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 <body>
 <div class="row-fluid login-wrapper">

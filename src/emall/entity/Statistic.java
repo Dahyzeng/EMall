@@ -13,7 +13,7 @@ public class Statistic {
     @Id
     @GeneratedValue(generator = "ud")
     @GenericGenerator(name = "ud", strategy = "assigned")
-    @Column(name = "order_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "total_finished_order")

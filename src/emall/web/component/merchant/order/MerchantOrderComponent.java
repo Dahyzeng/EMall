@@ -1,9 +1,6 @@
 package emall.web.component.merchant.order;
 
-import emall.entity.Address;
-import emall.entity.Item;
-import emall.entity.Order;
-import emall.entity.OrderItem;
+import emall.entity.*;
 import emall.service.merchant.item.ItemBaseService;
 import emall.service.merchant.order.MerchantOrderService;
 import emall.service.user.address.AddressService;
@@ -87,6 +84,39 @@ public class MerchantOrderComponent {
         map.put("orderArray", orderList);
         map.put("count", count);
         map.put("pageSize", PageSizeConstant.BACKEND_ORDER_PAGE_SIZE);
+        return map;
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Map updateOrderStatus(String orderId, int status) {
+        Map<String, Object> map = checkStatus();
+        if (!(Boolean) map.get("success")) {
+            return map;
+        }
+        merchantOrderService.updateOrderStatus(orderId, status, null);
+        return map;
+    }
+    @RequestMapping("/ship")
+    @ResponseBody
+    public Map orderShip(String orderId, String expressName, String expressNumber) {
+        Map<String, Object> map = checkStatus();
+        if (!(Boolean) map.get("success")) {
+            return map;
+        }
+        ExpressInfo expressInfo = new ExpressInfo(orderId, expressName, expressNumber);
+        merchantOrderService.updateOrderStatus(orderId, 2, expressInfo);
+        return map;
+    }
+
+    @RequestMapping("/express")
+    @ResponseBody
+    public Map getExpressInfo(String orderId) {
+        Map<String, Object> map = checkStatus();
+        if (!(Boolean) map.get("success")) {
+            return map;
+        }
+        map.put("expressInfo", merchantOrderService.getExpressInfo(orderId));
         return map;
     }
 

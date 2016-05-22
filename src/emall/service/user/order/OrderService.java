@@ -1,8 +1,11 @@
 package emall.service.user.order;
 
+import emall.dao.item.ItemBaseDao;
 import emall.dao.profile.user.CartDao;
 import emall.dao.order.OrderDao;
 import emall.dao.profile.user.UserLogDao;
+import emall.dao.statistic.StatisticDao;
+import emall.entity.Item;
 import emall.entity.Order;
 import emall.entity.OrderItem;
 import emall.entity.UserLog;
@@ -31,6 +34,11 @@ public class OrderService {
     private UserLogDao userLogDao;
     @Autowired
     private CartDao cartDao;
+    @Autowired
+    private ItemBaseDao itemBaseDao;
+
+    @Autowired
+    private StatisticDao statisticDao;
 
     public List getUserOrder(int userId) {
         return orderDao.getUserOrder(userId);
@@ -58,11 +66,13 @@ public class OrderService {
         order.setCreateTime(date);
         order.setLastModifiedTime(date);
         orderDao.addOrder(order);
+        statisticDao.updateTotalPrice(order.getTotalPrice());
         for (int i = 0; i < itemList.size(); i++) {
             Map map = (Map) itemList.get(i);
             int quantity = Integer.parseInt(map.get("quantity").toString());
             int itemId = Integer.parseInt(map.get("itemId").toString());
             float unitCost = Float.parseFloat(map.get("unitCost").toString());
+            itemBaseDao.updateItemInventory(itemId, -quantity);
             orderDao.addItemInOrder(new OrderItem(order.getOrderId(), itemId, quantity, unitCost));
             cartDao.orderDeleteItem(itemId, order.getUserId());
         }
@@ -77,6 +87,22 @@ public class OrderService {
         SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         orderDao.updateOrderStatus(orderId, status, date);
+
+        if (status == -1) {
+            float price = 0;
+            List itemList = orderDao.getItemInOrder(orderId);
+            for (Object tmp : itemList) {
+                OrderItem item = (OrderItem) tmp;
+                itemBaseDao.updateItemInventory(item.getItemId(), item.getQuantity());
+                price = price + item.getUnitCost() * item.getQuantity();
+            }
+            statisticDao.updateTotalPrice(-price);
+        }
+
+        if (status == 3) {
+            statisticDao.updateFinishedOrder();
+        }
+
         return Constants.SUCCESS_NUMBER;
     }
 

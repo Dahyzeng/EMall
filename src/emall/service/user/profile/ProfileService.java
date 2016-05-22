@@ -2,6 +2,7 @@ package emall.service.user.profile;
 
 import emall.dao.profile.user.ProfileDao;
 import emall.dao.profile.user.UserLogDao;
+import emall.dao.statistic.StatisticDao;
 import emall.entity.User;
 import emall.entity.UserLog;
 import emall.util.string.Constants;
@@ -25,6 +26,9 @@ public class ProfileService {
     @Autowired
     private UserLogDao userLogDao;
 
+    @Autowired
+    private StatisticDao statisticDao;
+
     @Transactional(rollbackFor = Exception.class)
     public int addUser(User user) {
         if (profileDao.nameMatch(user.getUsername()).size() != 0) {
@@ -34,6 +38,7 @@ public class ProfileService {
             return Constants.FAIL_NUMBER;
         }
         profileDao.userRegister(user);
+        statisticDao.updateUserCount();
         UserLog userLog = getUserLog(user);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("register an account named ");

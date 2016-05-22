@@ -13,7 +13,7 @@ public class MapConstant {
             put(-1, "Canceled");
             put(0, "Unconfirmed");
             put(1, "Confirmed");
-            put(2, "Delivered ");
+            put(2, "Delivered");
             put(3, "Finished");
             put(5, "Deleted");
         }

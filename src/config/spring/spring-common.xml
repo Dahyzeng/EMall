@@ -57,6 +57,8 @@
 				<value>emall.entity.PromotionItem</value>
 				<value>emall.entity.UserLog</value>
 				<value>emall.entity.LeaveMessage</value>
+				<value>emall.entity.ExpressInfo</value>
+				<value>emall.entity.Statistic</value>
 			</list>
 		</property>
 	</bean>

@@ -1,6 +1,8 @@
 package emall.service.merchant.order;
 
+import emall.dao.order.ExpressInfoDao;
 import emall.dao.order.OrderDao;
+import emall.entity.ExpressInfo;
 import emall.util.string.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ import java.util.List;
 public class MerchantOrderService {
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private ExpressInfoDao expressInfoDao;
 
     public List getAllOrder(int page, int pageSize) {
         return orderDao.getAllOrder(page, pageSize);
@@ -40,10 +45,17 @@ public class MerchantOrderService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int updateOrderStatus(String orderId, int status) {
+    public int updateOrderStatus(String orderId, int status, ExpressInfo expressInfo) {
         SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
         orderDao.updateOrderStatus(orderId, status, date);
+        if (status == 2) {
+            expressInfoDao.addExpressInfo(expressInfo);
+        }
         return Constants.SUCCESS_NUMBER;
+    }
+
+    public ExpressInfo getExpressInfo(String orderId) {
+        return (ExpressInfo) expressInfoDao.getExpressInfo(orderId).get(0);
     }
 }

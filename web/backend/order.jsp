@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/elements.css"/>
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/icons.css"/>
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/header.css"/>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/order.css"/>
     <link href="<%request.getContextPath();%>/backend/css/lib/font-awesome.css" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="<%request.getContextPath();%>/backend/css/compiled/tables.css" type="text/css"
           media="screen"/>
@@ -112,7 +113,7 @@
                                 <span data-bind="text: order.address.consignee"></span>
                             </td>
                             <td class="span2">
-                                <span class="label label-success" data-bind="text: order.payMethod">Pay Online</span>
+                                <span class="label label-success" data-bind="text: order.payMethod"></span>
                             </td>
                             <td class="span2">
                                 $<span data-bind="text: order.totalPrice"></span>
@@ -121,12 +122,15 @@
                                 <span data-bind="text: order.status"></span>
                             </td>
                             <td class="span3">
-                                <a href="">Detail</a>
+                                <a href="#orderDetail" data-toggle="modal" data-bind="click: $root.setCheckedOrder">Detail</a>
                                 <!-- ko if: order.status == 'Unconfirmed'-->
-                                <a href="">Confirm</a>
+                                <a href="#" data-bind="click: $root.changeStatus.bind($data, 1)">Confirm</a>
                                 <!-- /ko -->
                                 <!-- ko if: order.status == 'Confirmed'-->
-                                <a href="">Ship</a>
+                                <a href="#expressModal" data-toggle="modal" data-bind="click: $root.setOrderId">Ship</a>
+                                <!-- /ko -->
+                                <!-- ko if: order.status == 'Delivered'-->
+                                <a href="#expressInfoModal" data-toggle="modal" data-bind="click: $root.getExpressInfo">ExpressInfo</a>
                                 <!-- /ko -->
                                 <!-- ko if: order.status == 'Deleted' || order.status == 'Canceled'-->
                                 <a href="">Delete</a>
@@ -149,6 +153,130 @@
         </div>
     </div>
 </div>
+
+<div id="expressInfoModal" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="expressInfoClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>
+            Express Information
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div>
+            <span class="order_label" style="width:100px;">Express Name: </span>
+            <span data-bind="text: expressInfo().expressName"></span>
+        </div>
+        <div>
+            <span class="order_label" style="width: 100px">Express Number: </span>
+            <span data-bind="text: expressInfo().expressNumber"></span>
+        </div>
+    </div>
+</div>
+
+<div id="expressModal" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="modifyClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>
+            Express Information
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div>
+            <span class="order_label" style="width:100px;">Express Name: </span>
+            <input type="text" name="expressName"/>
+        </div>
+        <div>
+            <span class="order_label" style="width: 100px">Express Number: </span>
+            <input type="text" name="expressNumber"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" data-bind="click: addExpress">Save</button>
+    </div>
+</div>
+
+<div id="orderDetail" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="subCategoryClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">
+            Order Detail
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div>
+                <span class="order_label">Consignee: </span>
+                <span class="order_text" data-bind="text: checkedAddress().consignee"></span>
+            </div>
+            <div>
+                <span class="order_label">Telephone: </span>
+                <span class="order_text" data-bind="text: checkedAddress().telephone"></span>
+            </div>
+            <div>
+                <span class="order_label">Location: </span>
+                <span class="order_text" data-bind="text: checkedAddress().province + checkedAddress().city + checkedAddress().district"></span>
+            </div>
+            <div>
+                <span class="order_label">Detail: </span>
+                <span class="order_text" data-bind="text: checkedAddress().detail"></span>
+            </div>
+            <div>
+                <span class="order_label">Email: </span>
+                <span class="order_text" data-bind="text: checkedAddress().email"></span>
+            </div>
+        </div>
+        <div>
+            Items:
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th class="span2">
+                        <span class="line"></span>
+                        PIC
+                    </th>
+                    <th class="span2">
+                        <span class="line"></span>
+                        id
+                    </th>
+                    <th class="span2">
+                        <span class="line"></span>
+                        name
+                    </th>
+
+                    <th class="span2">
+                        <span class="line"></span>
+                        quantity
+                    </th>
+                    <th class="span2">
+                        <span class="line"></span>
+                        total
+                    </th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: {data: checkedItems, as: 'itemMap'}">
+                <tr class="first">
+                    <td class="span2">
+                        <img data-bind="attr: {src: itemMap.item.showPicURL}"/>
+                    </td>
+                    <td class="span2">
+                        <span data-bind="text: itemMap.item.itemId"></span>
+                    </td>
+                    <td class="span2">
+                        <span data-bind="text: itemMap.item.itemName"></span>
+                    </td>
+                    <td class="span1">
+                        <span data-bind="text: itemMap.quantity"></span>
+                    </td>
+                    <td>
+                        $<span data-bind="text: itemMap.unitCost"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     function orderPage() {
@@ -164,12 +292,60 @@
         self.cancelClass = ko.observable();
 
 
+        self.checkedItems = ko.observableArray();
+        self.checkedAddress = ko.observable({});
+
         self.orderArray = ko.observableArray();
         self.currentPage = ko.observable(1);
         self.pageSize = ko.observable();
         self.count = ko.observable();
         self.totalPage = ko.observable();
         self.currentStatus = ko.observable();
+
+        self.expressOrderId = ko.observable();
+        self.setOrderId = function (p) {
+            self.expressOrderId(p.orderId);
+        };
+        self.expressInfo = ko.observable({});
+        self.getExpressInfo = function (p) {
+            $.get("/merchant/order/express?orderId=" + p.orderId, function (json) {
+                if (json['success']) {
+                    self.expressInfo(json['expressInfo']);
+                }
+            })
+        };
+        self.addExpress = function () {
+            var name = $("input[name='expressName']").val();
+            var number = $("input[name='expressNumber']").val();
+            $.post("/merchant/order/ship", {orderId: self.expressOrderId(), expressName: name, expressNumber: number}, function (json) {
+                if (json['success']) {
+                    if (self.orderArray().length == 1) {
+                        if (self.currentPage() != 1) {
+                            self.currentPage(self.currentPage() - 1);
+                        }
+                    }
+                    self.getOrderByStatus(self.currentStatus());
+                }
+            })
+        };
+
+        self.changeStatus = function (status) {
+            $.post("/merchant/order/update", {orderId: this.orderId, status: status}, function (json) {
+                if (json['success']) {
+                    if (self.orderArray().length == 1) {
+                        if (self.currentPage() != 1) {
+                            self.currentPage(self.currentPage() - 1);
+                        }
+                    }
+                    self.getOrderByStatus(self.currentStatus());
+                }
+            })
+        };
+
+        self.setCheckedOrder = function (p) {
+            self.checkedItems(p.items);
+            self.checkedAddress(p.address);
+        };
         self.countTotalPage = function () {
             if (self.count() <= self.pageSize()) {
                 self.totalPage(1);
@@ -182,17 +358,18 @@
                 return
             }
             self.currentPage(self.currentPage() - 1);
-            self.getOrderByStatus();
+            self.getOrderByStatus(self.currentStatus());
         };
         self.nextPage = function () {
             if (self.currentPage() == self.totalPage()) {
                 return
             }
             self.currentPage(self.currentPage() + 1);
-            self.getOrderByStatus();
+            self.getOrderByStatus(self.currentStatus());
         };
         self.getOrderByStatus = function (status) {
             if (self.currentStatus() != status) {
+                self.currentPage(1);
                 self.clearClass();
                 switch (status) {
                     case 10: self.allClass('active');break;

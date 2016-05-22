@@ -151,4 +151,14 @@ public class ItemBaseDao {
         query.setInteger(0, itemId);
         return query.list();
     }
+
+    public void updateItemInventory(int itemId, int count) {
+        Query inventoryQuery = sessionFactory.getCurrentSession().createQuery("select inventory from Item where itemId=?");
+        Query updateQuery = sessionFactory.getCurrentSession().createQuery("update Item set inventory=? where itemId=?");
+        inventoryQuery.setInteger(0, itemId);
+        Integer inventory = (Integer) inventoryQuery.uniqueResult();
+        updateQuery.setInteger(0, inventory + count);
+        updateQuery.setInteger(1, itemId);
+        updateQuery.executeUpdate();
+    }
 }
