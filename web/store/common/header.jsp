@@ -46,7 +46,7 @@
                         <ul class="cart_cont">
                         <span data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
                         <li>
-                            <a data-bind="attr: {href: '/pdf/' + itemMap.item.itemId}" class="prev_cart">
+                            <a data-bind="attr: {href: '/pdp/' + itemMap.item.itemId}" class="prev_cart">
                                 <div class="cart_vert"><img data-bind="attr: {src: itemMap.item.showPicURL}" alt=""
                                                             title=""/></div>
                             </a>

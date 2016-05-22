@@ -50,19 +50,7 @@
 
                 <div class="show">
                     Show
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                    <select name="pageSize" data-bind="options: pageSizeOptions, value: pageSizeValue, optionsCaption: 'select'">
                     </select>
 
                     per page
@@ -87,7 +75,7 @@
             <div class="grid_product" data-bind="foreach: { data: itemArray, as: 'item'}">
                 <div class="grid_3 product" style="width: 22%">
                     <div class="prev">
-                        <a data-bind="attr: { href: '/pdf/' + item.itemId }">
+                        <a data-bind="attr: { href: '/pdp/' + item.itemId }">
                             <img data-bind="attr: {src: item.showPicURL, alt: item.itemName, title: item.itemName }"/>
                         </a>
                     </div>
@@ -147,6 +135,20 @@
         var id = '${requestScope.id}';
         var name = '${requestScope.name}';
 
+        self.pageSizeOptions = [4, 8, 12];
+        self.pageSizeValue = ko.observable(${sessionScope.gridPageSize});
+        self.pageSizeValue.subscribe(function (pageSize) {
+            if (pageSize) {
+                self.currentPage(1);
+                $.get("/store/page_size?type=grid&pageSize=" + pageSize, function () {
+                    $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid", function (itemList) {
+                        self.itemArray(itemList);
+                    });
+                })
+            }
+        });
+
+
         self.categoryIdType = ko.observable();
         self.typeId = ko.observable(id);
         self.currentPage = ko.observable(1);
@@ -181,6 +183,7 @@
                 }
             })
         };
+
         (function() {
             headerPage();
             self.categoryIdType('fatherId=');
@@ -190,7 +193,6 @@
             $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid", function (itemList) {
                 self.itemArray(itemList);
             });
-
         })();
         self.gridURL = ko.observable('/search/grid?' + self.categoryIdType() + self.typeId() + '&categoryName=' + name);
         self.listURL = ko.observable('/search/list?' + self.categoryIdType() + self.typeId() + '&categoryName=' + name);

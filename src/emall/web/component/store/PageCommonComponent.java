@@ -4,6 +4,7 @@ import emall.entity.Category;
 import emall.entity.Item;
 import emall.service.store.common.StoreCategoryService;
 import emall.service.store.common.StoreItemService;
+import emall.util.string.constants.PageSizeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +55,22 @@ public class PageCommonComponent {
     @RequestMapping("/get_item_category")
     @ResponseBody
     public List getItemByCategory(Category category, int page, String pageType) {
-        List list = storeItemService.getItemByCategory(category, page, 1, pageType);
+        List list;
+        if ("grid".equals(pageType)) {
+            Object pageSize = request.getSession().getAttribute("gridPageSize");
+            if (pageSize == null) {
+                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE);
+            } else  {
+                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()));
+            }
+        } else  {
+            Object pageSize = request.getSession().getAttribute("listPageSize");
+            if (pageSize == null) {
+                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE);
+            } else {
+                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()));
+            }
+        }
         return list;
     }
 
@@ -70,7 +86,16 @@ public class PageCommonComponent {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("item", item);
         map.put("itemPicList", itemPicList);
-
         return map;
+    }
+
+    @RequestMapping("/page_size")
+    @ResponseBody
+    public void setPageSize(String type, int pageSize) {
+        if ("grid".equals(type)) {
+            request.getSession().setAttribute("gridPageSize", pageSize);
+        } else {
+            request.getSession().setAttribute("listPageSize", pageSize);
+        }
     }
 }

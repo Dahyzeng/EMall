@@ -68,7 +68,7 @@ public class ItemBaseDao {
         query.executeUpdate();
     }
 
-    public List getItemsByCategoryId(Object categoryId, int page, int status) {
+    public List getItemsByCategoryId(Object categoryId, int page, int status, int pageSize) {
         String sql = "from Item";
         int flag = 0;
         if (categoryId != null) {
@@ -91,8 +91,8 @@ public class ItemBaseDao {
         if (flag == 1) {
             query.setInteger(0, (Integer) categoryId);
         }
-        query.setFirstResult((page - 1) * PageSizeConstant.ITEM_PAGE_SIZE);
-        query.setMaxResults(PageSizeConstant.ITEM_PAGE_SIZE);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
         return query.list();
     }
 
@@ -153,12 +153,16 @@ public class ItemBaseDao {
     }
 
     public void updateItemInventory(int itemId, int count) {
-        Query inventoryQuery = sessionFactory.getCurrentSession().createQuery("select inventory from Item where itemId=?");
-        Query updateQuery = sessionFactory.getCurrentSession().createQuery("update Item set inventory=? where itemId=?");
-        inventoryQuery.setInteger(0, itemId);
-        Integer inventory = (Integer) inventoryQuery.uniqueResult();
-        updateQuery.setInteger(0, inventory + count);
+        Query updateQuery = sessionFactory.getCurrentSession().createQuery("update Item set inventory=inventory + ? where itemId=?");
+        updateQuery.setInteger(0, count);
         updateQuery.setInteger(1, itemId);
         updateQuery.executeUpdate();
+    }
+
+    public void updateSaleQuantity(int itemId, int count) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update Item set saleQuantity=saleQuantity + ? where itemId=?");
+        query.setInteger(0, count);
+        query.setInteger(1, itemId);
+        query.executeUpdate();
     }
 }

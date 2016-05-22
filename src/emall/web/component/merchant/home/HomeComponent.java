@@ -32,6 +32,7 @@ public class HomeComponent {
         }
         map.put("statistic", statisticServer.getStatistic());
         map.put("orderCount", statisticServer.getStatisticByWeek());
+        map.put("itemSaleQuantityArray", statisticServer.getTopTen());
         return map;
     }
 

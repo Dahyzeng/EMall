@@ -1,6 +1,7 @@
 package emall.service.merchant.statistic;
 
 import emall.dao.statistic.StatisticDao;
+import emall.entity.Item;
 import emall.entity.Statistic;
 import emall.util.string.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,25 +48,37 @@ public class StatisticServer {
 
     public List getStatisticByWeek() {
         List<Map> list = new ArrayList<Map>();
-        Calendar calendar = Calendar.getInstance();
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        calendar.add(Calendar.DATE, 1);
-        String end = format.format(calendar.getTime());
-        calendar.add(Calendar.DATE, -1);
-        String start = format.format(calendar.getTime());
-        int count = statisticDao.getOrderCountPerDay(start, end);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(start, count);
-        list.add(map);
-        for (int i = 0; i < 6; i++) {
-            Map<String, Object> map1 = new HashMap<String, Object>();
+        SimpleDateFormat format1 = new SimpleDateFormat("MM-dd");
+        String start;
+        String end;
+        String record;
+        for (int i = 0; i < 7; i++) {
+            Calendar calendar = Calendar.getInstance();
+            Map<String, Object> map = new HashMap<String, Object>();
+            calendar.add(Calendar.DATE, -i);
             start = format.format(calendar.getTime());
-            calendar.add(Calendar.DATE, -1);
+            record = format1.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
             end = format.format(calendar.getTime());
-            count = statisticDao.getOrderCountPerDay(start, end);
-            map1.put(end, count);
-            list.add(map1);
+            int count = statisticDao.getOrderCountPerDay(start, end);
+            map.put(record, count);
+            list.add(map);
         }
         return list;
+    }
+
+    public List getTopTen() {
+        List<Map> needList = new ArrayList<Map>();
+        List itemList = statisticDao.getSaleTopTen();
+        for (Object tmp : itemList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            Item item = (Item) tmp;
+            map.put("name", item.getItemName());
+            map.put("sells", item.getSaleQuantity());
+            needList.add(map);
+        }
+        return needList;
     }
 }

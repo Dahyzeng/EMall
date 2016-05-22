@@ -91,7 +91,7 @@
                     <div class="grid_3">
                         <%--<img class="sale" src="images/new.png" alt="New"/>--%>
                         <div class="prev">
-                            <a data-bind="attr: { href: '/pdf/' + item.itemId }">
+                            <a data-bind="attr: { href: '/pdp/' + item.itemId }">
                                 <img data-bind="attr: {src: item.showPicURL, alt: item.itemName, title: item.itemName }"/>
                             </a>
                         </div>

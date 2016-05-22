@@ -17,22 +17,22 @@ public class StatisticDao {
     private SessionFactory sessionFactory;
 
     public void updateItemCount() {
-        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set items=item+1");
+        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set items=items+1 where id=0");
         query.executeUpdate();
     }
 
     public void updateTotalPrice(float price) {
-        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set sales=sales+?");
+        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set sales=sales+? where id=0");
         query.setFloat(0, price);
         query.executeUpdate();
     }
 
     public void updateFinishedOrder() {
-        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set totalFinishedOrder=totalFinishedOrder+1");
+        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set totalFinishedOrder=totalFinishedOrder+1 where id=0");
         query.executeUpdate();
     }
     public void updateUserCount() {
-        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set users=users+1");
+        Query query = sessionFactory.getCurrentSession().createQuery("update Statistic set users=users+1 where id=0");
         query.executeUpdate();
     }
 
@@ -42,7 +42,13 @@ public class StatisticDao {
     }
 
     public List getSaleTopTen() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Item order by saleQuantity");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Item order by saleQuantity DESC");
+        query.setMaxResults(10);
+        return query.list();
+    }
+
+    public List getSaleTopTenFront() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Item where status=1 order by saleQuantity DESC ");
         query.setMaxResults(10);
         return query.list();
     }

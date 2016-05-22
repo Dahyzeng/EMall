@@ -27,9 +27,9 @@ public class CompareComponent {
 
     @RequestMapping("/add")
     @ResponseBody
-    public Map addCompareItem(String itemId) {
+    public Map addCompareItem(int itemId) {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<String> itemList;
+        List<Integer> itemList;
         Object tmp = request.getSession().getAttribute("compareItemList");
         if (tmp != null) {
             itemList = (List) tmp;
@@ -44,7 +44,7 @@ public class CompareComponent {
             }
 
         } else {
-            itemList = new ArrayList<String>();
+            itemList = new ArrayList<Integer>();
             itemList.add(itemId);
         }
         request.getSession().setAttribute("compareItemList", itemList);
@@ -68,13 +68,13 @@ public class CompareComponent {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Map deleteCompareItem(String itemId) {
+    public Map deleteCompareItem(int itemId) {
         Map<String, Object> map = new HashMap<String, Object>();
-        List<String> itemList;
+        List<Integer> itemList;
         Object tmp = request.getSession().getAttribute("compareItemList");
         if (tmp != null) {
             itemList = (List) tmp;
-            itemList.remove(itemId);
+            itemList.remove(((Integer)itemId));
         }
         map.put("success", true);
         return map;

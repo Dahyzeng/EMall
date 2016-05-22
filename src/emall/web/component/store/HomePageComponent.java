@@ -36,4 +36,9 @@ public class HomePageComponent {
         return homePageService.getAllCarousel();
     }
 
+    @RequestMapping("/top")
+    @ResponseBody
+    public List getTopTen() {
+        return homePageService.getTopTen();
+    }
 }

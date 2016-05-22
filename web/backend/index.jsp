@@ -66,17 +66,26 @@
         </div>
     </div>
 
-    <div class="row-fluid section">
+    <div class="row-fluid" style="margin-top: 20px">
         <h4 class="title">
-            jQuery Flot <small>Monthly growth</small>
-            <div class="btn-group pull-right">
-                <button class="glow left">DAY</button>
-                <button class="glow middle active">MONTH</button>
-                <button class="glow right">YEAR</button>
-            </div>
+            Week Orders
+            <%--<div class="btn-group pull-right">--%>
+                <%--<button class="glow left">DAY</button>--%>
+                <%--<button class="glow middle active">MONTH</button>--%>
+                <%--<button class="glow right">YEAR</button>--%>
+            <%--</div>--%>
         </h4>
         <div class="span12">
             <div id="statsChart"></div>
+        </div>
+    </div>
+
+    <div class="row-fluid" style="margin-top: 20px">
+        <h4 class="title">
+            TOP TEN
+        </h4>
+        <div class="span12 chart">
+            <div id="hero-bar" style="height: 250px;"></div>
         </div>
     </div>
 
@@ -85,7 +94,6 @@
 </body>
 <script>
 //    var visits = [[1, 5], [2, 4], [3, 4], [4, 2],[5, 5],[6, 6],[7, 6],[8, 7],[9, 6],[10, 7],[11, 5],[12, 5]];
-
 
 
     function showTooltip(x, y, contents) {
@@ -125,7 +133,7 @@
     });
 </script>
 <script>
-    function initData(orderCount) {
+    function initData(orderCount, itemSaleQuantity) {
         var saleCount = [];
         var ticks = [];
         for (var i = 1; i <= orderCount.length; i++) {
@@ -180,17 +188,30 @@
                         font: {size:12, color: "#9da3a9"}
                     }
                 });
+        Morris.Bar({
+            element: 'hero-bar',
+            data: itemSaleQuantity,
+            xkey: 'name',
+            ykeys: ['sells'],
+            labels: ['Sells'],
+            barRatio: 0.4,
+            xLabelMargin: 20,
+            hideHover: 'auto',
+            barColors: ["#3d88ba"]
+        });
     }
     function homePage() {
         var self = this;
         self.statistic = ko.observable({});
         self.orderCount = ko.observableArray();
+        self.itemSaleQuantity = ko.observableArray();
         (function () {
             $.get("/statistic/total", function (json) {
                 if (json['success']) {
                     self.statistic(json['statistic']);
-                    self.orderCount(json['orderCount'])
-                    initData(self.orderCount());
+                    self.orderCount(json['orderCount']);
+                    self.itemSaleQuantity(json['itemSaleQuantityArray']);
+                    initData(self.orderCount(), self.itemSaleQuantity());
                 }
             });
         })();

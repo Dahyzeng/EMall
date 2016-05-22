@@ -67,11 +67,11 @@ public class StoreNavigation {
         return mav;
     }
 
-    @RequestMapping("/pdf/{itemId}")
+    @RequestMapping("/pdp/{itemId}")
     public ModelAndView itemDetailPage(@PathVariable String itemId) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("itemId", itemId);
-        mav.setViewName("/store/pdf");
+        mav.setViewName("/store/pdp");
         return mav;
     }
 }

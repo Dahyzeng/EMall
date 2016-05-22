@@ -10,6 +10,7 @@ import emall.entity.MerchantLog;
 import emall.entity.PromotionItem;
 import emall.util.string.Constants;
 import emall.util.string.constants.MerchantConstants;
+import emall.util.string.constants.PageSizeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
@@ -123,9 +124,9 @@ public class ItemBaseService {
         List itemList;
         if (category.getFatherId() == 0) {
             if (category.getCategoryId() == 0) {
-                itemList = itemBaseDao.getItemsByCategoryId(null, page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(null, page, status, PageSizeConstant.ITEM_PAGE_SIZE);
             } else {
-                itemList = itemBaseDao.getItemsByCategoryId(category.getCategoryId(), page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(category.getCategoryId(), page, status, PageSizeConstant.ITEM_PAGE_SIZE);
             }
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
@@ -137,9 +138,9 @@ public class ItemBaseService {
                     stringBuilder.append(tmpCategory.getCategoryId());
                     stringBuilder.append("',");
                 }
-                itemList = itemBaseDao.getItemsByCategoryId(stringBuilder, page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(stringBuilder, page, status, PageSizeConstant.ITEM_PAGE_SIZE);
             } else {
-                itemList = itemBaseDao.getItemsByCategoryId(category.getFatherId(), page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(category.getFatherId(), page, status, PageSizeConstant.ITEM_PAGE_SIZE);
             }
 
         }

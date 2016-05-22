@@ -73,6 +73,7 @@ public class OrderService {
             int itemId = Integer.parseInt(map.get("itemId").toString());
             float unitCost = Float.parseFloat(map.get("unitCost").toString());
             itemBaseDao.updateItemInventory(itemId, -quantity);
+            itemBaseDao.updateSaleQuantity(itemId, quantity);
             orderDao.addItemInOrder(new OrderItem(order.getOrderId(), itemId, quantity, unitCost));
             cartDao.orderDeleteItem(itemId, order.getUserId());
         }
@@ -93,6 +94,7 @@ public class OrderService {
             List itemList = orderDao.getItemInOrder(orderId);
             for (Object tmp : itemList) {
                 OrderItem item = (OrderItem) tmp;
+                itemBaseDao.updateSaleQuantity(item.getItemId(), -item.getQuantity());
                 itemBaseDao.updateItemInventory(item.getItemId(), item.getQuantity());
                 price = price + item.getUnitCost() * item.getQuantity();
             }

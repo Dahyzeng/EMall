@@ -24,14 +24,10 @@ public class StoreItemService {
 
     @Autowired
     private ItemPicDao itemPicDao;
-    public List getItemByCategory(Category category, int page, int status, String pageType) {
+    public List getItemByCategory(Category category, int page, int status, int pageSize) {
         List itemList;
         if (category.getFatherId() == 0) {
-            if ("grid".equals(pageType)) {
-                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, PageSizeConstant.GRID_PAGE_SIZE);
-            } else {
-                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, PageSizeConstant.LIST_PAGE_SIZE);
-            }
+            itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, pageSize);
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
             if (childCategory.size() != 0) {
@@ -42,9 +38,9 @@ public class StoreItemService {
                     stringBuilder.append(tmpCategory.getCategoryId());
                     stringBuilder.append("',");
                 }
-                itemList = itemBaseDao.getItemsByCategoryId(stringBuilder, page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(stringBuilder, page, status, pageSize);
             } else {
-                itemList = itemBaseDao.getItemsByCategoryId(category.getFatherId(), page, status);
+                itemList = itemBaseDao.getItemsByCategoryId(category.getFatherId(), page, status, pageSize);
             }
 
         }
