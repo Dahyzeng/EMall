@@ -33,7 +33,7 @@ public class CompareComponent {
         Object tmp = request.getSession().getAttribute("compareItemList");
         if (tmp != null) {
             itemList = (List) tmp;
-            if (itemList.size() <= 3) {
+            if (itemList.size() < 3) {
                 if (!itemList.contains(itemId)) {
                     itemList.add(itemId);
                 }

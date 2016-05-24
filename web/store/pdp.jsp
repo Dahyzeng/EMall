@@ -16,6 +16,8 @@
     <script src="<%request.getContextPath();%>/store/js/selectBox.js"></script>
     <script src="<%request.getContextPath();%>/store/js/jquery.jqzoom-core.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/pdp-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/pdp-message.js"></script>
     <script>
         $(document).ready(function() {
             $('#wrapper_tab a').click(function() {
@@ -26,29 +28,6 @@
             });
         });
     </script>
-    <script>
-        $(function() {
-            $('#list_product').carouFredSel({
-                prev: '#prev_c1',
-                next: '#next_c1',
-                auto: false
-            });
-            $('#list_banners').carouFredSel({
-                prev: '#ban_prev',
-                next: '#ban_next',
-                scroll: 1,
-                auto: false
-            });
-            $('#thumblist').carouFredSel({
-                prev: '#img_prev',
-                next: '#img_next',
-                scroll: 1,
-                auto: false,
-                circular: false,
-            });
-            $(window).resize();
-        });
-    </script>
 </head>
 
 <body>
@@ -57,7 +36,7 @@
     <div class="container_12">
         <!-- .sidebar -->
         <div id="content" class="grid_12">
-            <h1 class="page_title">Candles Orange Vanilla</h1>
+            <h1 class="page_title"><span data-bind="text: pdpMessage().itemDetail"></span></h1>
 
             <div class="product_page">
                 <div class="grid_4 img_slid" id="products">
@@ -84,20 +63,20 @@
                             <a class="plus" href="#"></a>
                             <a href="#"></a>
                             <a href="#"></a>
-                            <span>1 REVIEW(S)</span>
-                            <a class="add_review" href="#">ADD YOUR REVIEW</a>
+                            <span>1 <span data-bind="text: pdpMessage().review"></span></span>
+                            <a class="add_review" href="#"><span data-bind="text: pdpMessage().addReview"></span></a>
                         </div>
                         <p><span data-bind="text: itemDetail().itemName"></span></p>
 
                         <div class="ava_price">
                             <div class="availability_sku">
                                 <div class="availability">
-                                    Availability:
+                                    <span data-bind="text: pdpMessage().availability"></span>:
                                     <!-- ko if: itemDetail().inventory !=0 -->
-                                    <span>In stock</span>
+                                    <span data-bind="text: pdpMessage().inStock"></span>
                                     <!-- /ko -->
                                     <!-- ko if: itemDetail().inventory ==0 -->
-                                    <span>Out of stock</span>
+                                    <span data-bind="text: pdpMessage().outOfStock"></span>
                                     <!-- /ko -->
                                 </div>
                             </div>
@@ -113,13 +92,12 @@
                         </div>
                         <div class="block_cart">
                             <div class="obn_like">
-                                <div class="obn"><a href="#" data-bind="click: addCompare" class="obn">Add to Compare</a></div>
-                                <div class="like"><a href="#" class="like">Add to Wishlist</a></div>
+                                <div class="obn"><a href="#" data-bind="click: addCompare" class="obn"><span data-bind="text: pdpMessage().compare"></span></a></div>
                             </div>
                             <div class="cart">
-                                <a href="#" data-bind="click: addToCart" class="bay">Add to Cart</a>
+                                <a href="#" data-bind="click: addToCart" class="bay"><span data-bind="text: pdpMessage().addToCart"></span></a>
                                 <input style="width:35px;height: 35px;" type="text" class="number" data-bind="value: itemQuantity"/>
-                                <span>Quantity:</span>
+                                <span data-bind="text: pdpMessage().quantity"></span>:
                             </div>
                         </div>
                     </div>
@@ -127,192 +105,16 @@
                 <div class="clear"></div>
                 <div class="grid_12">
                     <div id="wrapper_tab" class="tab1">
-                        <a href="#" class="tab1 tab_link">Description</a>
-                        <a href="#" class="tab2 tab_link">Reviews</a>
-                        <a href="#" class="tab3 tab_link">Custom Tab</a>
+                        <a href="#" class="tab1 tab_link"><span data-bind="text: pdpMessage().description"></span></a>
+                        <a href="#" class="tab2 tab_link"><span data-bind="text: pdpMessage().review"></span></a>
 
                         <div class="clear"></div>
                         <div class="tab1 tab_body">
-                            <h4>Tables Style</h4>
-
-                            <p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet. Maecenas
-                                tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum adipiscing, eros quis
-                                lobortis dictum. Etiam mollis volutpat odio, id euismod justo gravida a. Aliquam erat
-                                volutpat. Phasellus faucibus venenatis lorem, vitae commodo elit pretium et. Duis
-                                rhoncus lobortis congue. Vestibulum et purus dui, vel porta lectus. Sed vulputate
-                                pulvinar adipiscing.</p>
-                            <ul>
-                                <li>She was walking to the mall.</li>
-                                <li>Ted might eat the cake.</li>
-                                <li>You must go right now.</li>
-                                <li>Words were spoken.</li>
-                                <li>The teacher is writing a report.</li>
-                            </ul>
-                            <p>Here are some verb phrase examples where the verb phrase is the predicate of a sentence.
-                                In this case, the verb phrase consists of the main verb plus any auxiliary, or helping,
-                                verbs. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta
-                                nec, tempus vitae, iaculis semper, pede.</p>
-                            <ol>
-                                <li>Shipping & Delivery.</li>
-                                <li>Privacy & Security.</li>
-                                <li>Returns & Replacements.</li>
-                                <li>Payment, Pricing & Promotions.</li>
-                                <li>Viewing Orders.</li>
-                            </ol>
-                            <p>Next are some verb phrase examples of verb phrases where the phrase has a single function
-                                which means it can act like an adverb or an adjective. The phrase would include the verb
-                                and any modifiers, complements, or objects. Lorem ipsum dolor sit amet, consectetuer
-                                adipiscing elit. Morbi luctus. Duis lobortis. Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Curabitur nec posuere odio. Proin vel ultrices erat. </p>
-                            <table>
-                                <tr>
-                                    <th class="bg">First Column</th>
-                                    <th>Second Column</th>
-                                    <th class="bg">Third Column</th>
-                                    <th>Fourth Column</th>
-                                </tr>
-                                <tr>
-                                    <td class="bg">One</td>
-                                    <td>no</td>
-                                    <td class="bg">yes</td>
-                                    <td>yes, all</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg">Two</td>
-                                    <td>0</td>
-                                    <td class="bg">1</td>
-                                    <td>all</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg">Three</td>
-                                    <td>$399</td>
-                                    <td class="bg">$599</td>
-                                    <td>$799</td>
-                                </tr>
-                                <tr>
-                                    <td class="bg">Four</td>
-                                    <td><a href="#">Call action</a></td>
-                                    <td class="bg"><a href="#">Call action</a></td>
-                                    <td><a href="#">Call action</a></td>
-                                </tr>
-                            </table>
-                            <div class="clear"></div>
+                            <p data-bind="html: itemDetail().description"></p>
                         </div>
                         <!-- .tab1 .tab_body -->
                         <div class="tab2 tab_body">
-                            <h4>Customer reviews</h4>
-                            <ul class="comments">
-                                <li>
-                                    <div class="autor">Mike Example</div>
-                                    ,
-                                    <time datetime="2012-11-03">03.11.2012</time>
-                                    <div class="evaluation">
-                                        <div class="quality">
-                                            <strong>Quality</strong>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a href="#"></a>
-                                            <a href="#"></a>
-                                        </div>
-                                        <div class="price">
-                                            <strong>Price</strong>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus_minus" href="#"></a>
-                                            <a href="#"></a>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <!-- .evaluation -->
-                                    <p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet.
-                                        Maecenas tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum
-                                        adipiscing, eros quis lobortis dictum.</p>
-                                </li>
-                                <li>
-                                    <div class="autor">Mike Example</div>
-                                    ,
-                                    <time datetime="2012-11-03">03.11.2012</time>
-                                    <div class="evaluation">
-                                        <div class="quality">
-                                            <strong>Quality</strong>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus_minus" href="#"></a>
-                                        </div>
-                                        <div class="price">
-                                            <strong>Price</strong>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a class="plus" href="#"></a>
-                                            <a href="#"></a>
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <!-- .evaluation -->
-                                    <p>Etiam mollis volutpat odio, id euismod justo gravida a. Aliquam erat volutpat.
-                                        Phasellus faucibus venenatis lorem, vitae commodo elit pretium et. Duis rhoncus
-                                        lobortis congue. Vestibulum et purus dui, vel porta lectus. Sed vulputate
-                                        pulvinar adipiscing.</p>
-                                </li>
-                            </ul>
-                            <!-- .comments -->
-                            <form class="add_comments">
-                                <h4>Write Your Own Review</h4>
 
-                                <div class="evaluation">
-                                    <div class="quality">
-                                        <strong>Quality</strong><sup class="surely">*</sup>
-                                        <input class="niceRadio" type="radio" name="quality" value="1"/><span
-                                            class="eva_num">1</span>
-                                        <input class="niceRadio" type="radio" name="quality" value="2"/><span
-                                            class="eva_num">2</span>
-                                        <input class="niceRadio" type="radio" name="quality" value="3"/><span
-                                            class="eva_num">3</span>
-                                        <input class="niceRadio" type="radio" name="quality" value="4"/><span
-                                            class="eva_num">4</span>
-                                        <input class="niceRadio" type="radio" name="quality" value="5"/><span
-                                            class="eva_num">5</span>
-                                    </div>
-                                    <div class="price">
-                                        <strong>Price</strong><sup class="surely">*</sup>
-                                        <input class="niceRadio" type="radio" name="price" value="1"/><span
-                                            class="eva_num">1</span>
-                                        <input class="niceRadio" type="radio" name="price" value="2"/><span
-                                            class="eva_num">2</span>
-                                        <input class="niceRadio" type="radio" name="price" value="3"/><span
-                                            class="eva_num">3</span>
-                                        <input class="niceRadio" type="radio" name="price" value="4"/><span
-                                            class="eva_num">4</span>
-                                        <input class="niceRadio" type="radio" name="price" value="5"/><span
-                                            class="eva_num">5</span>
-                                    </div>
-                                    <div class="clear"></div>
-                                </div>
-                                <div class="nickname">
-                                    <strong>Nickname</strong><sup class="surely">*</sup>
-                                    <br/>
-                                    <input type="text" name="" class="" value=""/>
-                                </div>
-                                <div class="your_review">
-                                    <strong>Summary of Your Review</strong><sup class="surely">*</sup>
-                                    <br/>
-                                    <input type="text" name="" class="" value=""/>
-                                </div>
-                                <div class="clear"></div>
-                                <div class="text_review">
-                                    <strong>Review</strong><sup class="surely">*</sup>
-                                    <br/>
-                                    <textarea name="text"></textarea>
-                                    <i>Note: HTML is not translated!</i>
-                                </div>
-                                <input type="submit" value="Submit Review"/>
-                            </form>
-                            <div class="clear"></div>
                         </div>
                         <div class="tab3 tab_body">
                             <h4>Custom Tab</h4>
@@ -324,108 +126,6 @@
                     <div class="clear"></div>
                 </div>
 
-                <div class="clear"></div>
-                <div class="related">
-                    <div class="c_header">
-                        <div class="grid_4">
-                            <h2>Related Products</h2>
-                        </div>
-                        <div class="grid_5">
-                            <a id="next_c1" class="next arows" href="#"><span>Next</span></a>
-                            <a id="prev_c1" class="prev arows" href="#"><span>Prev</span></a>
-                        </div>
-                    </div>
-                    <div class="list_carousel">
-                        <ul id="list_product" class="list_product">
-                            <li class="">
-                                <div class="grid_4 product">
-                                    <img class="sale" src="images/sale.png" alt="Sale"/>
-
-                                    <div class="prev">
-                                        <a href="product_page.html"><img src="images/product_1.png" alt=""
-                                                                         title=""/></a>
-                                    </div>
-                                    <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
-
-                                    <div class="cart">
-                                        <div class="price">
-                                            <div class="vert">
-                                                <div class="price_new">$550.00</div>
-                                                <div class="price_old">$725.00</div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="obn"></a>
-                                        <a href="#" class="like"></a>
-                                        <a href="#" class="bay"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="grid_3 product">
-                                    <div class="prev">
-                                        <a href="product_page.html"><img src="images/product_2.png" alt=""
-                                                                         title=""/></a>
-                                    </div>
-                                    <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
-
-                                    <div class="cart">
-                                        <div class="price">
-                                            <div class="vert">
-                                                <div class="price_new">$550.00</div>
-                                                <div class="price_old">$725.00</div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="obn"></a>
-                                        <a href="#" class="like"></a>
-                                        <a href="#" class="bay"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="grid_3 product">
-                                    <div class="prev">
-                                        <a href="product_page.html"><img src="images/product_3.png" alt=""
-                                                                         title=""/></a>
-                                    </div>
-                                    <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
-
-                                    <div class="cart">
-                                        <div class="price">
-                                            <div class="vert">
-                                                <div class="price_new">$550.00</div>
-                                                <div class="price_old">$725.00</div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="obn"></a>
-                                        <a href="#" class="like"></a>
-                                        <a href="#" class="bay"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="">
-                                <div class="grid_3 product">
-                                    <div class="prev">
-                                        <a href="product_page.html"><img src="images/product_4.png" alt=""
-                                                                         title=""/></a>
-                                    </div>
-                                    <h3 class="title">Febreze Air Effects New Zealand Springs</h3>
-
-                                    <div class="cart">
-                                        <div class="price">
-                                            <div class="vert">
-                                                <div class="price_new">$550.00</div>
-                                                <div class="price_old">$725.00</div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="obn"></a>
-                                        <a href="#" class="like"></a>
-                                        <a href="#" class="bay"></a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
             <div class="clear"></div>
         </div>
@@ -438,6 +138,14 @@
     function pdfPage() {
         var self = this;
         var itemId = '${requestScope.itemId}';
+
+        self.pdpMessage = ko.observable({});
+        if ('${sessionScope.siteLanguage}' == 'chinese') {
+            self.pdpMessage(pdpChineseMessage);
+        } else {
+            self.pdpMessage(pdpEnglishMessage);
+        }
+
         self.itemDetail = ko.observable({});
         self.currentShowPicURL = ko.observable();
         self.itemPicArray = ko.observableArray();
@@ -467,6 +175,8 @@
             $.get("/compare/add?itemId=" + itemId, function(result) {
                 if (result['success']) {
                     window.location.href = "/compare";
+                } else {
+                    alert(result['errorMessage']);
                 }
             })
         };

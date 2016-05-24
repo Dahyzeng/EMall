@@ -24,10 +24,10 @@ public class StoreItemService {
 
     @Autowired
     private ItemPicDao itemPicDao;
-    public List getItemByCategory(Category category, int page, int status, int pageSize) {
+    public List getItemByCategory(Category category, int page, int status, int pageSize, String sortValue) {
         List itemList;
         if (category.getFatherId() == 0) {
-            itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, pageSize);
+            itemList = itemBaseDao.getItemsByCategoryIdStore(category.getCategoryId(), page, status, pageSize, sortValue);
         } else {
             List childCategory = categoryDao.getChildCategory(category.getFatherId());
             if (childCategory.size() != 0) {
@@ -38,9 +38,9 @@ public class StoreItemService {
                     stringBuilder.append(tmpCategory.getCategoryId());
                     stringBuilder.append("',");
                 }
-                itemList = itemBaseDao.getItemsByCategoryId(stringBuilder, page, status, pageSize);
+                itemList = itemBaseDao.getItemsByCategoryIdStore(stringBuilder, page, status, pageSize, sortValue);
             } else {
-                itemList = itemBaseDao.getItemsByCategoryId(category.getFatherId(), page, status, pageSize);
+                itemList = itemBaseDao.getItemsByCategoryIdStore(category.getFatherId(), page, status, pageSize, sortValue);
             }
 
         }

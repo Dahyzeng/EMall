@@ -62,7 +62,6 @@ public class ItemComponent {
         if (item.getItemId() != 0) {
             if (discount != 0) {
                 item.setDiscount(discount);
-                itemBaseService.updateItemDiscount(item);
                 itemBaseService.updateDiscount(new PromotionItem(item.getItemId(), discount, item.getPrice()), item.getItemName());
             }
             if (itemBaseService.updateItem(item) == 1) {
@@ -110,6 +109,8 @@ public class ItemComponent {
                 mav.addObject("discount", promotionItem.getDiscount());
             }
             mav.addObject("item", tmpList.get(0));
+            Item item = (Item) tmpList.get(0);
+            mav.addObject("itemCategoryName", categoryService.getCategoryName(item.getCategoryId()));
 
             mav.addObject("operationMessage", "Edit Item");
         }

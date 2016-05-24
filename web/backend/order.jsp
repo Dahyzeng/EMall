@@ -140,6 +140,7 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- ko if: orderArray().length != 0 -->
                 <div class="wizard-actions" style="text-align: center">
                     <button type="button" class="btn btn-success btn-mini" data-bind="click: prevPage">
                         <i class="icon-chevron-left"></i> Prev
@@ -149,6 +150,12 @@
                         Next <i class="icon-chevron-right"></i>
                     </button>
                 </div>
+                <!-- /ko -->
+                <!-- ko if: orderArray().length == 0 -->
+                <div>
+                    Can not found the order
+                </div>
+                <!-- /ko -->
             </div>
         </div>
     </div>

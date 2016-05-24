@@ -9,7 +9,8 @@
     <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
-
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/pdp-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/car-message.js"></script>
 </head>
 <body>
 <jsp:include page="common/header.jsp"/>
@@ -91,6 +92,14 @@
 </body>
 <script>
     function cartPage() {
+
+        self.cartMessage = ko.obserable({});
+        if ('${sessionScope.siteLanguage}' == 'chinese') {
+            self.cartMessage(cartChineseMessage);
+        } else {
+            self.cartMessage(cartEnglishMessage);
+        }
+
         self.message = ko.observable();
         self.selectItems = ko.observableArray();
         self.total = ko.observable(0);

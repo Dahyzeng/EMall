@@ -12,6 +12,8 @@
     <script src="<%request.getContextPath();%>/store/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
     <script src="<%request.getContextPath();%>/store/js/carousel.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/home-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/home-message.js"></script>
 
 </head>
 <body>
@@ -25,7 +27,7 @@
         <div class="carousel">
             <div class="c_header">
                 <div class="grid_10">
-                    <h2>Best Sellers</h2>
+                    <h2 data-bind="text: homeMessage().bestSeller"></h2>
                 </div>
                 <div class="grid_2">
                     <a id="next_c1" class="next arows" href="#" data-bind="click: changeNext"><span>Next</span></a>
@@ -53,10 +55,13 @@
                                         <div class="price_new">$<span data-bind="text: item.price"></span></div>
                                         <!-- /ko -->
                                     </div>
+                                    <div class="vert" style="padding-left: 20px">
+                                        <span data-bind="text: $root.homeMessage().sale"></span>:
+                                        <span data-bind="text: item.saleQuantity">1</span>
+                                    </div>
                                 </div>
-                                <a href="#" class="obn"></a>
-                                <a href="#" class="like"></a>
-                                <a href="#" class="bay"></a>
+                                <a href="#" data-bind="click: $root.addCompare, attr: {title: $root.homeMessage().compare}" class="obn"></a>
+                                <a href="#" data-bind="click: $root.addToCart, attr: {title: $root.homeMessage().addToCart}"  class="bay"></a>
                             </div>
                         </div>
                     </li>
@@ -86,6 +91,13 @@
         var self = this;
         self.carouselArray = ko.observableArray();
 
+        self.homeMessage = ko.observable({});
+        if ('${sessionScope.siteLanguage}' == 'chinese') {
+            self.homeMessage(homeChineseMessage);
+        } else {
+            self.homeMessage(homeEnglishMessage);
+        }
+
         self.currentBestSale = ko.observableArray();
         self.bestSale = ko.observableArray();
         self.currentBestSalePage = ko.observable(1);
@@ -104,6 +116,33 @@
                 } else
                 self.currentBestSale(self.bestSale.slice((self.currentBestSalePage() - 1) * 4, self.currentBestSalePage() * 4));
             }
+        };
+
+        self.addCompare = function(p) {
+            $.get("/compare/add?itemId=" + p.itemId, function(result) {
+                if (result['success']) {
+                    window.location.href = "/compare";
+                } else {
+                    alert(result['errorMessage']);
+                }
+            })
+        };
+
+        self.addToCart = function(p) {
+            $.post("/cart/add", {itemId: p.itemId, quantity: 1}, function(resultJson) {
+                if (resultJson['success']) {
+                    alert("add success");
+                    getCartItem();
+                } else {
+                    if (resultJson['errorMessage'] == 'no_login') {
+                        if (resultJson['url']) {
+                            window.location.href = "/login?url=" + resultJson['url'];
+                        } else {
+                            window.location.href = "/login";
+                        }
+                    }
+                }
+            })
         };
 
         (function () {

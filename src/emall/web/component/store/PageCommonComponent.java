@@ -54,21 +54,24 @@ public class PageCommonComponent {
 
     @RequestMapping("/get_item_category")
     @ResponseBody
-    public List getItemByCategory(Category category, int page, String pageType) {
+    public List getItemByCategory(Category category, int page, String pageType, String sortValue) {
         List list;
+        if ("undefined".equals(sortValue)) {
+            sortValue = null;
+        }
         if ("grid".equals(pageType)) {
             Object pageSize = request.getSession().getAttribute("gridPageSize");
             if (pageSize == null) {
-                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE);
+                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE, sortValue);
             } else  {
-                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()));
+                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()), sortValue);
             }
         } else  {
             Object pageSize = request.getSession().getAttribute("listPageSize");
             if (pageSize == null) {
-                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE);
+                list = storeItemService.getItemByCategory(category, page, 1, PageSizeConstant.GRID_PAGE_SIZE, sortValue);
             } else {
-                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()));
+                list = storeItemService.getItemByCategory(category, page, 1, Integer.parseInt(pageSize.toString()), sortValue);
             }
         }
         return list;
@@ -97,5 +100,11 @@ public class PageCommonComponent {
         } else {
             request.getSession().setAttribute("listPageSize", pageSize);
         }
+    }
+
+    @RequestMapping("/language")
+    @ResponseBody
+    public void changeLanguage(String language) {
+        request.getSession().setAttribute("siteLanguage", language);
     }
 }

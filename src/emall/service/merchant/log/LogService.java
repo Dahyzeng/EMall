@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by taurin on 2016/5/8.
@@ -19,11 +20,11 @@ public class LogService {
         logDao.addLog(merchantLog);
     }
 
-    public List getLogByName(String name, int page, int pageSize) {
+    public Map getLogByName(String name, int page, int pageSize) {
         return logDao.getLogByName(name, page, pageSize);
     }
 
-    public List getLog(int page, int pageSize) {
+    public Map getLog(int page, int pageSize) {
         return logDao.getAllLog(page, pageSize);
     }
 }

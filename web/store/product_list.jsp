@@ -21,6 +21,8 @@
     <script src="<%request.getContextPath();%>/store/js/radio.js"></script>
     <script src="<%request.getContextPath();%>/store/js/selectBox.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/item-list-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/item-list-message.js"></script>
 
 </head>
 <body>
@@ -29,7 +31,7 @@
 <div class="container_12">
     <div class="grid_12">
         <div class="breadcrumbs">
-            <a href="index.html">Home</a><span>&#8250;</span></span>
+            <a href="index.html"><span data-bind="text: itemListMessage().home"></span></a><span>&#8250;</span></span>
             <span class="current">${requestScope.name}</span>
         </div>
         <!-- .breadcrumbs -->
@@ -41,7 +43,7 @@
     <div class="container_12">
 
         <div id="content" class="grid_12">
-            <h1 class="page_title">Product List</h1>
+            <h1 class="page_title"><span data-bind="text: itemListMessage().productList"></span></h1>
 
             <div class="options">
                 <div class="grid-list">
@@ -51,36 +53,17 @@
                 <!-- .grid-list -->
 
                 <div class="show">
-                    Show
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                    <span data-bind="text: itemListMessage().show"></span>
+                    <select name="pageSize" data-bind="options: pageSizeOptions, value: pageSizeValue, optionsCaption: itemListMessage().select">
                     </select>
-
-                    per page
+                    <span data-bind="text: itemListMessage().perPage"></span>
                 </div>
                 <!-- .show -->
 
                 <div class="sort">
-                    Sort By
-                    <select>
-                        <option>Position</option>
-                        <option>Price</option>
-                        <option>Rating</option>
-                        <option>Name</option>
+                    <span data-bind="text: itemListMessage().sortBy"></span>
+                    <select name="sort" data-bind="options: sortByOptions, value: sortValue, optionsCaption: itemListMessage().select">
                     </select>
-
-                    <a class="sort_up" href="#">&#8593;</a>
                 </div>
                 <!-- .sort -->
             </div>
@@ -98,20 +81,19 @@
                     </div>
                     <div class="grid_7">
                         <div class="entry_content">
-                            <a href="product_page.html">
+                            <a data-bind="attr: { href: '/pdp/' + item.itemId }">
                                 <h3 class="title" data-bind="text: item.itemName"></h3>
                             </a>
 
-                            <div class="review">
+                            <div class="review" style="margin-bottom: 4px">
                                 <a class="plus" href="#"></a>
                                 <a class="plus" href="#"></a>
                                 <a class="plus" href="#"></a>
                                 <a href="#"></a>
                                 <a href="#"></a>
-                                <span>1 REVIEW(S)</span>
+                                <span>1 <span data-bind="text: $root.itemListMessage().review"></span></span>
                             </div>
-                            <p data-bind="text: item.description"></p>
-                            <a class="more" href="product_page.html">Learn More</a>
+                            <a class="more" data-bind="attr: { href: '/pdp/' + item.itemId }"><span data-bind="text: $root.itemListMessage().learnMore"></span></a>
                         </div>
                     </div>
 
@@ -126,9 +108,9 @@
                                 <div class="price_new">$<span data-bind="text: item.price"></span></div>
                                 <!-- /ko -->
                             </div>
-                            <a href="#" data-bind="click: $root.addToCart" class="bay">Add to Cart</a>
-                            <a href="#" class="obn"></a>
-                            <a href="#" class="like"></a>
+                            <a href="#" data-bind="click: $root.addToCart" class="bay"><span data-bind="text: $root.itemListMessage().addToCart"></span></a>
+                            <a href="#" data-bind="click: $root.addCompare, attr: {title: $root.itemListMessage().compare}" class="obn"></a>
+                            <div style="margin-left: 75px; padding-top: 10px; color: #2AB4C4" data-bind="text: $root.itemListMessage().sale + ': ' + item.saleQuantity"></div>
                         </div>
                     </div>
 
@@ -139,17 +121,15 @@
             <div class="pagination">
                 <!-- ko if: hasMore -->
                 <ul>
-                    <li><a href="#" data-bind="click: showMore">Show More >></a></li>
+                    <li><a href="#" data-bind="click: showMore"><span data-bind="text: $root.itemListMessage().showMore + '  >>'"></span></a></li>
                 </ul>
                 <!-- /ko -->
                 <!-- ko ifnot: hasMore -->
                 <ul>
-                    <li><a>At the bottom.</a></li>
+                    <li><a><span data-bind="text: $root.itemListMessage().bottom"></span></a></li>
                 </ul>
                 <!-- /ko -->
             </div>
-            <!-- .pagination -->
-            <p class="pagination_info">Displaying 1 to 12 (of 100 products)</p>
         </div>
         <!-- #content -->
 
@@ -167,6 +147,52 @@
         var id = '${requestScope.id}';
         var name = '${requestScope.name}';
 
+        var messageJson = {
+            "Price Up": "priceUp",
+            "Price Down": "priceDown",
+            "价格(升)": "priceUp",
+            "价格(降)": "priceDown",
+            "Sale Up": "saleUp",
+            "Sale Down": "saleDown",
+            "销量(升)": "saleUp",
+            "销量(降)": "saleDown",
+            "undefined": "undefined"
+        };
+        self.itemListMessage = ko.observable();
+        if ('${sessionScope.siteLanguage}' == 'chinese') {
+            self.itemListMessage(itemListChineseMessage);
+        } else {
+            self.itemListMessage(itemListEnglishMessage);
+        }
+
+        self.sortByOptions = [self.itemListMessage()['priceUp'], self.itemListMessage()['priceDown'], self.itemListMessage()['saleUp'], self.itemListMessage()['saleDown']];
+        self.sortValue = ko.observable();
+        self.sortValue.subscribe(function (sortValue) {
+            if (!sortValue) {
+                return;
+            }
+            self.hasMore(true);
+            self.currentPage(1);
+            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[sortValue], function (itemList) {
+                self.itemArray(itemList);
+            });
+        });
+
+        self.pageSizeOptions = [3, 6, 9];
+        self.pageSizeValue = ko.observable(${sessionScope.listPageSize});
+        self.pageSizeValue.subscribe(function (pageSize) {
+            if (pageSize) {
+                self.hasMore(true);
+                self.currentPage(1);
+                $.get("/store/page_size?type=grid&pageSize=" + pageSize, function () {
+                    $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[self.sortValue()], function (itemList) {
+                        self.itemArray(itemList);
+                    });
+                })
+            }
+        });
+
+
         self.categoryIdType = ko.observable();
         self.typeId = ko.observable(id);
         self.currentPage = ko.observable(1);
@@ -176,7 +202,7 @@
         self.hasMore = ko.observable(true);
         self.showMore = function() {
             self.currentPage(self.currentPage() + 1);
-            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid", function (itemList) {
+            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[self.sortValue()], function (itemList) {
                 if (itemList.length > 0) {
                     for (var i = 0; i < itemList.length; i ++) {
                         self.itemArray.push(itemList[i]);
@@ -203,13 +229,24 @@
                 }
             })
         };
+
+        self.addCompare = function(p) {
+            $.get("/compare/add?itemId=" + p.itemId, function(result) {
+                if (result['success']) {
+                    window.location.href = "/compare";
+                } else {
+                    alert(result['errorMessage']);
+                }
+            })
+        };
+
         (function() {
             headerPage();
             self.categoryIdType('fatherId=');
             if (type == 'c') {
                 self.categoryIdType('categoryId=');
             }
-            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=list", function (itemList) {
+            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=list&sortValue=" + messageJson[self.sortValue()], function (itemList) {
                 self.itemArray(itemList);
             });
         })();

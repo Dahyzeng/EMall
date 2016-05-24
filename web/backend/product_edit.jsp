@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/elements.css"/>
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/icons.css"/>
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/header.css"/>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>/backend/css/compiled/form-showcase.css"/>
     <link href="<%request.getContextPath();%>/backend/css/lib/font-awesome.css" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="<%request.getContextPath();%>/backend/css/compiled/tables.css" type="text/css"
@@ -22,6 +23,68 @@
     <script src="<%request.getContextPath();%>/backend/js/bootstrap.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/theme.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/knockoutjs.js"></script>
+    <script type="text/javascript" src="<%request.getContextPath();%>/backend/js/jquery-ui-datepicker.js"></script>
+
+
+    <script charset="utf-8" src="<%request.getContextPath();%>/backend/js/editor/plugins/code/prettify.js"></script>
+    <link rel="stylesheet" href="<%request.getContextPath();%>/backend/js/editor/plugins/code/prettify.css"/>
+    <script charset="utf-8" src="<%request.getContextPath();%>/backend/js/editor/kindeditor.js"></script>
+    <script charset="utf-8" src="<%request.getContextPath();%>/backend/js/editor/lang/zh_CN.js"></script>
+
+    <script type="text/javascript">
+
+        var editor;
+
+        $(function () {
+            $("#date_1").datepicker();
+
+        });
+        KindEditor.ready(function (K) {
+
+            var options = {
+                cssPath: '../../editor/plugins/code/prettify.css',
+                uploadJson: './global/upload_json.jsp',
+                fileManagerJson: './global/file_manager_json.jsp',
+                allowFileManager: false,
+                allowImageManager : true,
+                resizeType: 0,
+                items: [
+                    'undo', 'redo', '|', 'preview', 'print', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', '|', 'image', 'fullscreen',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|',
+                    'table', 'hr'
+                ],
+
+                afterCreate: function () {
+                    this.sync();
+                },
+                afterBlur: function () {
+                    this.sync();
+                }
+            };
+            editor = K.create('textarea', options);
+            editor.sync();
+            KindEditor.options.minWidth = 950;
+            KindEditor.options.minWidth = 900;
+            KindEditor.options.resizeType = 0;
+        });
+        prettyPrint();
+
+
+        //把txtsummary附给input value
+        function getSummary() {
+            document.getElementById("summary").value = editor.text().substring(0, 60);
+        }
+        function getSum(){
+//            alert(editor.text().substring(0, 60));
+            document.getElementById("summary").value = editor.text().substring(0, 60);
+        }
+
+    </script>
+
 <body>
 
 <jsp:include page="common/header.jsp"/>
@@ -56,16 +119,26 @@
                             <label>Price:</label>
                             <input class="span8 inline-input" value="${requestScope.item.price}" name="price" type="text" placeholder="price"/>
                         </div>
+                        <c:if test="${requestScope.operation ne 'add'}">
                         <div class="field-box">
                             <label>Discount:</label>
-                            <input class="span8 inline-input" value="${requestScope.discount}" name="discount" type="text" placeholder="price"/>
+                            <input class="span8 inline-input" value="${requestScope.item.discount}" name="discount" type="text" placeholder="price"/>
                         </div>
-
+                        </c:if>
+                        <c:if test="${requestScope.operation eq 'add'}">
+                            <input type="hidden" name="discount" value="0"/>
+                        </c:if>
                         <div class="field-box">
                             <label>Category:</label>
                             <input type="hidden" name="categoryId" value="${requestScope.item.categoryId}" id="categoryId"/>
+                            <!-- ko ifnot: itemCategoryName -->
                             <select data-bind="options: categoryArray, optionsText: 'firstCategoryName', value: firstCategoryValue, optionsCaption: 'select a category'"></select>
                             <span id="childCategory"><span data-bind="with: firstCategoryValue"><select data-bind="options: childCategories, optionsText: 'categoryName', value: $root.secondCategoryValue, optionsCaption: 'select a category'"></select></span></span>
+                            <!-- /ko -->
+                            <!-- ko if: itemCategoryName -->
+                                ${requestScope.itemCategoryName}
+                                <a href="#" data-bind="click: changeItemCategory">change</a>
+                            <!-- /ko -->
                         </div>
 
                         <div class="field-box">
@@ -74,8 +147,11 @@
                         </div>
                         <div class="field-box">
                             <label>Textarea:</label>
-                            <textarea name="description" class="span8" rows="4">${requestScope.item.description}</textarea>
+                            <textarea id="editor_id" name="description" style="width:900px;height:500px;" onfocus="getSum()" onchange="getSum()">
+                                ${requestScope.item.description}
+	                        </textarea>
                         </div>
+
                         <c:if test="${requestScope.item.itemId ne null}">
                             <input type="hidden" name="itemId" value="${requestScope.item.itemId}">
                         </c:if>
@@ -93,6 +169,7 @@
         self.returnMessage = ko.observable();
         self.firstCategoryValue = ko.observable();
         self.secondCategoryValue = ko.observable();
+        self.itemCategoryName = ko.observable("${requestScope.itemCategoryName}");
         self.firstCategoryValue.subscribe(function() {
             if (self.firstCategoryValue().childCategories.length == 0) {
                 $('#childCategory').attr('class','hidden');
@@ -100,6 +177,9 @@
                 $('#childCategory').removeAttr('class');
             }
         });
+        self.changeItemCategory = function () {
+            self.itemCategoryName("");
+        };
         (function() {
             $.get("/category/getAll", function(responseArray){
                 if (responseArray['success']) {

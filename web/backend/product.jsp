@@ -75,15 +75,12 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th class="span3">
+                            <th class="span4">
                                 <input type="checkbox"/>
                                 Product
                             </th>
                             <th class="span2">
                                 <span class="line"></span>Price
-                            </th>
-                            <th class="span4">
-                                <span class="line"></span>Description
                             </th>
                             <th class="span2">
                                 <span class="line"></span>inventory
@@ -98,7 +95,7 @@
                         </thead>
                         <tbody data-bind="foreach: {data: itemArray, as: 'item'}">
                         <tr>
-                            <td class="span3">
+                            <td class="span4">
                                 <input type="checkbox"/>
 
                                 <div class="img">
@@ -108,9 +105,6 @@
                             </td>
                             <td class="span2">
                                 <span data-bind="text: '$' + item.price"></span>
-                            </td>
-                            <td class="span4">
-                                <span data-bind="text: item.description"></span>
                             </td>
                             <td class="span2">
                                 <span data-bind="text: item.inventory"></span>

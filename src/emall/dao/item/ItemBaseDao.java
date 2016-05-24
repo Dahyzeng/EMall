@@ -39,7 +39,7 @@ public class ItemBaseDao {
     }
 
     public void updateItem(Item item) {
-        String sql = "update Item set itemName=?, categoryId=?, price=?, inventory=?, description=? ";
+        String sql = "update Item set itemName=?, categoryId=?, price=?, inventory=?, description=?, discount=? ";
         int flag = 0;
         if (item.getShowPicURL() != null) {
             sql += ", showPicURL=? ";
@@ -52,11 +52,12 @@ public class ItemBaseDao {
         query.setFloat(2, item.getPrice());
         query.setInteger(3, item.getInventory());
         query.setString(4, item.getDescription());
+        query.setFloat(5, item.getDiscount());
         if (flag == 1) {
-            query.setString(5, item.getShowPicURL());
-            query.setInteger(6, item.getItemId());
+            query.setString(6, item.getShowPicURL());
+            query.setInteger(7, item.getItemId());
         } else {
-            query.setInteger(5, item.getItemId());
+            query.setInteger(6, item.getItemId());
         }
         query.executeUpdate();
     }
@@ -96,7 +97,7 @@ public class ItemBaseDao {
         return query.list();
     }
 
-    public List getItemsByCategoryIdStore(Object categoryId, int page, int status, int pageSize) {
+    public List getItemsByCategoryIdStore(Object categoryId, int page, int status, int pageSize, String sorValue) {
         String sql = "from Item";
         int flag = 0;
         if (categoryId != null) {
@@ -114,6 +115,17 @@ public class ItemBaseDao {
             sql += " and status=" + status;
         } else {
             sql += " where status=" + status;
+        }
+        if (sorValue != null) {
+            if (sorValue.equals("saleDown")) {
+                sql += " order by saleQuantity DESC";
+            } else if (sorValue.equals("saleUp")) {
+                sql += " order by saleQuantity ASC";
+            } else if (sorValue.equals("priceUp")) {
+                sql += " order by price ASC";
+            } else {
+                sql += " order by price DESC";
+            }
         }
         Query query = sessionFactory.getCurrentSession().createQuery(sql);
         if (flag == 1) {

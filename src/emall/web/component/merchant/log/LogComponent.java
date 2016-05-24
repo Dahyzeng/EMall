@@ -30,16 +30,18 @@ public class LogComponent {
     @ResponseBody
     public Map getLogs(String name, int page) {
         Map<String, Object> map = checkStatus();
-        List list;
         if (!(Boolean) map.get("success")) {
             return map;
         }
+        Map tmpMap;
         if (name == null) {
-            list = logService.getLog(page, PageSizeConstant.LOG_PAGE_SIZE);
+            tmpMap = logService.getLog(page, PageSizeConstant.LOG_PAGE_SIZE);
         } else {
-            list = logService.getLogByName(name, page, PageSizeConstant.LOG_PAGE_SIZE);
+            tmpMap = logService.getLogByName(name, page, PageSizeConstant.LOG_PAGE_SIZE);
         }
-        map.put("logArray", list);
+        map.put("logArray", tmpMap.get("logList"));
+        map.put("logCount", tmpMap.get("count"));
+        map.put("totalPage", Math.ceil((float) (Integer.parseInt(tmpMap.get("count").toString()) / PageSizeConstant.LOG_PAGE_SIZE)));
         return map;
     }
 

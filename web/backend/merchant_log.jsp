@@ -78,28 +78,74 @@
             </div>
         </div>
     </div>
+
+    <!-- ko if: logArray().length != 0-->
+    <div class="wizard-actions" style="text-align: center">
+        <button type="button" class="btn btn-success btn-mini" data-bind="click: prevPage">
+            <i class="icon-chevron-left"></i> Prev
+        </button>
+        <span style="font-size: 16px" data-bind="text: currentPage() + '/' + totalPage()"></span>
+        <button type="button" class="btn btn-success btn-mini" data-last="Finish" data-bind="click: nextPage">
+            Next <i class="icon-chevron-right"></i>
+        </button>
+    </div>
+    <!-- /ko -->
 </div>
 </body>
 <script>
     function logPage() {
         var self = this;
-        self.page = ko.observable(1);
+        self.currentPage = ko.observable(1);
         self.logArray = ko.observableArray();
         self.searchName = ko.observable();
+        self.logCount = ko.observable();
+        self.totalPage = ko.observable();
 
-        self.searchLog = function () {
-            $.get("/log/get?name=" + self.searchName() + "&page=" + self.page(), function(json) {
+        self.searchLog = function (c) {
+            if (c != 'continue') {
+                self.currentPage(1);
+            }
+            $.get("/log/get?name=" + self.searchName() + "&page=" + self.currentPage(), function(json) {
                 if (json['success']) {
                     self.logArray(json['logArray']);
                 }
             })
         };
-        (function () {
-            $.get("/log/get?page=1", function(json) {
-               if (json['success']) {
-                   self.logArray(json['logArray']);
-               }
+        self.prevPage = function () {
+            if (self.currentPage() == 1) {
+                return
+            }
+            self.currentPage(self.currentPage() - 1);
+            if (self.searchName()) {
+                self.searchLog('continue');
+            } else {
+                self.getAllLog();
+            }
+        };
+        self.nextPage = function () {
+            if (self.currentPage() == self.totalPage()) {
+                return
+            }
+            self.currentPage(self.currentPage() + 1);
+            if (self.searchName()) {
+                self.searchLog('continue');
+            } else {
+                self.getAllLog();
+            }
+        };
+
+        self.getAllLog = function () {
+            $.get("/log/get?page=" + self.currentPage(), function(json) {
+                if (json['success']) {
+                    self.logArray(json['logArray']);
+                    self.logCount(json['logCount']);
+                    self.totalPage(json['totalPage']);
+                }
             });
+        };
+
+        (function () {
+            self.getAllLog();
         })();
     }
     ko.applyBindings(new logPage());

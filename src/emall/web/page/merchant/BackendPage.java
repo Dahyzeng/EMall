@@ -67,6 +67,7 @@ public class BackendPage {
         if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
             if ("add".equals(operation)) {
                 mav.addObject("operationMessage", "Add A New Item");
+                mav.addObject("operation", "add");
             } else if ("edit".equals(operation)) {
                 mav.setViewName("redirect:/item/edit/" + itemId);
                 return mav;
