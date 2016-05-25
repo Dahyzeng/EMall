@@ -12,8 +12,8 @@
     <script src="<%request.getContextPath();%>/store/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
     <script src="<%request.getContextPath();%>/store/js/carousel.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/home-message.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/el/home-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/chinese_message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/english_message.js"></script>
 
 </head>
 <body>
@@ -93,9 +93,9 @@
 
         self.homeMessage = ko.observable({});
         if ('${sessionScope.siteLanguage}' == 'chinese') {
-            self.homeMessage(homeChineseMessage);
+            self.homeMessage(chineseMessage);
         } else {
-            self.homeMessage(homeEnglishMessage);
+            self.homeMessage(englishMessage);
         }
 
         self.currentBestSale = ko.observableArray();

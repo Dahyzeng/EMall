@@ -16,8 +16,7 @@
     <script src="<%request.getContextPath();%>/store/js/selectBox.js"></script>
     <script src="<%request.getContextPath();%>/store/js/jquery.jqzoom-core.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/pdp-message.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/el/pdp-message.js"></script>
+   
     <script>
         $(document).ready(function() {
             $('#wrapper_tab a').click(function() {
@@ -36,7 +35,7 @@
     <div class="container_12">
         <!-- .sidebar -->
         <div id="content" class="grid_12">
-            <h1 class="page_title"><span data-bind="text: pdpMessage().itemDetail"></span></h1>
+            <h1 class="page_title"><span data-bind="text: headerMessage().itemDetail"></span></h1>
 
             <div class="product_page">
                 <div class="grid_4 img_slid" id="products">
@@ -63,20 +62,20 @@
                             <a class="plus" href="#"></a>
                             <a href="#"></a>
                             <a href="#"></a>
-                            <span>1 <span data-bind="text: pdpMessage().review"></span></span>
-                            <a class="add_review" href="#"><span data-bind="text: pdpMessage().addReview"></span></a>
+                            <span>1 <span data-bind="text: headerMessage().review"></span></span>
+                            <a class="add_review" href="#"><span data-bind="text: headerMessage().addReview"></span></a>
                         </div>
                         <p><span data-bind="text: itemDetail().itemName"></span></p>
 
                         <div class="ava_price">
                             <div class="availability_sku">
                                 <div class="availability">
-                                    <span data-bind="text: pdpMessage().availability"></span>:
+                                    <span data-bind="text: headerMessage().availability"></span>:
                                     <!-- ko if: itemDetail().inventory !=0 -->
-                                    <span data-bind="text: pdpMessage().inStock"></span>
+                                    <span data-bind="text: headerMessage().inStock"></span>
                                     <!-- /ko -->
                                     <!-- ko if: itemDetail().inventory ==0 -->
-                                    <span data-bind="text: pdpMessage().outOfStock"></span>
+                                    <span data-bind="text: headerMessage().outOfStock"></span>
                                     <!-- /ko -->
                                 </div>
                             </div>
@@ -92,12 +91,12 @@
                         </div>
                         <div class="block_cart">
                             <div class="obn_like">
-                                <div class="obn"><a href="#" data-bind="click: addCompare" class="obn"><span data-bind="text: pdpMessage().compare"></span></a></div>
+                                <div class="obn"><a href="#" data-bind="click: addCompare" class="obn"><span data-bind="text: headerMessage().compare"></span></a></div>
                             </div>
                             <div class="cart">
-                                <a href="#" data-bind="click: addToCart" class="bay"><span data-bind="text: pdpMessage().addToCart"></span></a>
+                                <a href="#" data-bind="click: addToCart" class="bay"><span data-bind="text: headerMessage().addToCart"></span></a>
                                 <input style="width:35px;height: 35px;" type="text" class="number" data-bind="value: itemQuantity"/>
-                                <span data-bind="text: pdpMessage().quantity"></span>:
+                                <span data-bind="text: headerMessage().quantity"></span>:
                             </div>
                         </div>
                     </div>
@@ -105,8 +104,8 @@
                 <div class="clear"></div>
                 <div class="grid_12">
                     <div id="wrapper_tab" class="tab1">
-                        <a href="#" class="tab1 tab_link"><span data-bind="text: pdpMessage().description"></span></a>
-                        <a href="#" class="tab2 tab_link"><span data-bind="text: pdpMessage().review"></span></a>
+                        <a href="#" class="tab1 tab_link"><span data-bind="text: headerMessage().description"></span></a>
+                        <a href="#" class="tab2 tab_link"><span data-bind="text: headerMessage().review"></span></a>
 
                         <div class="clear"></div>
                         <div class="tab1 tab_body">
@@ -138,13 +137,6 @@
     function pdfPage() {
         var self = this;
         var itemId = '${requestScope.itemId}';
-
-        self.pdpMessage = ko.observable({});
-        if ('${sessionScope.siteLanguage}' == 'chinese') {
-            self.pdpMessage(pdpChineseMessage);
-        } else {
-            self.pdpMessage(pdpEnglishMessage);
-        }
 
         self.itemDetail = ko.observable({});
         self.currentShowPicURL = ko.observable();

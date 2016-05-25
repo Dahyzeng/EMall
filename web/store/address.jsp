@@ -21,8 +21,8 @@
     <div class="container_12">
         <div class="grid_12">
             <div class="breadcrumbs">
-                <a href="/home">Home</a><span>&#8250;</span>
-                <span class="current">Personal Info</span>
+                <a href="/home"><span data-bind="text: headerMessage().home"></span></a><span>&#8250;</span>
+                <span class="current"><span data-bind="text: headerMessage().address"></span></span>
             </div>
         </div>
     </div>
@@ -31,16 +31,16 @@
         <div>
             <div class="tabbable tabs-left" id="tabs-528944">
                 <ul class="nav nav-pills nav-stacked" id="account_menu">
-                    <li><a href="/account">Personal Info</a></li>
-                    <li class="active"><a href="/account/address">Address</a></li>
-                    <li><a href="/account/order">Order</a></li>
+                    <li><a href="/account"><span data-bind="text: headerMessage().personalInfo"></span></a></li>
+                    <li class="active"><a href="/account/address"><span data-bind="text: headerMessage().address"></span></a></li>
+                    <li><a href="/account/order"><span data-bind="text: headerMessage().order"></span></a></li>
                 </ul>
                 <div class="info_content">
                     <div style="padding: 10px 20px 20px">
                         <div id="main" style="margin: -7px 0 33px 0;">
                             <div id="addressList">
                                 <div>
-                                    <a class="add_new_button" href="#" data-bind="click: showAddressModal">Add New Address</a>
+                                    <a class="add_new_button" href="#" data-bind="click: showAddressModal"><span data-bind="text: headerMessage().addNewAddress"></span></a>
                                     <span>You have already added <span>5 </span>addresses，the max number is <span>20</span></span>
                                 </div>
                             </div>
@@ -50,7 +50,6 @@
                                 <div class="title">
                                     <h3 class="name">
                                         <span data-bind="text: address.consignee"></span>
-                                        <span class="default_address">Default Address</span>
                                     </h3>
                                     <div class="del">
                                         <a class="delete_button" href="#" data-bind="click: $root.deleteAddress"></a>
@@ -61,34 +60,34 @@
                                         <div style="width: 450px;">
                                             <div class="clear"></div>
                                             <div>
-                                                <span class="info_label">consignee：</span>
+                                                <span class="info_label"><span data-bind="text: headerMessage().consignee"></span>：</span>
                                                 <div>
                                                     <span data-bind="text: address.consignee"></span>
                                                 </div>
                                             </div>
                                             <div>
-                                                <span class="info_label">location：</span>
+                                                <span class="info_label"><span data-bind="text: headerMessage().location"></span>：</span>
 
                                                 <div>
                                                     <span data-bind="text: address.province + address.city + address.district"></span>
                                                 </div>
                                             </div>
                                             <div>
-                                                <span class="info_label">address：</span>
+                                                <span class="info_label"><span data-bind="text: headerMessage().address"></span>：</span>
 
                                                 <div>
                                                     <span data-bind="text: address.detail"></span>
                                                 </div>
                                             </div>
                                             <div>
-                                                <span class="info_label">telephone：</span>
+                                                <span class="info_label"><span data-bind="text: headerMessage().telephone"></span>：</span>
 
                                                 <div>
                                                     <span data-bind="text: address.telephone"></span>
                                                 </div>
                                             </div>
                                             <div>
-                                                <span class="info_label">email：</span>
+                                                <span class="info_label"><span data-bind="text: headerMessage().email"></span>：</span>
 
                                                 <div>
                                                     <span data-bind="text: address.email"></span>
@@ -97,7 +96,7 @@
                                         </div>
 
                                         <div class="address_info_footer">
-                                                <a class="edit" href="#" data-bind="click: $root.editAddressModal">Edit</a>
+                                                <a class="edit" href="#" data-bind="click: $root.editAddressModal"><span data-bind="text: headerMessage().edit"></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -118,21 +117,21 @@
 <div id="address_modal" class="address_modal">
     <div class="inner">
         <div class="modal_title">
-            <span>Add New Address</span>
+            <span data-bind="text: headerMessage().addNewAddress"></span>
             <span class="modal_close"><a href="#" data-bind="click: modalClose">X</a></span>
         </div>
         <div class="a_modal_content">
             <div class="a_label">
-                <p><span style="color: red;">*</span>Consignee:</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().consignee"></span>:</p>
                 <input data-bind="value: currentAddress().consignee" type="text"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Area:</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().location"></span>:</p>
                 <div style="float: left;">
                     <p style="line-height: 30px;">
-                        <span class="a_font">Province：</span><select style="vertical-align: middle;" class="a_select" id="cmbProvince"></select>
-                        <span class="a_font">City：</span><select class="a_select" id="cmbCity"></select>
-                        <span class="a_font">District：</span><select class="a_select" id="cmbArea"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().province"></span>：</span><select style="vertical-align: middle;" class="a_select" id="cmbProvince"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().city"></span>：</span><select class="a_select" id="cmbCity"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().district"></span>：</span><select class="a_select" id="cmbArea"></select>
                         <input name="province" data-bind="value: currentAddress.province" type="hidden"/>
                         <input name="city" data-bind="value: currentAddress.city" type="hidden"/>
                         <input name="district" data-bind="value: currentAddress.district" type="hidden"/>
@@ -146,19 +145,19 @@
                 </div>
             </div>
             <div class="a_label" style="clear: both;">
-                <p><span style="color: red;">*</span>Detail Address：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().addressDetail"></span>：</p>
                 <input style="width: 484px;" type="text" data-bind="value: currentAddress().detail"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Telephone：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().telephone"></span>：</p>
                 <input type="text" data-bind="value: currentAddress().telephone"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Email：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().email"></span>：</p>
                 <input type="text" data-bind="value: currentAddress().email"/>
             </div>
             <div style="margin: 10px 0 0;">
-                <input class="a_save" type="submit" data-bind="click: saveAddress" value="Save">
+                <input class="a_save" type="submit" data-bind="click: saveAddress, value: headerMessage().save">
             </div>
         </div>
     </div>

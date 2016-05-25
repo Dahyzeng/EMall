@@ -1,31 +1,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<script src="<%request.getContextPath();%>/store/js/language/zh-CN/headerData.js"></script>
-<script src="<%request.getContextPath();%>/store/js/language/el/headerData.js"></script>
+<script src="<%request.getContextPath();%>/store/js/language/zh-CN/chinese_message.js"></script>
+<script src="<%request.getContextPath();%>/store/js/language/el/english_message.js"></script>
 <div id="header">
     <div class="container_12">
         <div id="top">
             <div class="grid_3">
                 <div class="phone_top">
-                    <span data-bind="text: headerTextData().callUs"></span> +777 (100) 1234
+                    <span data-bind="text: headerMessage().callUs"></span> +777 (100) 1234
                 </div>
             </div>
 
             <div class="grid_2" style="margin-top: 13px;">
                 <span data-bind="text: currentLanguage"></span>
-                <select style="width: 85px;height: 28px" data-bind="options: languageOptions, value: currentLanguageValue, optionsCaption: headerTextData().languageSelect,event:{change: setLanguage}">
+                <select style="width: 85px;height: 28px" data-bind="options: languageOptions, value: currentLanguageValue, optionsCaption: headerMessage().languageSelect,event:{change: setLanguage}">
                 </select>
             </div>
 
             <div class="grid_7" >
                 <div class="welcome" style="float: right">
                     <c:if test="${sessionScope.username eq null}">
-                        <span data-bind="text: headerTextData().hello"></span> <a href="/login"><span data-bind="text: headerTextData().login"></span></a> <span data-bind="text: headerTextData().or"></span>
-                        <a href="/register"><span data-bind="text: headerTextData().register"></span></a>.
+                        <span data-bind="text: headerMessage().hello"></span> <a href="/login"><span data-bind="text: headerMessage().login"></span></a> <span data-bind="text: headerMessage().or"></span>
+                        <a href="/register"><span data-bind="text: headerMessage().register"></span></a>.
                     </c:if>
                     <c:if test="${sessionScope.username ne null}">
-                        <span data-bind="text: headerTextData().welcome"></span>, <a href="/account">${sessionScope.username}</a>&nbsp;&nbsp;<a href="#" data-bind="click: logout"><span data-bind="text: headerTextData().notMe"></span></a>
+                        <span data-bind="text: headerMessage().welcome"></span>, <a href="/account">${sessionScope.username}</a>&nbsp;&nbsp;<a href="#" data-bind="click: logout"><span data-bind="text: headerMessage().notMe"></span></a>
                     </c:if>
                 </div>
             </div>
@@ -52,7 +51,7 @@
             <div class="grid_6">
                 <ul id="cart_nav">
                     <li>
-                        <a class="cart_li" href="#"><span data-bind="text: headerTextData().cart"></span> <span data-bind="text: totalPrice"></span></a>
+                        <a class="cart_li" href="#"><span data-bind="text: headerMessage().cart"></span> <span data-bind="text: totalPrice"></span></a>
                         <ul class="cart_cont">
                         <span data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
                         <li>
@@ -74,22 +73,22 @@
                         </li>
                         </span>
                             <li class="no_border">
-                                <a href="/cart" class="view_cart">View shopping cart</a>
-                                <a href="checkout.html" class="checkout">Procced to Checkout</a>
+                                <a href="/cart" class="view_cart"><span data-bind="text: headerMessage().viewShoppingCart"></span></a>
+                                <a href="checkout.html" class="checkout"><span data-bind="text: headerMessage().checkout"></span></a>
                             </li>
                         </ul>
                     </li>
                 </ul>
                 <nav class="private">
                     <ul>
-                        <li><a href="/account"><span data-bind="text: headerTextData().myAccount"></span></a></li>
+                        <li><a href="/account"><span data-bind="text: headerMessage().myAccount"></span></a></li>
                         <li class="separator">|</li>
-                        <li><a href="/contact_us"><span data-bind="text: headerTextData().contactUs"></span></a></li>
+                        <li><a href="/contact_us"><span data-bind="text: headerMessage().contactUs"></span></a></li>
                         <c:if test="${sessionScope.username eq null}">
                             <li class="separator">|</li>
-                            <li><a href="/login"><span data-bind="text: headerTextData().login"></span></a></li>
+                            <li><a href="/login"><span data-bind="text: headerMessage().login"></span></a></li>
                             <li class="separator">|</li>
-                            <li><a href="/register"><span data-bind="text: headerTextData().signUp"></span></a></li>
+                            <li><a href="/register"><span data-bind="text: headerMessage().signUp"></span></a></li>
                         </c:if>
                     </ul>
                 </nav>
@@ -106,7 +105,7 @@
                 <nav class="primary">
                     <ul>
                         <li class="curent">
-                            <a href="/home"><span data-bind="text: headerTextData().home"></span></a>
+                            <a href="/home"><span data-bind="text: headerMessage().home"></span></a>
                         </li>
                     <span data-bind="foreach: { data: headerCategories, as: 'category'}">
                         <li>
@@ -140,17 +139,17 @@
     function headerPage() {
         var self = this;
         var json = {Chinese: "chinese", English: "english", 中文: "chinese", 英文: "english"};
-        self.headerTextData = ko.observable({});
+        self.headerMessage = ko.observable({});
         self.currentLanguage = ko.observable();
         if ('${sessionScope.siteLanguage}' == "chinese") {
-            self.headerTextData(headerChineseKey);
-            self.currentLanguage(headerChineseKey["${sessionScope.siteLanguage}"]);
+            self.headerMessage(chineseMessage);
+            self.currentLanguage(chineseMessage["${sessionScope.siteLanguage}"]);
         } else {
-            self.headerTextData(headerEnglishKey);
-            self.currentLanguage(headerEnglishKey["${sessionScope.siteLanguage}"]);
+            self.headerMessage(englishMessage);
+            self.currentLanguage(englishMessage["${sessionScope.siteLanguage}"]);
 
         }
-        self.languageOptions = [self.headerTextData()['english'], self.headerTextData()['chinese']];
+        self.languageOptions = [self.headerMessage()['english'], self.headerMessage()['chinese']];
 
         self.currentLanguageValue = ko.observable();
 

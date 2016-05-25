@@ -19,43 +19,43 @@
         <div class="container_12">
             <div id="content">
                 <div class="grid_12">
-                    <h1 class="page_title">Checkout Confirm</h1>
+                    <h1 class="page_title"><span data-bind="text: headerMessage().orderConfirm"></span></h1>
 
                     <div>
-                        <h3 style="padding-bottom: 0">Address Info</h3>
+                        <h3 style="padding-bottom: 0"><span data-bind="text: headerMessage().addressInfo"></span></h3>
                         <div class="detail">
                             <div class="inner">
                                 <div style="width: 450px;">
                                     <div class="clear"></div>
                                     <div>
-                                        <span class="info_label">consignee：</span>
+                                        <span class="info_label"><span data-bind="text: headerMessage().consignee"></span>：</span>
                                         <div>
                                             <span data-bind="text: address().consignee"></span>
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="info_label">location：</span>
+                                        <span class="info_label"><span data-bind="text: headerMessage().location"></span>：</span>
 
                                         <div>
                                             <span data-bind="text: address().province + address().city + address().district"></span>
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="info_label">address：</span>
+                                        <span class="info_label"><span data-bind="text: headerMessage().addressDetail"></span>：</span>
 
                                         <div>
                                             <span data-bind="text: address().detail"></span>
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="info_label">telephone：</span>
+                                        <span class="info_label"><span data-bind="text: headerMessage().telephone"></span>：</span>
 
                                         <div>
                                             <span data-bind="text: address().telephone"></span>
                                         </div>
                                     </div>
                                     <div>
-                                        <span class="info_label">email：</span>
+                                        <span class="info_label"><span data-bind="text: headerMessage().email"></span>：</span>
 
                                         <div>
                                             <span data-bind="text: address().email"></span>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div style="margin-bottom: 20px">
-                        <h3 style="padding-bottom: 10px">Pay Method</h3>
+                        <h3 style="padding-bottom: 10px"><span data-bind="text: headerMessage().payMethod"></span></h3>
                         <span data-bind="text: payMethod"></span>
                     </div>
                     <div>
@@ -75,10 +75,10 @@
                         <table class="cart_product" style="margin-top: 0">
                             <tr>
                                 <th class="images"></th>
-                                <th class="bg name">Product Name</th>
-                                <th class="bg price">Unit Price</th>
-                                <th class="qty">Qty</th>
-                                <th class="bg subtotal">Subtotal</th>
+                                <th class="bg name"><span data-bind="text: headerMessage().productName"></span></th>
+                                <th class="bg price"><span data-bind="text: headerMessage().unitPrice"></span></th>
+                                <th class="qty"><span data-bind="text: headerMessage().quantity"></span></th>
+                                <th class="bg subtotal"><span data-bind="text: headerMessage().subtotal"></span></th>
                             </tr>
                             <tbody data-bind="foreach: items">
                             <tr>
@@ -106,11 +106,11 @@
                             </tr>
                         </table>
                         <div>
-                            <h4>Total Price: $<span data-bind="text: total"></span></h4>
+                            <h4><span data-bind="text: headerMessage().total"></span>: $<span data-bind="text: total"></span></h4>
                         </div>
                         <div>
-                            <button style="float: left; width: 60px" data-bind="click: backButton">Back</button>
-                            <button style="margin-left: 60px;float: right" id="confirm_button" data-bind="click: placeOrder">&nbsp Confirm &nbsp</button>
+                            <button style="float: left; width: 60px" data-bind="click: backButton"><span data-bind="text: headerMessage().back"></span></button>
+                            <button style="margin-left: 60px;float: right" id="confirm_button" data-bind="click: placeOrder">&nbsp <span data-bind="text: headerMessage().confirm"></span> &nbsp</button>
                         </div>
                     </div>
                 </div>
@@ -164,6 +164,7 @@
     }
     function checkoutPage() {
         var self = this;
+
         self.items = ko.observableArray();
         self.address = ko.observable({});
         self.total = ko.observable(0);

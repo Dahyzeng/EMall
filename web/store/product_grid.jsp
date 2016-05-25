@@ -15,8 +15,8 @@
     <script src="<%request.getContextPath();%>/store/js/radio.js"></script>
     <script src="<%request.getContextPath();%>/store/js/selectBox.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/item-list-message.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/el/item-list-message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/chinese_message.js"></script>
+    <script src="<%request.getContextPath();%>/store/js/language/el/english_message.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -142,9 +142,9 @@
         };
         self.itemListMessage = ko.observable();
         if ('${sessionScope.siteLanguage}' == 'chinese') {
-            self.itemListMessage(itemListChineseMessage);
+            self.itemListMessage(chineseMessage);
         } else {
-            self.itemListMessage(itemListEnglishMessage);
+            self.itemListMessage(englishMessage);
         }
 
         self.sortByOptions = [self.itemListMessage()['priceUp'], self.itemListMessage()['priceDown'], self.itemListMessage()['saleUp'], self.itemListMessage()['saleDown']];

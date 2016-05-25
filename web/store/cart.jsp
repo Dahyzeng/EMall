@@ -9,8 +9,6 @@
     <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/zh-CN/pdp-message.js"></script>
-    <script src="<%request.getContextPath();%>/store/js/language/el/car-message.js"></script>
 </head>
 <body>
 <jsp:include page="common/header.jsp"/>
@@ -18,15 +16,15 @@
     <div class="container_12">
         <div id="content" class="grid_12">
             <h4><span data-bind="text: message" style="color: red"></span></h4>
-            <h1 class="page_title">Shopping Cart</h1>
+            <h1 class="page_title"><span data-bind="text: headerMessage().shoppingCart"></span></h1>
             <table class="cart_product">
                 <tr>
                     <th></th>
-                    <th class="bg name">Pic</th>
-                    <th class="bg name">Product Name</th>
-                    <th class="bg price">Unit Price</th>
-                    <th class="qty">Qty</th>
-                    <th class="bg subtotal">Subtotal</th>
+                    <th class="bg name"><span data-bind="text: headerMessage().pic"></span></th>
+                    <th class="bg name"><span data-bind="text: headerMessage().productName"></span></th>
+                    <th class="bg price"><span data-bind="text: headerMessage().unitPrice"></span></th>
+                    <th class="qty"><span data-bind="text: headerMessage().quantity"></span></th>
+                    <th class="bg subtotal"><span data-bind="text: headerMessage().subtotal"></span></th>
                     <th class="close"></th>
                 </tr>
                 <tbody data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
@@ -68,19 +66,19 @@
                     </td>
                     <td class="bg subtotal">$<span data-bind="text: itemMap.item.price * itemMap.quantity"></span></td>
                     <td class="close">
-                        <a title="close" data-bind="click: deleteItem" class="close" href="#"></a>
+                        <a data-bind="click: deleteItem, attr: {title: headerMessage().del}" class="close" href="#"></a>
                     </td>
                 </tr>
                 </tbody>
                 <tr>
                     <td colspan="7" class="cart_but">
-                        <button class="continue"><span>icon</span>Continue Shopping</button>
-                        <span style="float: right" >Total: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span data-bind="text: total"></span></span>
+                        <button style="width: 150px; float: left"><< <span data-bind="text: headerMessage().continueShopping"></span></button>
+                        <span style="float: right" ><span data-bind="text: headerMessage().total"></span>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span data-bind="text: total"></span></span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="7" class="cart_but">
-                        <button class="update" data-bind="click: placeOrder"><span>icon</span>Place Order</button>
+                        <button style="float: right; width: 90px" data-bind="click: placeOrder"><span data-bind="text: headerMessage().placeOrder"></span></button>
                     </td>
                 </tr>
             </table>
@@ -92,13 +90,6 @@
 </body>
 <script>
     function cartPage() {
-
-        self.cartMessage = ko.obserable({});
-        if ('${sessionScope.siteLanguage}' == 'chinese') {
-            self.cartMessage(cartChineseMessage);
-        } else {
-            self.cartMessage(cartEnglishMessage);
-        }
 
         self.message = ko.observable();
         self.selectItems = ko.observableArray();

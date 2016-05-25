@@ -14,6 +14,7 @@
     <script src="<%=request.getContextPath() %>/store/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/store/js/bootstrap/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/store/js/knockoutjs.js"></script>
+
 </head>
 <body>
 <div id="main_part">
@@ -22,8 +23,8 @@
     <div class="container_12">
         <div class="grid_12">
             <div class="breadcrumbs">
-                <a href="/home">Home</a><span>&#8250;</span>
-                <span class="current">Personal Info</span>
+                <a href="/home"><span data-bind="text: headerMessage().home"></span></a><span>&#8250;</span>
+                <span class="current" data-bind="text: headerMessage().personalInfo"></span>
             </div>
         </div>
     </div>
@@ -32,9 +33,9 @@
             <div>
                 <div class="tabbable tabs-left" id="tabs-528944">
                     <ul class="nav nav-pills nav-stacked" id="account_menu">
-                        <li class="active"><a href="#">Personal Info</a></li>
-                        <li><a href="/account/address">Address</a></li>
-                        <li><a href="/account/order">Order</a></li>
+                        <li class="active"><a href="#"><span data-bind="text: headerMessage().personalInfo"></span></a></li>
+                        <li><a href="/account/address"><span data-bind="text: headerMessage().address"></span></a></li>
+                        <li><a href="/account/order"><span data-bind="text: headerMessage().order"></span></a></li>
                     </ul>
                     <div class="info_content">
                         <div class="p_inside">
@@ -42,7 +43,7 @@
                                 <div class="p_label">
                                     <div class="p_property">
                                         <sup class="surely"
-                                             style="vertical-align:middle">*</sup><strong>Username:</strong>
+                                             style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().username"></span>:</strong>
                                     </div>
                                 </div>
                                 <input type="text" data-bind="value: userInfo().username"/>
@@ -50,16 +51,16 @@
                             <div class="personal_info_content">
                                 <div class="p_label">
                                     <div class="p_property">
-                                        <sup class="surely" style="vertical-align:middle">*</sup><strong>Email:</strong>
+                                        <sup class="surely" style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().email"></span>:</strong>
                                     </div>
                                 </div>
                                 <span data-bind="text: userInfo().email"></span>
-                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px">change</a>
+                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
                             </div>
                             <div class="personal_info_content">
                                 <div class="p_label">
                                     <div class="p_property">
-                                        <sup class="surely" style="vertical-align:middle">*</sup><strong>Birthday:</strong>
+                                        <sup class="surely" style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().birthday"></span>:</strong>
                                     </div>
                                 </div>
                                 <input type="text" class="laydate-icon" name="birthday" data-bind="value: userInfo().birthday" onclick="laydate()"><br/>
@@ -68,25 +69,25 @@
                                 <div class="p_label">
                                     <div class="p_property">
                                         <sup class="surely"
-                                             style="vertical-align:middle">*</sup><strong>Gender:</strong>
+                                             style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().gender"></span>:</strong>
                                     </div>
                                 </div>
-                                <input type="radio" value="male" style="margin: 0" name="gender">male</input>
-                                <input type="radio" value="female" style="margin: 0 0 0 20px; " name="gender">female</input>
+                                <input type="radio" value="male" style="margin: 0" name="gender"><span data-bind="text: headerMessage().male"></span></input>
+                                <input type="radio" value="female" style="margin: 0 0 0 20px; " name="gender"><span data-bind="text: headerMessage().female"></span></input>
                             </div>
                             <div class="personal_info_content">
                                 <div class="p_label">
                                     <div class="p_property">
                                         <sup class="surely"
-                                             style="vertical-align:middle">*</sup><strong>password:</strong>
+                                             style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().password"></span>:</strong>
                                     </div>
                                 </div>
                                 <span>************</span>
-                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px">change</a>
+                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
                             </div>
 
                             <div class="personal_info_content">
-                                <button style="margin-left: 100px; width: 70px; margin-bottom: 20px" data-bind="click: updateInfo">Update</button>
+                                <button style="margin-left: 100px; width: 70px; margin-bottom: 20px" data-bind="click: updateInfo"><span data-bind="text: headerMessage().update"></span></button>
                             </div>
                         </div>
                     </div>
@@ -102,7 +103,7 @@
 <div id="password_modal" class="info_modal">
     <div class="inner">
         <div class="modal_title">
-            <span>Update Password</span>
+            <span data-bind="text: headerMessage().updatePassword"></span>
             <span class="modal_close"><a href="#" data-bind="click: passwordModalClose">X</a></span>
         </div>
 
@@ -111,26 +112,26 @@
             <div style="margin-left: 50px; margin-top: 30px;">
                 <div style="margin-bottom: 30px">
                     <div style="width: 115px; float: left">
-                        <strong style="float: right">Old Password:</strong>
+                        <strong style="float: right"><span data-bind="text: headerMessage().oldPassword"></span>:</strong>
                     </div>
                     <input type="password" style="margin-left: 30px; height: 25px" data-bind="value: oldPassword" name="password"/>
                 </div>
 
                 <div style="margin-bottom: 30px">
                     <div style="width: 115px; float: left">
-                        <strong style="float: right">New Password:</strong>
+                        <strong style="float: right"><span data-bind="text: headerMessage().newPassword"></span>:</strong>
                     </div>
                     <input type="password" style="margin-left: 30px; height: 25px" data-bind="value: newPassword" name="password"/>
                 </div>
 
                 <div style="margin-bottom: 10px">
                     <div style="width: 115px; float: left">
-                        <strong style="float: right">Confirm Password:</strong>
+                        <strong style="float: right"><span data-bind="text: headerMessage().passwordConfirm"></span>:</strong>
                     </div>
                     <input type="password" style="margin-left: 30px; height: 25px" data-bind="value: confirmPassword" name="password"/>
                 </div>
                 <div style="margin-left: 145px">
-                    <button style="width: 200px" data-bind="click: updatePassword">Update</button>
+                    <button style="width: 200px" data-bind="click: updatePassword"><span data-bind="text: headerMessage().update"></span></button>
                 </div>
             </div>
         </div>

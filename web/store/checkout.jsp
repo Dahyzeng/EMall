@@ -19,42 +19,42 @@
     <div class="container_12">
         <div id="content">
             <div class="grid_12">
-                <h1 class="page_title">Checkout</h1>
+                <h1 class="page_title"><span data-bind="text: headerMessage().checkoutFill"></span></h1>
 
                 <aside id="community_poll">
-                    <h4>Choose Address</h4>
+                    <h4><span data-bind="text: headerMessage().chooseAddress"></span></h4>
                     <ul style="list-style: none; padding: 0 0 0" data-bind="foreach: {data: addressArray, as: 'address'}">
                         <li>
                             <input class="niceRadio" type="radio" name="addressId" data-bind="value: ko.toJSON(address)"/>
                             <span data-bind="text: address.consignee + ' ' + address.province + address.city + address.district + ' ' + address.detail"></span>
-                            <a href="#" class="c_edit_a" data-bind="click: $root.editAddressModal">Edit</a>
+                            <a href="#" class="c_edit_a" data-bind="click: $root.editAddressModal"><span data-bind="text: $root.headerMessage().edit"></span></a>
                         </li>
                     </ul>
                     <!-- ko if: addressArray().length < 5 -->
-                    <a style="text-decoration: none" href="#" data-bind="click: showAddressModal">Add New Address</a>
+                    <a style="text-decoration: none" href="#" data-bind="click: showAddressModal"><span data-bind="text: headerMessage().addNewAddress"></span></a>
                     <!-- /ko -->
                 </aside>
 
                 <div>
-                    <h3>Choose Payment</h3>
+                    <h3><span data-bind="text: headerMessage().choosePayment"></span></h3>
                     <ul style="list-style: none; padding: 0 0 0">
                         <li style="float: left; margin-right: 100px">
-                            <input class="niceRadio" type="radio" name="payMethod" value="Pay On Delivery"/><span>Pay On Delivery</span>
+                            <input class="niceRadio" type="radio" name="payMethod" value="Pay On Delivery"/><span data-bind="text: headerMessage().payOnDelivery"></span>
                         </li>
                         <li>
-                            <input class="niceRadio" type="radio" name="payMethod" value="Pay Online">Pay Online
+                            <input class="niceRadio" type="radio" name="payMethod" value="Pay Online"/><span data-bind="text: headerMessage().payOnline"></span>
                         </li>
                     </ul>
                 </div>
                 <div>
-                    <h3>Item Detail</h3>
+                    <h3><span data-bind="text: headerMessage().itemReview"></span></h3>
                     <table class="cart_product" style="margin-top: 0">
                         <tr>
                             <th class="images"></th>
-                            <th class="bg name">Product Name</th>
-                            <th class="bg price">Unit Price</th>
-                            <th class="qty">Qty</th>
-                            <th class="bg subtotal">Subtotal</th>
+                            <th class="bg name"><span data-bind="text: headerMessage().productName"></span></th>
+                            <th class="bg price"><span data-bind="text: headerMessage().unitPrice"></span></th>
+                            <th class="qty"><span data-bind="text: headerMessage().quantity"></span></th>
+                            <th class="bg subtotal"><span data-bind="text: headerMessage().subtotal"></span></th>
                         </tr>
                         <tbody data-bind="foreach: items">
                         <tr>
@@ -84,18 +84,14 @@
 
                     </table>
                     <div style="float: right">
-                        <h4>Total Price: $400</h4>
-                        <button style="margin-left: 60px" data-bind="click: placeOrder">&nbsp Place Order &nbsp</button>
+                        <h4><span data-bind="text: headerMessage().total"></span>: $400</h4>
+                        <button style="margin-left: 60px" data-bind="click: placeOrder">&nbsp <span data-bind="text: headerMessage().submitOrder"></span> &nbsp</button>
                     </div>
                 </div>
             </div>
-
-            <!-- #sidebar_right -->
         </div>
-        <!-- #content -->
         <div class="clear"></div>
     </div>
-    <!-- .container_12 -->
 </section>
 <jsp:include page="common/footer.jsp"/>
 </div>
@@ -103,21 +99,21 @@
 <div id="address_modal" class="address_modal">
     <div class="inner">
         <div class="modal_title">
-            <span>Add New Address</span>
+            <span data-bind="text: headerMessage().addNewAddress"></span>
             <span class="modal_close"><a href="#" data-bind="click: modalClose">X</a></span>
         </div>
         <div class="a_modal_content">
             <div class="a_label">
-                <p><span style="color: red;">*</span>Consignee:</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().consignee"></span>:</p>
                 <input data-bind="value: currentAddress().consignee" type="text"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Area:</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().location"></span>:</p>
                 <div style="float: left;">
                     <p style="line-height: 30px;">
-                        <span class="a_font">Province：</span><select style="vertical-align: middle;" class="a_select" id="cmbProvince"></select>
-                        <span class="a_font">City：</span><select class="a_select" id="cmbCity"></select>
-                        <span class="a_font">District：</span><select class="a_select" id="cmbArea"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().province"></span>：</span><select style="vertical-align: middle;" class="a_select" id="cmbProvince"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().city"></span>：</span><select class="a_select" id="cmbCity"></select>
+                        <span class="a_font"><span data-bind="text: headerMessage().district"></span>：</span><select class="a_select" id="cmbArea"></select>
                         <input name="province" data-bind="value: currentAddress.province" type="hidden"/>
                         <input name="city" data-bind="value: currentAddress.city" type="hidden"/>
                         <input name="district" data-bind="value: currentAddress.district" type="hidden"/>
@@ -131,19 +127,19 @@
                 </div>
             </div>
             <div class="a_label" style="clear: both;">
-                <p><span style="color: red;">*</span>Detail Address：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().addressDetail"></span>：</p>
                 <input style="width: 484px;" type="text" data-bind="value: currentAddress().detail"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Telephone：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().telephone"></span>：</p>
                 <input type="text" data-bind="value: currentAddress().telephone"/>
             </div>
             <div class="a_label">
-                <p><span style="color: red;">*</span>Email：</p>
+                <p><span style="color: red;">*</span><span data-bind="text: headerMessage().email"></span>：</p>
                 <input type="text" data-bind="value: currentAddress().email"/>
             </div>
             <div style="margin: 10px 0 0;">
-                <input class="a_save" type="submit" data-bind="click: saveAddress" value="Save">
+                <input class="a_save" type="submit" data-bind="click: saveAddress, value: headerMessage().save"/>
             </div>
         </div>
     </div>
@@ -160,6 +156,7 @@
     }
     function checkoutPage() {
         var self = this;
+
         self.items = ko.observable({});
         self.addressArray = ko.observableArray();
         self.currentAddress = ko.observable({});

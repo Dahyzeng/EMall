@@ -20,8 +20,8 @@
     <div class="container_12">
         <div class="grid_12">
             <div class="breadcrumbs">
-                <a href="/home">Home</a><span>&#8250;</span>
-                <span class="current">Order</span>
+                <a href="/home"><span data-bind="text: headerMessage().home"></span></a><span>&#8250;</span>
+                <span class="current"><span data-bind="text: headerMessage().order"></span></span>
             </div>
         </div>
     </div>
@@ -30,9 +30,9 @@
             <div>
                 <div class="tabbable tabs-left">
                     <ul class="nav nav-pills nav-stacked" id="account_menu">
-                        <li><a href="/account">Personal Info</a></li>
-                        <li><a href="/account/address">Address</a></li>
-                        <li class="active"><a href="/account/order">Order</a></li>
+                        <li><a href="/account"><span data-bind="text: headerMessage().personalInfo"></span></a></li>
+                        <li><a href="/account/address"><span data-bind="text: headerMessage().address"></span></a></li>
+                        <li class="active"><a href="/account/order"><span data-bind="text: headerMessage().order"></span></a></li>
                     </ul>
                     <div class="info_content">
                         <div style="padding: 10px 20px 20px">
@@ -41,9 +41,9 @@
                                     <div style="height: 40px; background-color: #e5e5e5">
                                     <div class="title">
                                         <h5 class="name">
-                                            <span style="padding-left: 10px">Date: <span data-bind="text: order.createTime"></span></span>
-                                            <span style="padding-left: 50px">Order Number: <span data-bind="text: order.orderId"></span></span>
-                                            <span style="padding-left: 50px">Consignee: <span data-bind="text: order.address.consignee"></span></span>
+                                            <span style="padding-left: 10px"><span data-bind="text: headerMessage().date"></span>: <span data-bind="text: order.createTime"></span></span>
+                                            <span style="padding-left: 50px"><span data-bind="text: headerMessage().orderId"></span>: <span data-bind="text: order.orderId"></span></span>
+                                            <span style="padding-left: 50px"><span data-bind="text: headerMessage().consignee"></span>: <span data-bind="text: order.address.consignee"></span></span>
                                         </h5>
                                         <div class="del">
                                             <a class="delete_button" href="#" data-bind="click: $root.deleteOrder"></a>
@@ -53,35 +53,41 @@
                                     <div class="detail">
                                         <table style="margin: 0">
                                             <tr>
-                                                <td colspan="1">Total Price: <span>$499</span></td>
+                                                <td colspan="1"><span data-bind="text: headerMessage().total"></span>: <span>$499</span></td>
                                                 <!-- ko if: order.status == "Unconfirmed" -->
-                                                <td colspan="2">Status: <span data-bind="text: order.status"></span></td>
-                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)">Cancel</button></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().unconfirmed"></span></td>
+                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)"><span data-bind="text: headerMessage().cancel"></span></button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Non-payment" -->
-                                                <td colspan="2">Status: <span data-bind="text: order.status"></span></td>
-                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px">Pay</button></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().nonPayment"></span></td>
+                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().pay"></span></button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Delivered" -->
-                                                <td colspan="1">Status: <span data-bind="text: order.status"></span></td>
+                                                <td colspan="1"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().delivered"></span></td>
                                                 <td colspan="2">
-                                                    <span style="float: left; margin-right: 20px"><button style="width: 65px; height: 28px; margin-left: 60px">Check</button></span>
-                                                    <span><button style="width: 100px; height: 28px; margin-left: 60px">Confirm Receipt</button></span>
+                                                    <span style="float: left; margin-right: 20px"><button style="width: 65px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().check"></span></button></span>
+                                                    <span><button style="width: 100px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().receipt"></span></button></span>
                                                 </td>
                                                 <!-- /ko -->
-                                                <!-- ko if: order.status == "Canceled" || order.status == "Confirmed" || order.status == "Finished" -->
-                                                <td colspan="3">Status: <span data-bind="text: order.status"></span></td>
+                                                <!-- ko if: order.status == "Canceled" -->
+                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().canceled"></span></td>
+                                                <!-- /ko -->
+                                                <!-- ko if: order.status == "Confirmed" -->
+                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().confirmed"></span></td>
+                                                <!-- /ko -->
+                                                <!-- ko if: order.status == "Finished" -->
+                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().finished"></span></td>
                                                 <!-- /ko -->
 
                                             </tr>
                                             <tr>
                                                 <td colspan="1">
-                                                    Telephone: <span data-bind="text: order.address.telephone"></span>
+                                                    <span data-bind="text: headerMessage().telephone"></span>: <span data-bind="text: order.address.telephone"></span>
                                                 </td>
                                                 <td colspan="2">
-                                               Address: <span data-bind="text: order.address.province + order.address.city + order.address.district + ' ' + order.address.detail"></span>
+                                                    <span data-bind="text: headerMessage().address"></span>: <span data-bind="text: order.address.province + order.address.city + order.address.district + ' ' + order.address.detail"></span>
                                                 </td>
-                                                <td colspan="1">Email: <span data-bind="text: order.address.email"></span></td>
+                                                <td colspan="1"><span data-bind="text: headerMessage().email"></span>: <span data-bind="text: order.address.email"></span></td>
                                             </tr>
                                             <tbody data-bind="foreach: {data: order.items, as: 'itemMap'}">
                                             <tr>

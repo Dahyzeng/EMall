@@ -13,7 +13,7 @@
 <section id="main" class="entire_width" style="margin-top: 30px">
     <div class="container_12">
         <div class="grid_12">
-            <h1 class="page_title">Compare Products</h1>
+            <h1 class="page_title"><span data-bind="text: headerMessage().compareProduct"></span></h1>
             <!-- ko ifnot: isEmpty -->
             <div class="compare">
                 <ul class="close_top">
@@ -23,13 +23,13 @@
                     </span>
                 </ul><p style="clear: both;"></p>
                 <ul style="border-bottom: 1px solid #a8dade;">
-                    <li class="desc width162">Product Name</li>
+                    <li class="desc width162"><span data-bind="text: headerMessage().productName"></span></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg name" data-bind="text: item.itemName"></li>
                     </span>
                 </ul><p style="clear: both;"></p>
                 <ul class="images ">
-                    <li class="desc width162">Image</li>
+                    <li class="desc width162"><span data-bind="text: headerMessage().image"></span></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg">
                             <a data-bind="attr: {href: '/pdf/' + item.itemId}">
@@ -41,7 +41,7 @@
                     </span>
                 </ul><p style="clear: both;"></p>
                 <ul class="prise">
-                    <li class="desc width162">Price</li>
+                    <li class="desc width162"><span data-bind="text: headerMessage().price"></span></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg">
                             <!-- ko ifnot: item.discount==0 -->
@@ -61,20 +61,20 @@
                     <%--<li class="bg">Willert Home Keep it Dry Closet <br/>Moisture Remover Crystal</li>--%>
                 <%--</ul>--%>
                 <ul class="brand">
-                    <li class="desc width162">Sale Quantity</li>
+                    <li class="desc width162"><span data-bind="text: headerMessage().sale"></span></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg" data-bind="text: item.saleQuantity"></li>
                     </span>
                 </ul><p style="clear: both;"></p>
                 <ul class="availbility">
-                    <li class="desc width162">Availbility</li>
+                    <li class="desc width162"><span data-bind="text: headerMessage().availability"></span></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg">
                             <!-- ko if: item.inventory !=0 -->
-                            <span>In stock</span>
+                            <span data-bind="text: headerMessage().inStock"></span>
                             <!-- /ko -->
                             <!-- ko if: item.inventory ==0 -->
-                            <span>Out of stock</span>
+                            <span data-bind="text: headerMessage().outOfStock"></span>
                             <!-- /ko -->
                         </li>
                     </span>
@@ -109,20 +109,20 @@
                         <%--</div>--%>
                     <%--</li>--%>
                 <%--</ul>--%>
-                <ul class="description">
-                    <li class="desc">Description</li>
-                    <span data-bind="foreach: {data: itemArray, as: 'item'}">
-                        <li class="bg">
-                            <p style="text-align: center"><span data-bind="text: item.description"></span></p>
-                        </li>
-                    </span>
-                </ul>
+                <%--<ul class="description">--%>
+                    <%--<li class="desc">Description</li>--%>
+                    <%--<span data-bind="foreach: {data: itemArray, as: 'item'}">--%>
+                        <%--<li class="bg">--%>
+                            <%--<p style="text-align: center"><span data-bind="text: item.description"></span></p>--%>
+                        <%--</li>--%>
+                    <%--</span>--%>
+                <%--</ul>--%>
                 <p style="clear: both;"></p>
                 <ul class="add_cart">
                     <li class="desc"></li>
                     <span data-bind="foreach: {data: itemArray, as: 'item'}">
                         <li class="bg">
-                            <button class="add" data-bind="click: $root.addToCart">Add to Cart</button>
+                            <button class="add" data-bind="click: $root.addToCart"><span data-bind="text: headerMessage().addToCart"></span></button>
                         </li>
                     </span>
                 </ul>

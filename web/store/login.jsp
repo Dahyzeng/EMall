@@ -18,42 +18,41 @@
     <div class="container_12">
         <div id="content">
             <div class="grid_12">
-                <h1 class="page_title">Login or Create an Account</h1>
+                <h1 class="page_title"><span data-bind="text: headerMessage().loginOrCreate"></span></h1>
             </div>
             <div><span data-bind="text: message"></span></div>
             <div class="grid_6 new_customers">
-                <h2>New Customers</h2>
+                <h2><span data-bind="text: headerMessage().newCustomer"></span></h2>
 
-                <p>By creating an account with our store, you will be able to move through the checkout process faster,
-                    store multiple shipping addresses, view and track your orders in your account and more.</p>
+                <p><span data-bind="text: headerMessage().customerText"></span></p>
 
                 <div class="clear"></div>
-                <a href="/register" class="btn btn-success">Create An Account</a>
+                <a href="/register" class="btn btn-success"><span data-bind="text: headerMessage().create"></span></a>
             </div>
             <div class="grid_6">
                 <form class="registed">
-                    <h2>Registed Customers</h2>
+                    <h2><span data-bind="text: headerMessage().registered"></span></h2>
 
-                    <p>If you have an account with us, please log in.</p>
+                    <p><span data-bind="text: headerMessage().pleaseLogin"></span></p>
 
                     <div class="email">
-                        <strong>Email Adress:</strong><sup class="surely">*</sup>
+                        <strong><span data-bind="text: headerMessage().email"></span>:</strong><sup class="surely">*</sup>
                         <br/>
                         <input type="email" data-bind="value: loginEmail"/>
                     </div>
                     <div class="password">
-                        <strong>Password:</strong><sup class="surely">*</sup>
+                        <strong><span data-bind="text: headerMessage().password"></span>:</strong><sup class="surely">*</sup>
                         <br/>
                         <input type="password" data-bind="value: loginPassword"/>
-                        <a class="forgot" href="#">Forgot Your Password?</a>
+                        <a class="forgot" href="#"><span data-bind="text: headerMessage().forgot"></span></a>
                     </div>
-                    <div class="remember">
-                        <input class="niceCheck" type="checkbox" name="Remember_password"/>
-                        <span class="rem">Remember password</span>
-                    </div>
+                    <%--<div class="remember">--%>
+                        <%--<input class="niceCheck" type="checkbox" name="Remember_password"/>--%>
+                        <%--<span class="rem">Remember password</span>--%>
+                    <%--</div>--%>
                     <div class="submit">
-                        <input type="button" data-bind="click: loginSubmit" class="login" value="Login"/>
-                        <sup class="surely">*</sup><span>Required Field</span>
+                        <input type="button" data-bind="click: loginSubmit, value: headerMessage().login" class="login"/>
+                        <sup class="surely">*</sup><span data-bind="text: headerMessage().required"></span>
                     </div>
                 </form>
             </div>
@@ -67,6 +66,7 @@
     function loginPage() {
         var self = this;
         var url = '${requestScope.url}';
+
         self.loginEmail = ko.observable();
         self.loginPassword = ko.observable();
         self.message = ko.observable();

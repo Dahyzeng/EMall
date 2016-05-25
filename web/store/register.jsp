@@ -24,7 +24,7 @@
     <div class="container_12">
         <div id="content">
             <div class="grid_12">
-                <h1 class="page_title">Create an Account</h1>
+                <h1 class="page_title"><span data-bind="text: headerMessage().create"></span></h1>
             </div>
             <div><span data-bind="text: message"></span></div>
             <!-- .grid_6 -->
@@ -32,38 +32,38 @@
                 <form class="registed" style="height:300px">
                     <div class="grid_5">
                         <div>
-                            <strong>Username</strong><sup class="surely">*</sup>
+                            <strong><span data-bind="text: headerMessage().username"></span>:</strong><sup class="surely">*</sup>
                             <br/>
                             <input type="text" data-bind="value: registerName" name="username"/>
                         </div>
                         <div class="email">
-                            <strong>Email Adress:</strong><sup class="surely">*</sup>
+                            <strong><span data-bind="text: headerMessage().email"></span>:</strong><sup class="surely">*</sup>
                             <br/>
                             <input type="email" data-bind="value: registerEmail"/>
                         </div>
                         <div>
-                            <strong>Gender:</strong><sup class="surely">*</sup><br/>
-                            <input type="radio" name="gender" value="male"/>male&nbsp&nbsp&nbsp&nbsp&nbsp
-                            <input type="radio" name="gender" value="female"/>female
+                            <strong><span data-bind="text: headerMessage().gender"></span>:</strong><sup class="surely">*</sup><br/>
+                            <input type="radio" name="gender" value="male"/><span data-bind="text: headerMessage().male"></span>&nbsp&nbsp&nbsp&nbsp&nbsp
+                            <input type="radio" name="gender" value="female"/><span data-bind="text: headerMessage().female"></span>
                         </div>
 
                         <div class="submit">
-                            <input type="button" data-bind="click: registerSubmit" class="register" value="Create An Account"/>
+                            <input type="button" data-bind="click: registerSubmit, value: headerMessage().registerButton" class="register"/>
                         </div>
                     </div>
                     <div class="grid_6">
                         <div class="password">
-                            <strong>Password:</strong><sup class="surely">*</sup>
+                            <strong><span data-bind="text: headerMessage().password"></span>:</strong><sup class="surely">*</sup>
                             <br/>
                             <input type="password" data-bind="value: registerPassword" name="" class="" />
                         </div>
                         <div class="password">
-                            <strong>Password Confirm:</strong><sup class="surely">*</sup>
+                            <strong><span data-bind="text: headerMessage().passwordConfirm"></span>:</strong><sup class="surely">*</sup>
                             <br/>
                             <input type="password" data-bind="value: passwordConfirm"/>
                         </div>
                         <div>
-                            <strong>Birthday:</strong><sup class="surely">*</sup>
+                            <strong><span data-bind="text: headerMessage().birthday"></span>:</strong><sup class="surely">*</sup>
                             <br/>
                             <input type="text" class="laydate-icon" name="birthday" onclick="laydate()"><br/>
                         </div>
@@ -79,6 +79,8 @@
 <script>
     function registerPage() {
         var self = this;
+
+
         self.registerName = ko.observable();
         self.registerEmail = ko.observable();
         self.registerPassword = ko.observable();

@@ -18,53 +18,54 @@
     <div class="container_12">
         <div id="content">
             <div class="grid_12">
-                <h1 class="page_title">Contact Us</h1>
+                <h1 class="page_title"><span data-bind="text: headerMessage().contactUs"></span></h1>
             </div>
 
             <div class="grid_4 adress">
-                <h3>Address</h3>
+                <h3><span data-bind="text: headerMessage().merchantAddress"></span></h3>
                 <p>49 Archdale, 2B Charleston, New York City, USA</p>
                 <hr>
 
-                <h3>Phones</h3>
-                <p>Support: <span>+777 (100) 1234</span><br/>
-                    Sales manager: <span>+777 (100) 4321</span><br/>
-                    Director: <span>+777 (100) 1243</span></p>
+                <h3><span data-bind="text: headerMessage().phone"></span></h3>
+                <p>
+                    <span data-bind="text: headerMessage().support"></span>: <span>+777 (100) 1234</span><br/>
+                    <span data-bind="text: headerMessage().saleManager"></span>: <span>+777 (100) 4321</span><br/>
+                </p>
                 <hr>
 
-                <h3>Email Addresses</h3>
-                <p>Support: <span>support@example.com</span><br/>
-                    Sales manager: <span>manager@example.com</span><br/>
-                    Director: <span>chief@example.com</span></p>
+                <h3><span data-bind="text: headerMessage().email"></span></h3>
+                <p><span data-bind="text: headerMessage().support"></span>: <span>support@example.com</span><br/>
+                    <span data-bind="text: headerMessage().saleManager"></span>: <span>manager@example.com</span><br/>
+                    </p>
             </div>
 
             <div class="grid_8">
                 <form class="contact">
-                    <h2>Quick Contact</h2>
+                    <h2><span data-bind="text: headerMessage().quickContact"></span></h2>
 
                     <div class="name">
-                        <strong>Name:</strong><sup class="surely">*</sup><br/>
+                        <strong><span data-bind="text: headerMessage().name"></span>:</strong><sup class="surely">*</sup><br/>
                         <input type="text" name="name" data-bind="value: name" />
                     </div>
 
                     <div class="email">
-                        <strong>Email Address: </strong><sup class="surely">*</sup><br/>
+                        <strong><span data-bind="text: headerMessage().email"></span>: </strong><sup class="surely">*</sup><br/>
                         <input type="email" name="email" data-bind="value: email" />
                     </div>
 
                     <div class="phone" style="clear: both">
-                        <strong>Telephone:</strong><br/>
+                        <strong><span data-bind="text: headerMessage().telephone"></span>:</strong><br/>
                         <input type="text" name="phone" data-bind="value: phone" />
                     </div>
 
                     <div class="comment">
-                        <strong>Comment:</strong><sup class="surely">*</sup><br/>
+                        <strong><span data-bind="text: headerMessage().comment"></span>:</strong><sup class="surely">*</sup><br/>
                         <textarea name="comment" id="comment"></textarea>
                     </div>
 
                     <div class="submit">
-                        <div class="field"><sup class="surely">*</sup><span>Required Field</span></div>
-                        <input type="submit" value="Submit" data-bind="click: onSubmit" />
+                        <div class="field"><sup class="surely">*</sup><span><span data-bind="text: headerMessage().requiredField"></span></span></div>
+                        <input type="submit" data-bind="click: onSubmit, value: headerMessage().submit" />
                     </div>
                 </form>
             </div>
