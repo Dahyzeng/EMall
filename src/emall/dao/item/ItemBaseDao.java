@@ -177,4 +177,25 @@ public class ItemBaseDao {
         query.setInteger(1, itemId);
         query.executeUpdate();
     }
+
+    public List getItemByName(String name, int page, int pageSize, String orderBy) {
+        String sql = "from Item where itemName like ? and status = 1";
+        if (orderBy != null) {
+            if (orderBy.equals("saleDown")) {
+                sql += " order by saleQuantity DESC";
+            } else if (orderBy.equals("saleUp")) {
+                sql += " order by saleQuantity ASC";
+            } else if (orderBy.equals("priceUp")) {
+                sql += " order by price ASC";
+            } else {
+                sql += " order by price DESC";
+            }
+        }
+        System.out.print(sql);
+        Query query = sessionFactory.getCurrentSession().createQuery(sql);
+        query.setString(0, "%" + name + "%");
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        return query.list();
+    }
 }

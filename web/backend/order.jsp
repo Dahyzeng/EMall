@@ -326,6 +326,7 @@
             var number = $("input[name='expressNumber']").val();
             $.post("/merchant/order/ship", {orderId: self.expressOrderId(), expressName: name, expressNumber: number}, function (json) {
                 if (json['success']) {
+                    $("#modifyClose").trigger("click");
                     if (self.orderArray().length == 1) {
                         if (self.currentPage() != 1) {
                             self.currentPage(self.currentPage() - 1);

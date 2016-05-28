@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 <span data-bind="text: userInfo().email"></span>
-                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
+                                <a href="#" data-bind="click: showEmailModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
                             </div>
                             <div class="personal_info_content">
                                 <div class="p_label">
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <span>************</span>
-                                <a href="#" data-bind="click: showAddressModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
+                                <a href="#" data-bind="click: showPasswordModal" style="text-decoration:none; float: right; padding-right: 20px"><span data-bind="text: headerMessage().edit"></span></a>
                             </div>
 
                             <div class="personal_info_content">
@@ -106,10 +106,9 @@
             <span data-bind="text: headerMessage().updatePassword"></span>
             <span class="modal_close"><a href="#" data-bind="click: passwordModalClose">X</a></span>
         </div>
-
         <div class="info_modal_content">
             <div><span data-bind="text: passwordUpdateMessage"></span></div>
-            <div style="margin-left: 50px; margin-top: 30px;">
+            <div style="margin-left: 50px;">
                 <div style="margin-bottom: 30px">
                     <div style="width: 115px; float: left">
                         <strong style="float: right"><span data-bind="text: headerMessage().oldPassword"></span>:</strong>
@@ -137,6 +136,38 @@
         </div>
     </div>
 </div>
+<div id="email_modal" class="info_modal">
+    <div class="inner">
+        <div class="modal_title">
+            <span data-bind="text: headerMessage().updatePassword"></span>
+            <span class="modal_close"><a href="#" data-bind="click: emailModalClose">X</a></span>
+        </div>
+
+        <span data-bind="text: updateEmailMessage"></span>
+        <div class="info_modal_content">
+            <div><span data-bind="text: passwordUpdateMessage"></span></div>
+            <div style="margin-top: 30px;">
+                <div style="margin-bottom: 30px">
+                    <div style="width: 115px; float: left">
+                        <strong style="float: right"><span data-bind="text: headerMessage().email"></span>:</strong>
+                    </div>
+                    <input type="text" style="margin-left: 30px; height: 25px" data-bind="value: updateEmail" />
+                    <button class="resendButton" id="sendEmailButton" data-bind="click: sendEmail"><span data-bind="text: sendText"></span></button>
+                </div>
+
+                <div style="margin-bottom: 30px">
+                    <div style="width: 115px; float: left">
+                        <strong style="float: right"><span data-bind="text: headerMessage().verificationCode"></span>:</strong>
+                    </div>
+                    <input type="text" style="margin-left: 30px; height: 25px" data-bind="value: code" />
+                </div>
+                <div style="margin-left: 145px">
+                    <button style="width: 200px" data-bind="click: updateMail"><span data-bind="text: headerMessage().update"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     function openPasswordModal() {
@@ -147,21 +178,41 @@
         $('#password_modal').css('display', 'none');
         $('#main_part').css('opacity', '');
     }
+    function openEmailModal() {
+        $('#email_modal').css('display', 'block');
+        $('#main_part').css('opacity', '0.5');
+    }
+    function closeEmailModal() {
+        $('#email_modal').css('display', 'none');
+        $('#main_part').css('opacity', '');
+    }
     function accountPage() {
         var self = this;
+        var time = 60;
         self.userInfo = ko.observable({});
         self.oldPassword = ko.observable();
         self.newPassword = ko.observable();
         self.confirmPassword = ko.observable();
         self.passwordUpdateMessage = ko.observable();
+        self.verificationCode = ko.observable();
+        self.sendText = ko.observable('send');
+        self.updateEmail = ko.observable();
+        self.updateEmailMessage = ko.observable();
+        self.code = ko.observable();
 
-        self.showAddressModal = function () {
+        self.showPasswordModal = function () {
             openPasswordModal();
+        };
+        self.showEmailModal = function () {
+            openEmailModal();
         };
         self.passwordModalClose = function () {
             closePasswordModal();
             self.clearAll();
             self.passwordUpdateMessage("");
+        };
+        self.emailModalClose = function () {
+            closeEmailModal();
         };
 
         self.updateInfo = function () {
@@ -192,6 +243,47 @@
                     self.passwordUpdateMessage(json['errorMessage']);
                 }
             })
+        };
+
+        self.updateMail = function () {
+            $.get("/profile/update_email?email=" + self.updateEmail() + "&code=" + self.code(), function (json) {
+                if (json['success']) {
+                    closeEmailModal();
+                    self.message('update success');
+                    self.updateEmail('');
+                    self.code('');
+                    self.userInfo().email = self.updateEmail();
+                } else {
+                    self.updateEmailMessage(json['errorMessage']);
+                }
+            })
+        };
+
+        self.sendEmail = function () {
+            self.updateEmailMessage('');
+            if (time == 60) {
+                if (!self.updateEmail()) {
+                    self.updateEmailMessage("Email can not be empty!");
+                    return;
+                }
+                $("#sendEmailButton").attr("disabled", true);
+                $.get("/profile/code?email=" + self.updateEmail(), function () {
+                    self.updateEmailMessage("Send success");
+                });
+            }
+
+            if (time > 0) {
+                self.sendText("wait " + time + "s");
+                time--;
+                setTimeout(function () {
+                    self.sendEmail();
+                }, 1000);
+            } else {
+                self.sendText('send');
+                time = 60;
+                $("#sendEmail").attr("disabled", false);
+            }
+
         };
 
         self.clearAll = function () {

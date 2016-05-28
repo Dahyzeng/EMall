@@ -2,6 +2,7 @@ package emall.web.component.store;
 
 import emall.entity.Category;
 import emall.entity.Item;
+import emall.service.merchant.item.ItemBaseService;
 import emall.service.store.common.StoreCategoryService;
 import emall.service.store.common.StoreItemService;
 import emall.util.string.constants.PageSizeConstant;
@@ -32,6 +33,9 @@ public class PageCommonComponent {
 
     @Autowired
     StoreItemService storeItemService;
+
+    @Autowired
+    ItemBaseService itemBaseService;
 
     @RequestMapping("/get_categories")
     @ResponseBody
@@ -90,6 +94,31 @@ public class PageCommonComponent {
         map.put("item", item);
         map.put("itemPicList", itemPicList);
         return map;
+    }
+
+    @RequestMapping("/find/{key}")
+    @ResponseBody
+    public List getItemByName(@PathVariable String key, int page, String type, String orderBy) {
+        if ("undefined".equals(orderBy)) {
+            orderBy = null;
+        }
+        List list;
+        if ("grid".equals(type)) {
+            Object pageSize = request.getSession().getAttribute("gridPageSize");
+            if (pageSize == null) {
+                list = itemBaseService.getItemByName(key, page, PageSizeConstant.GRID_PAGE_SIZE, orderBy);
+            } else  {
+                list = itemBaseService.getItemByName(key, page, Integer.parseInt(pageSize.toString()), orderBy);
+            }
+        } else  {
+            Object pageSize = request.getSession().getAttribute("listPageSize");
+            if (pageSize == null) {
+                list = itemBaseService.getItemByName(key, page, PageSizeConstant.LIST_PAGE_SIZE, orderBy);
+            } else  {
+                list = itemBaseService.getItemByName(key, page, Integer.parseInt(pageSize.toString()), orderBy);
+            }
+        }
+        return list;
     }
 
     @RequestMapping("/page_size")

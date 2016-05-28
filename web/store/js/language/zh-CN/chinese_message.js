@@ -123,5 +123,6 @@ var chineseMessage = {
     compareProduct: "商品对比",
     image: "图片",
     price: "价格",
+    verificationCode: "验证码",
 
 };

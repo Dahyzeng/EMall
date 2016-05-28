@@ -44,8 +44,8 @@
             </div>
             <div class="grid_3">
                 <form class="search">
-                    <input type="text" name="search" class="entry_form" value=""
-                           placeholder="Search entire store here..."/>
+                    <input type="text" name="search" style="float: left; width: 160px" class="entry_form" data-bind="value: searchKey"/>
+                    <button style="height: 33px;width: 55px" data-bind="click: search"><span data-bind="text: headerMessage().search"></span></button>
                 </form>
             </div>
             <div class="grid_6">
@@ -56,8 +56,9 @@
                         <span data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
                         <li>
                             <a data-bind="attr: {href: '/pdp/' + itemMap.item.itemId}" class="prev_cart">
-                                <div class="cart_vert"><img data-bind="attr: {src: itemMap.item.showPicURL}" alt=""
-                                                            title=""/></div>
+                                <div class="cart_vert">
+                                    <img data-bind="attr: {src: itemMap.item.showPicURL}" alt="" title=""/>
+                                </div>
                             </a>
 
                             <div class="cont_cart">
@@ -141,6 +142,7 @@
         var json = {Chinese: "chinese", English: "english", 中文: "chinese", 英文: "english"};
         self.headerMessage = ko.observable({});
         self.currentLanguage = ko.observable();
+        self.searchKey = ko.observable('${requestScope.key}');
         if ('${sessionScope.siteLanguage}' == "chinese") {
             self.headerMessage(chineseMessage);
             self.currentLanguage(chineseMessage["${sessionScope.siteLanguage}"]);
@@ -176,14 +178,15 @@
                 }
             });
         };
-        self.changeLanguage = function (p) {
-
-        };
         self.logout = function () {
             $.get("/profile/logout", function () {
                 window.location.href = "/login";
             })
         };
+        self.search = function () {
+            window.location.href = "/search_key/" + self.searchKey();
+        };
+
         (function () {
             $.get("/store/get_categories", function (categoryJson) {
                 self.headerCategories(categoryJson);

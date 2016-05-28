@@ -185,6 +185,9 @@
             self.currentPage(self.currentPage() + 1);
             $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[self.sortValue()], function (itemList) {
                 if (itemList.length > 0) {
+                    if (self.pageSizeValue() > itemList.length) {
+                        self.hasMore(false);
+                    }
                     for (var i = 0; i < itemList.length; i ++) {
                         self.itemArray.push(itemList[i]);
                     }

@@ -92,7 +92,7 @@
             $.post("/profile/register", {username: self.registerName(), email: self.registerEmail(), password: self.registerPassword(),  gender: gender, birthday: birthday},
             function (resultJson) {
                 if (resultJson['success']) {
-                    window.location.href = '/home';
+                    window.location.href = '/account';
                 } else {
                     self.message(resultJson['message']);
                 }

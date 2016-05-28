@@ -6,8 +6,10 @@ import emall.entity.User;
 import emall.service.user.address.AddressService;
 import emall.service.user.order.OrderService;
 import emall.service.user.profile.ProfileService;
+import emall.util.EmailSender;
 import emall.util.encryption.EncryptionByMD5;
 import emall.util.string.Constants;
+import emall.util.string.constants.EmailConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Component
 @RequestMapping(value = "/profile")
@@ -59,6 +62,13 @@ public class ProfileInfo {
             return registerMap;
         }
         if (profileService.addUser(user) == Constants.SUCCESS_NUMBER) {
+            List list = profileService.getUserByEmail(user.getEmail());
+            if (list.size() != 0) {
+                User user1 = (User) list.get(0);
+                request.getSession().setAttribute("username", user1.getUsername());
+                request.getSession().setAttribute("userId", user1.getUserId());
+                request.getSession().setAttribute("email", user1.getEmail());
+            }
             registerMap.put("success", true);
         }
         return registerMap;
@@ -162,5 +172,38 @@ public class ProfileInfo {
             personalMap.put("errorMessage", "update failed");
         }
         return personalMap;
+    }
+
+    @RequestMapping("update_email")
+    @ResponseBody
+    public Map updateEmail(String email, String code) {
+        Object userId = request.getSession().getAttribute("userId").toString();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("success", false);
+        if (userId == null) {
+            map.put("errorMessage", "login first");
+            return map;
+        }
+        String v_code = (String) request.getSession().getAttribute("verificationCode");
+        if (!code.equals(v_code)) {
+            map.put("errorMessage", "code error");
+            return map;
+        }
+        String username = (String) request.getSession().getAttribute("username");
+        if (profileService.updateEmail(email, Integer.parseInt(userId.toString()), username) == 1) {
+            map.put("success", true);
+        }
+        return map;
+    }
+
+    @RequestMapping("/code")
+    @ResponseBody
+    public void sendEmailCode(String email) {
+        String code = "";
+        for (int i = 0; i < 5; i++) {
+            code += new Random().nextInt(10);
+        }
+        request.getSession().setAttribute("verificationCode", code);
+        new EmailSender().sendEmail(email, EmailConstant.EMAIL_CODE_SUBJECT, EmailConstant.EMAIL_CODE_CONTENT + code);
     }
 }

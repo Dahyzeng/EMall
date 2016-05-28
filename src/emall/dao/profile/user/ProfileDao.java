@@ -35,6 +35,13 @@ public class ProfileDao {
         query.executeUpdate();
     }
 
+    public void emailUpdate(String email, int userId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update User set email=? where userId=?");
+        query.setString(0, email);
+        query.setInteger(1, userId);
+        query.executeUpdate();
+    }
+
     public List nameMatch(String username) {
         Query query = sessionFactory.getCurrentSession().createQuery("from User where username=?");
         query.setString(0, username);

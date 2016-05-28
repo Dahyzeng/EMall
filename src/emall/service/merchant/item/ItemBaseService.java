@@ -146,7 +146,9 @@ public class ItemBaseService {
         }
         return itemList;
     }
-
+    public List getItemByName(String name, int page, int pageSize, String orderBy) {
+        return itemBaseDao.getItemByName(name, page, pageSize, orderBy);
+    }
     public List getItemById(int itemId) {
         return itemBaseDao.getItemById(itemId);
     }
@@ -157,6 +159,8 @@ public class ItemBaseService {
     public String getSessionName() {
         return request.getSession().getAttribute("merchantName").toString();
     }
+
+
     public MerchantLog getAdminLog() {
         SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));

@@ -82,6 +82,20 @@ public class ProfileService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    public int updateEmail(String email, int userId, String username) {
+        profileDao.emailUpdate(email, userId);
+        User user = new User();
+        user.setUsername(username);
+        UserLog userLog = getUserLog(user);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("update email: ");
+        stringBuilder.append(email);
+        userLog.setOperation(stringBuilder.toString());
+        userLogDao.addLog(userLog);
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
     public int checkLoginInfo(String email, String password) {
         UserLog userLog = getUserLog(new User(password, email));
         if (profileDao.checkLoginInfo(password, email) == 1) {

@@ -121,5 +121,6 @@ var englishMessage = {
     name: "Name",
     compareProduct: "Compare Product",
     image: "Image",
+    verificationCode: "Verification Code",
 
 };
