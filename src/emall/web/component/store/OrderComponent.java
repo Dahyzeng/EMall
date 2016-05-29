@@ -32,16 +32,12 @@ import java.util.*;
 public class OrderComponent {
     @Autowired
     private OrderService orderService;
-
     @Autowired
     private ItemBaseService itemBaseService;
-
     @Autowired
     private AddressService addressService;
-
     @Autowired
     private HttpServletRequest request;
-
 
     @RequestMapping("/all")
     @ResponseBody
@@ -62,9 +58,11 @@ public class OrderComponent {
                 Map<String, Object> itemMap = new HashMap<String, Object>();
                 OrderItem orderItem = (OrderItem) itemTmp;
                 Item item = (Item) itemBaseService.getItemById(orderItem.getItemId()).get(0);
+                item.setDescription("");
                 itemMap.put("item", item);
                 itemMap.put("quantity", orderItem.getQuantity());
                 itemMap.put("unitCost", orderItem.getUnitCost());
+                itemMap.put("evaluated", orderItem.getEvaluated());
                 itemArray.add(itemMap);
             }
             orderMap.put("orderId", order.getOrderId());
@@ -74,6 +72,7 @@ public class OrderComponent {
             orderMap.put("createTime", createTime.substring(0, createTime.length() - 2));
             orderMap.put("totalPrice", order.getTotalPrice());
             orderMap.put("status", MapConstant.ORDER_STATUS_MAP.get(order.getStatus()));
+            orderMap.put("expressInfo", orderService.getExpressInfo(order.getOrderId()));
             orderList.add(orderMap);
         }
         infoMap.put("orderArray", orderList);

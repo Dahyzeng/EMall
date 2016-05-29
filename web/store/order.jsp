@@ -53,49 +53,85 @@
                                     <div class="detail">
                                         <table style="margin: 0">
                                             <tr>
-                                                <td colspan="1"><span data-bind="text: headerMessage().total"></span>: <span>$499</span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().total"></span>: <span>$499</span></td>
                                                 <!-- ko if: order.status == "Unconfirmed" -->
                                                 <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().unconfirmed"></span></td>
-                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)"><span data-bind="text: headerMessage().cancel"></span></button></span></td>
+                                                <td colspan="2">
+                                                    <span>
+                                                        <button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)">
+                                                            <span data-bind="text: headerMessage().cancel"></span>
+                                                        </button>
+                                                    </span>
+                                                </td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Non-payment" -->
                                                 <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().nonPayment"></span></td>
-                                                <td><span><button style="width: 65px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().pay"></span></button></span></td>
+                                                <td colspan="2"><span><button style="width: 65px; height: 28px;"><span data-bind="text: headerMessage().pay"></span></button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Delivered" -->
-                                                <td colspan="1"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().delivered"></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().delivered"></span></td>
                                                 <td colspan="2">
-                                                    <span style="float: left; margin-right: 20px"><button style="width: 65px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().check"></span></button></span>
-                                                    <span><button style="width: 100px; height: 28px; margin-left: 60px"><span data-bind="text: headerMessage().receipt"></span></button></span>
+                                                    <span style="float: left; margin-right: 20px">
+                                                        <button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.checkExpress">
+                                                            <span data-bind="text: headerMessage().check"></span>
+                                                        </button>
+                                                    </span>
+                                                    <span>
+                                                        <button style="width: 100px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, 3, order.orderId)">
+                                                            <span data-bind="text: headerMessage().receipt"></span>
+                                                        </button>
+                                                    </span>
                                                 </td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Canceled" -->
-                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().canceled"></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().canceled"></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Confirmed" -->
-                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().confirmed"></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().confirmed"></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Finished" -->
-                                                <td colspan="3"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().finished"></span></td>
+                                                <td colspan="2">
+                                                    <span data-bind="text: headerMessage().status"></span>:
+                                                    <span data-bind="text: headerMessage().finished"></span>
+                                                </td>
+                                                <td colspan="2">
+                                                    <span style="float: left; margin-right: 20px">
+                                                        <button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.checkExpress">
+                                                            <span data-bind="text: headerMessage().check"></span>
+                                                        </button>
+                                                    </span>
+                                                    <span>
+                                                        <button style="width: 65px; height: 28px; margin-left: 60px">
+                                                            <span data-bind="text: headerMessage().review"></span>
+                                                        </button>
+                                                    </span>
+                                                </td>
                                                 <!-- /ko -->
 
                                             </tr>
                                             <tr>
-                                                <td colspan="1">
+                                                <td colspan="2">
                                                     <span data-bind="text: headerMessage().telephone"></span>: <span data-bind="text: order.address.telephone"></span>
                                                 </td>
                                                 <td colspan="2">
                                                     <span data-bind="text: headerMessage().address"></span>: <span data-bind="text: order.address.province + order.address.city + order.address.district + ' ' + order.address.detail"></span>
                                                 </td>
-                                                <td colspan="1"><span data-bind="text: headerMessage().email"></span>: <span data-bind="text: order.address.email"></span></td>
+                                                <td colspan="2"><span data-bind="text: headerMessage().email"></span>: <span data-bind="text: order.address.email"></span></td>
                                             </tr>
                                             <tbody data-bind="foreach: {data: order.items, as: 'itemMap'}">
                                             <tr>
-                                                <td><img style="width: 70px" data-bind="attr: {src: itemMap.item.showPicURL}"/></td>
-                                                <td style="width: 300px"><span data-bind="text: itemMap.item.itemName">iphone5s</span></td>
-                                                <td>$<span data-bind="text: itemMap.unitCost"></span></td>
-                                                <td>x<span data-bind="text: itemMap.quantity"></span></td>
-
+                                                <td colspan="1"><img style="width: 70px" data-bind="attr: {src: itemMap.item.showPicURL}"/></td>
+                                                <td colspan="2"><span data-bind="text: itemMap.item.itemName">iphone5s</span></td>
+                                                <td colspan="1">$<span data-bind="text: itemMap.unitCost"></span></td>
+                                                <td colspan="1">x<span data-bind="text: itemMap.quantity"></span></td>
+                                                <!-- ko if: order.status == "Finished" -->
+                                                <!-- ko if: itemMap.evaluated == 0-->
+                                                <td colspan="1"><button style="float: right; margin-right: 30px; width: 50px;" data-bind="click: $root.onEvaluate.bind($data, order.orderId)">Evaluate</button></td>
+                                                <!-- /ko -->
+                                                <!-- ko ifnot: itemMap.evaluated == 0-->
+                                                <td colspan="1">Evaluated</td>
+                                                <!-- /ko -->
+                                                <!-- /ko -->
                                             </tr>
                                             </tbody>
                                         </table>
@@ -113,19 +149,61 @@
         <jsp:include page="common/footer.jsp"/>
     </div>
 </div>
+<div id="express_modal" class="address_modal" style="width: 370px">
+    <div class="inner" style="width:370px;">
+        <div class="modal_title">
+            <span data-bind="text: headerMessage().expressInfo"></span>
+            <span class="modal_close"><a href="#" data-bind="click: modalClose">X</a></span>
+        </div>
 
+        <div class="a_modal_content">
+            <div class="a_label">
+                <p style="float: left; width: 100px">
+                    <span style="float: right" data-bind="text: headerMessage().expressName + ':'"></span>
+                </p>
+                <span data-bind="text: currentExpress().expressName"></span>
+            </div>
+            <div class="a_label">
+                <p style="float: left; width: 100px">
+                    <span style="float: right" data-bind="text: headerMessage().expressNumber + ':'"></span>
+                </p>
+                <span data-bind="text: currentExpress().expressNumber"></span>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
+    function showModal () {
+        $('#express_modal').css('display', 'block');
+        $('#main_part').css('opacity', '0.5');
+    }
+    function closeModal() {
+        $('#express_modal').css('display', 'none');
+        $('#main_part').css('opacity', '');
+    }
     function orderPage() {
         var self = this;
         self.orderArray = ko.observableArray();
 
+        self.onEvaluate = function (orderId) {
+           window.location.href = "/evaluate/" + this.item.itemId + "/" + orderId;
+        };
         self.deleteOrder = function (p) {
             $.get("/order/delete?orderId=" + p.orderId, function (json) {
                 if (json['success']) {
                     self.orderArray.remove(p);
                 }
             })
+        };
+
+        self.currentExpress = ko.observable({});
+        self.checkExpress = function (p) {
+            self.currentExpress(p.expressInfo);
+            showModal();
+        };
+        self.modalClose = function () {
+            closeModal();
         };
 
         self.updateStatus = function (status, orderId) {

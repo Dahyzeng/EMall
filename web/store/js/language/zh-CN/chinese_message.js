@@ -124,5 +124,8 @@ var chineseMessage = {
     image: "图片",
     price: "价格",
     verificationCode: "验证码",
+    expressName: "快递公司",
+    expressNumber: "单号",
+    expressInfo: "快递信息",
 
 };

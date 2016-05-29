@@ -59,6 +59,7 @@
 				<value>emall.entity.LeaveMessage</value>
 				<value>emall.entity.ExpressInfo</value>
 				<value>emall.entity.Statistic</value>
+				<value>emall.entity.ItemEvaluate</value>
 			</list>
 		</property>
 	</bean>

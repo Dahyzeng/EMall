@@ -122,5 +122,8 @@ var englishMessage = {
     compareProduct: "Compare Product",
     image: "Image",
     verificationCode: "Verification Code",
+    expressName: "Express",
+    expressNumber: "Number",
+    expressInfo: "Express Info",
 
 };

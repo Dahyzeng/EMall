@@ -1,6 +1,8 @@
 package emall.web.page.storefront;
 
 import emall.entity.Category;
+import emall.entity.OrderItem;
+import emall.service.user.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by taurin on 2016/4/5.
@@ -15,8 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class StoreNavigation {
     @Autowired
-    HttpServletRequest request;
-
+    private HttpServletRequest request;
+    @Autowired
+    private OrderService orderService;
     @RequestMapping("/home")
     public String homePage() {
         return "/index";
@@ -35,6 +39,29 @@ public class StoreNavigation {
     @RequestMapping("/contact_us")
     public String contactUsPage() {
         return "/store/contact_us";
+    }
+
+    @RequestMapping("/evaluate/{itemId}/{orderId}")
+    public ModelAndView evaluatePage(@PathVariable int itemId, @PathVariable String orderId) {
+        ModelAndView mav = new ModelAndView();
+        if (request.getSession().getAttribute("userId") == null) {
+            mav.setViewName("redirect:/home");
+            return mav;
+        }
+        List list = orderService.getOrderItem(orderId, itemId);
+        if (list.size() == 0) {
+            mav.setViewName("redirect:/home");
+        } else {
+            OrderItem orderItem = (OrderItem) list.get(0);
+            if (orderItem.getEvaluated() == 1) {
+                mav.setViewName("/store/order");
+            } else {
+                mav.addObject("orderId", orderId);
+                mav.addObject("itemId", itemId);
+                mav.setViewName("/store/review");
+            }
+        }
+        return mav;
     }
 
     @RequestMapping("/search_key/{key}")

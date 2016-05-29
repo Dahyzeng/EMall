@@ -2,9 +2,12 @@ package emall.web.component.store;
 
 import emall.entity.Category;
 import emall.entity.Item;
+import emall.entity.ItemEvaluate;
 import emall.service.merchant.item.ItemBaseService;
 import emall.service.store.common.StoreCategoryService;
 import emall.service.store.common.StoreItemService;
+import emall.service.user.profile.ProfileService;
+import emall.service.user.review.ReviewService;
 import emall.util.string.constants.PageSizeConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,16 +29,17 @@ import java.util.Map;
 @RequestMapping("/store")
 public class PageCommonComponent {
     @Autowired
-    HttpServletRequest request;
-
+    private HttpServletRequest request;
     @Autowired
-    StoreCategoryService storeCategoryService;
-
+    private StoreCategoryService storeCategoryService;
     @Autowired
-    StoreItemService storeItemService;
-
+    private StoreItemService storeItemService;
     @Autowired
-    ItemBaseService itemBaseService;
+    private ItemBaseService itemBaseService;
+    @Autowired
+    private ReviewService  reviewService;
+    @Autowired
+    private ProfileService profileService;
 
     @RequestMapping("/get_categories")
     @ResponseBody
@@ -95,6 +99,19 @@ public class PageCommonComponent {
         map.put("itemPicList", itemPicList);
         return map;
     }
+    @RequestMapping("/review_item/{itemId}")
+    @ResponseBody
+    public Map getItem(@PathVariable int itemId) {
+        List itemList = storeItemService.getItemById(itemId);
+        Item item = new Item();
+        if (itemList.size() != 0) {
+            item = (Item) itemList.get(0);
+        }
+        item.setDescription("");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("item", item);
+        return map;
+    }
 
     @RequestMapping("/find/{key}")
     @ResponseBody
@@ -119,6 +136,11 @@ public class PageCommonComponent {
             }
         }
         return list;
+    }
+
+    @RequestMapping("/item_review")
+    public List getItemReview(int itemId) {
+        return reviewService.getItemEvaluate(itemId);
     }
 
     @RequestMapping("/page_size")

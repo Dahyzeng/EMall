@@ -1,15 +1,15 @@
 package emall.service.user.order;
 
 import emall.dao.item.ItemBaseDao;
+import emall.dao.order.EvaluateDao;
+import emall.dao.order.ExpressInfoDao;
 import emall.dao.profile.user.CartDao;
 import emall.dao.order.OrderDao;
 import emall.dao.profile.user.UserLogDao;
 import emall.dao.statistic.StatisticDao;
-import emall.entity.Item;
-import emall.entity.Order;
-import emall.entity.OrderItem;
-import emall.entity.UserLog;
+import emall.entity.*;
 import emall.util.string.Constants;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +36,12 @@ public class OrderService {
     private CartDao cartDao;
     @Autowired
     private ItemBaseDao itemBaseDao;
-
+    @Autowired
+    private ExpressInfoDao expressInfoDao;
     @Autowired
     private StatisticDao statisticDao;
+    @Autowired
+    private EvaluateDao evaluateDao;
 
     public List getUserOrder(int userId) {
         return orderDao.getUserOrder(userId);
@@ -106,6 +109,18 @@ public class OrderService {
         }
 
         return Constants.SUCCESS_NUMBER;
+    }
+
+    public List getOrderItem(String orderId, int itemId) {
+        return orderDao.getOrderItem(orderId, itemId);
+    }
+
+    public ExpressInfo getExpressInfo(String orderId) {
+        List list = expressInfoDao.getExpressInfo(orderId);
+        if (list.size() == 0) {
+            return null;
+        } else
+        return (ExpressInfo) list.get(0);
     }
 
     public UserLog getUserLog(Timestamp date) {

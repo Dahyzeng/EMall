@@ -75,7 +75,7 @@
                         </span>
                             <li class="no_border">
                                 <a href="/cart" class="view_cart"><span data-bind="text: headerMessage().viewShoppingCart"></span></a>
-                                <a href="checkout.html" class="checkout"><span data-bind="text: headerMessage().checkout"></span></a>
+                                <a href="#" data-bind="click: placeOrderNow" class="checkout"><span data-bind="text: headerMessage().checkout"></span></a>
                             </li>
                         </ul>
                     </li>
@@ -162,6 +162,14 @@
             }
             $.get("/store/language?language=" + json[language], function () {
                 window.location.reload();
+            })
+        };
+
+        self.placeOrderNow = function () {
+            $.post("/order/items", {items: JSON.stringify(self.cartItemArray())}, function (json) {
+                if (json['success']) {
+                    window.location.href = "/checkout";
+                }
             })
         };
 

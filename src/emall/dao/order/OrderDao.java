@@ -86,4 +86,18 @@ public class OrderDao {
         query.setString(0, orderId);
         query.executeUpdate();
     }
+
+    public void updateOrderItemEvaluate(String orderId, int itemId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update OrderItem set evaluated=1 where orderId=? and itemId=?");
+        query.setString(0, orderId);
+        query.setInteger(1, itemId);
+        query.executeUpdate();
+    }
+
+    public List getOrderItem(String orderId, int itemId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from OrderItem where orderId=? and itemId=?");
+        query.setString(0, orderId);
+        query.setInteger(1, itemId);
+        return query.list();
+    }
 }

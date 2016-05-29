@@ -25,6 +25,9 @@ public class OrderItem {
     @Column(name = "unit_cost")
     private float unitCost;
 
+    @Column(name = "evaluated")
+    private int evaluated;
+
     public OrderItem() {
     }
 
@@ -65,5 +68,13 @@ public class OrderItem {
 
     public void setUnitCost(float unitCost) {
         this.unitCost = unitCost;
+    }
+
+    public int getEvaluated() {
+        return evaluated;
+    }
+
+    public void setEvaluated(int evaluated) {
+        this.evaluated = evaluated;
     }
 }
