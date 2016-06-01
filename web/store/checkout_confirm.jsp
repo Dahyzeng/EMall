@@ -6,6 +6,7 @@
     <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
     <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
     <link href="<%request.getContextPath();%>/store/css/account.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/cartStyle.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%request.getContextPath();%>/store/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
     <script src="<%=request.getContextPath() %>/store/js/jsAddress.js"></script>
@@ -92,17 +93,17 @@
                                 </td>
                                 <td class="bg price">
                                     <!-- ko ifnot: item.discount==0 -->
-                                    <div class="price_new">$<span data-bind="text: $data.item.price - $data.item.discount"></span></div>
-                                    <div id="price_old">$<span data-bind="text: $data.item.price"></span></div>
+                                    <div class="price_new">$<span data-bind="text: ($data.item.price - $data.item.discount).toFixed(1)"></span></div>
+                                    <div class="price_old">$<span data-bind="text: $data.item.price"></span></div>
                                     <!-- /ko -->
                                     <!-- ko if: item.discount==0 -->
                                     <div class="price_new">$<span data-bind="text: $data.item.price"></span></div>
                                     <!-- /ko -->
                                 </td>
-                                <td class="qty">
+                                <td>
                                     <span data-bind="text: $data.quantity"></span>
                                 </td>
-                                <td class="bg subtotal">$<span data-bind="text: $data.item.price * $data.quantity"></span></td>
+                                <td class="bg subtotal">$<span data-bind="text: ($data.item.price - $data.item.discount).toFixed(1) * $data.quantity"></span></td>
                             </tr>
                         </table>
                         <div>
@@ -124,7 +125,7 @@
     <div class="inner">
         <div class="modal_title">
             <span>General Order Success</span>
-            <span class="modal_close"><a href="#">X</a></span>
+            <span class="modal_close"><a href="#" data-bind="click: closeModal">X</a></span>
         </div>
         <div class="a_modal_content" style="padding-bottom: 0">
             <div style="text-align: center">
@@ -146,7 +147,7 @@
             </div>
             <div style="margin-bottom: 30px">
                 <button style="float: left; width: 100px; margin-left: 100px">Pay For Order</button>
-                <button style="float: right; width:100px; margin-right: 112px">Continue Shopping</button>
+                <button style="float: right; width:100px; margin-right: 112px" data-bind="click: continueShopping">Continue Shopping</button>
             </div>
         </div>
     </div>
@@ -160,7 +161,7 @@
     function closeModal(modal) {
         $('#' + modal).css('display', 'none');
         $('#main_part').css('opacity', '');
-        window.location.href = "/home";
+        window.location.href = "/account";
     }
     function checkoutPage() {
         var self = this;
@@ -177,6 +178,9 @@
 
         self.closeModal = function () {
             closeModal(self.modalType());
+        };
+        self.continueShopping = function () {
+            window.location.href = "/home";
         };
         self.placeOrder = function () {
             $("#confirm_button").attr("disabled", true);
@@ -203,7 +207,7 @@
                     self.payMethod(json['payMethod']);
                     self.items(eval('(' + json['items'] + ')'));
                     for (var i = 0; i < self.items().length; i++) {
-                        self.total(self.items()[i].item.price * self.items()[i].quantity + self.total());
+                        self.total(((self.items()[i].item.price - self.items()[i].item.discount) * self.items()[i].quantity + self.total()).toFixed(1));
                     }
                 }
             })

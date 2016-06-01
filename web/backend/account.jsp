@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Detail Admin - User list</title>
@@ -14,8 +15,10 @@
     <link href="<%request.getContextPath();%>/backend/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
 
     <link rel="stylesheet" href="<%request.getContextPath();%>/backend/css/compiled/user-list.css" type="text/css" media="screen" />
+    <script src="<%request.getContextPath();%>/backend/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/bootstrap.min.js"></script>
     <script src="<%request.getContextPath();%>/backend/js/theme.js"></script>
+    <script src="<%request.getContextPath();%>/backend/js/knockoutjs.js"></script>
 
 <body>
 
@@ -28,13 +31,12 @@
             <div class="row-fluid header">
                 <h3>Users</h3>
                 <div class="span10 pull-right">
-                    <input type="text" class="span5 search" placeholder="Type a user's name..." />
-
-
-                    <a href="new-user.html" class="btn-flat success pull-right">
-                        <span>&#43;</span>
-                        NEW USER
-                    </a>
+                    <c:if test="${sessionScope.isAdmin eq 1}">
+                        <a href="#addMerchant" data-toggle="modal" class="btn-flat success pull-right">
+                            <span>&#43;</span>
+                            NEW USER
+                        </a>
+                    </c:if>
                 </div>
             </div>
 
@@ -47,48 +49,31 @@
                             Name
                         </th>
                         <th class="span3 sortable">
-                            <span class="line"></span>Signed up
+                            <span class="line"></span>Create Time
                         </th>
                         <th class="span2 sortable">
-                            <span class="line"></span>Total spent
+                            <span class="line"></span>Id
                         </th>
-                        <th class="span3 sortable align-right">
+                        <th class="span3 sortable">
                             <span class="line"></span>Email
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-bind="foreach: {data: merchantArray, as: 'merchant'}">
                     <!-- row -->
                     <tr class="first">
                         <td>
-                            <img src="img/contact-img.png" class="img-circle avatar hidden-phone" />
-                            <a href="user-profile.html" class="name">Alejandra Galvan Castillo</a>
-                            <span class="subtext">Graphic Design</span>
+                            <img data-bind="attr: {src: merchant.pic}" class="img-circle avatar hidden-phone" />
+                            <a class="name"><span data-bind="text: merchant.merchantName"></span></a>
                         </td>
                         <td>
-                            Mar 13, 2012
+                            <span data-bind="text: merchant.createTime"></span>
                         </td>
                         <td>
-                            $ 4,500.00
-                        </td>
-                        <td class="align-right">
-                            <a href="#">alejandra@canvas.com</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="img/contact-img2.png" class="img-circle avatar hidden-phone" />
-                            <a href="user-profile.html" class="name">Alejandra Galvan Castillo</a>
-                            <span class="subtext">Graphic Design</span>
+                            <span data-bind="text: merchant.merchantId"></span>
                         </td>
                         <td>
-                            Jun 03, 2012
-                        </td>
-                        <td>
-                            $ 549.99
-                        </td>
-                        <td class="align-right">
-                            <a href="#">alejandra@canvas.com</a>
+                            <span data-bind="text: merchant.email"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -98,7 +83,48 @@
         </div>
     </div>
 </div>
-
-
+<div id="addMerchant" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="modalClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">
+            Add Merchant
+        </h3>
+    </div>
+    <div class="modal-body">
+        username: <input type="text" data-bind="value: username" name="subCategoryName"/><br/>
+        email: <input type="text" data-bind="value: email" name="subCategoryName"/><br/>
+        password: <input type="password" data-bind="value: password" name="subCategoryName"/><br/>
+        passwordConfirm: <input type="password" data-bind="value: confirmPassword" name="subCategoryName"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" data-bind="click: addAccount">Save</button>
+    </div>
+</div>
 </body>
+<script>
+    function accountPage() {
+        var self = this;
+        self.username = ko.observable();
+        self.email = ko.observable();
+        self.password = ko.observable();
+        self.confirmPassword = ko.observable();
+        self.merchantArray = ko.observableArray();
+        self.addAccount = function () {
+            $.get("/merchant/addMerchant", {merchantName: self.username, email:self.email(), password: self.password}, function (json) {
+                if (json['success']) {
+                    $("#modalClose").trigger('click');
+                }
+            })
+        };
+        (function () {
+            $.get("/merchant/getAll", function (json) {
+                if (json['success']) {
+                    self.merchantArray(json['merchantList']);
+                }
+            })
+        })();
+    }
+    ko.applyBindings(new accountPage());
+</script>
 </html>

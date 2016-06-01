@@ -67,7 +67,7 @@ public class CartComponent {
                 Cart cart = (Cart) tmp;
                 Item item = (Item) itemBaseDao.getItemById(cart.getItemId()).get(0);
                 item.setPrice(item.getPrice() - item.getDiscount());
-                totalPrice += item.getPrice() * cart.getQuantity();
+                totalPrice += (item.getPrice() - item.getDiscount()) * cart.getQuantity();
                 itemMap.put("item", item);
                 itemMap.put("quantity", cart.getQuantity());
                 itemList.add(itemMap);

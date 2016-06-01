@@ -64,8 +64,8 @@
                             <div class="cont_cart">
                                 <h4><span data-bind="text: itemMap.item.itemName"></span></h4>
 
-                                <div class="price"><span
-                                        data-bind="text: 'x ' + itemMap.quantity + '  $' + itemMap.item.price"></span>
+                                <div class="price">
+                                    <span data-bind="text: 'x ' + itemMap.quantity + '  $' + (itemMap.item.price - itemMap.item.discount).toFixed(1)"></span>
                                 </div>
                             </div>
                             <a title="close" data-bind="click: headerDeleteItem" class="close" href="#"></a>

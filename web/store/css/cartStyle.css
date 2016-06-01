@@ -1,0 +1,9 @@
+.price_new{
+    color: #2e8f9a;
+    font:normal 18px/18px Bitter, Myriad Pro, Verdana, serif;
+}
+.price_old{
+    color: #777;
+    font:normal 14px/20px Segoeui, Arial, Verdana, serif;
+    text-decoration: line-through;
+}

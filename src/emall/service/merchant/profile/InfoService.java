@@ -42,11 +42,12 @@ public class InfoService {
      */
     @Transactional(rollbackFor = Exception.class)
     public int addAdminService(Merchant merchant){
-        MerchantLog log = getAdminLog(merchant);
+        MerchantLog log = getAdminLog();
         StringBuilder logMessage = new StringBuilder();
         logMessage.append(MerchantConstants.ADD_ADMIN_LOG);
         logMessage.append(merchant.getMerchantName());
         log.setOperation(logMessage.toString());
+        merchant.setCreateTime(log.getDate());
         logService.addMerchantLog(log);
         merchantDao.addMerchant(merchant);
         return 1;
@@ -69,8 +70,10 @@ public class InfoService {
             if (!list.isEmpty()) {
                 merchant = (Merchant)list.get(0);
                 request.getSession().setAttribute("merchantName", merchant.getMerchantName());
+                if (merchant.getIsAdmin() == 1)
+                request.getSession().setAttribute("isAdmin", merchant.getIsAdmin());
             }
-            log = getAdminLog(merchant);
+            log = getAdminLog();
             log.setOperation(MerchantConstants.LOGIN_SUCCESS_LOG_MESSAGE);
             logService.addMerchantLog(log);
         }
@@ -100,7 +103,7 @@ public class InfoService {
      */
     @Transactional(rollbackFor = Exception.class)
     public int updatePassword(Merchant merchant) {
-        MerchantLog log = getAdminLog(merchant);
+        MerchantLog log = getAdminLog();
         log.setOperation(MerchantConstants.UPDATE_PASSWORD_LOG);
         merchantDao.updatePassword(merchant);
         logService.addMerchantLog(log);
@@ -120,6 +123,10 @@ public class InfoService {
         return Constants.SUCCESS_NUMBER;
     }
 
+    public List getMerchants() {
+        return merchantDao.getMerchants();
+    }
+
     public MallInfo getMall() {
         return mallDao.getMallInfo();
     }
@@ -128,11 +135,12 @@ public class InfoService {
         return request.getSession().getAttribute("merchantName").toString();
     }
 
-    public MerchantLog getAdminLog(Merchant merchant) {
+    public MerchantLog getAdminLog() {
         SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
+
         MerchantLog log = new MerchantLog();
-        log.setMerchantName(merchant.getMerchantName());
+        log.setMerchantName(getSessionName());
         log.setDate(date);
         return log;
     }

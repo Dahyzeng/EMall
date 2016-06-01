@@ -85,4 +85,18 @@ public class UpdateInfo {
         map.put("mallInfo", infoService.getMall());
         return map;
     }
+
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public Map getMerchants() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Object merchantName = request.getSession().getAttribute("merchantName");
+        if (merchantName == null) {
+            map.put("success", false);
+            map.put("errorMessage", ErrorMessageConstant.NO_LOGIN_ERROR);
+        }
+        map.put("merchantList", infoService.getMerchants());
+        map.put("success", true);
+        return map;
+    }
 }

@@ -113,6 +113,17 @@ public class BackendPage {
         }
         return mav;
     }
+//
+//    @RequestMapping("/account/add")
+//    public String merchantAccountAdd() {
+//        if (request.getSession().getAttribute("merchantName") != null) {
+//            if (request.getSession().getAttribute("isAdmin") == null)
+//            return "redirect:/merchant/account";
+//            else return "/backend/account_edit";
+//        } else {
+//            return "redirect:/merchant/signIn";
+//        }
+//    }
 
     @RequestMapping("/log")
     public ModelAndView merchantLog() {

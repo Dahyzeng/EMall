@@ -42,7 +42,11 @@ public class MerchantProfileDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from Merchant where email=?");
         query.setString(0, email);
         return query.list();
+    }
 
+    public List getMerchants() {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Merchant");
+        return query.list();
     }
 
     /**

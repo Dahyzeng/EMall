@@ -49,6 +49,8 @@ public class Login {
         return resultMap;
     }
 
+
+
     @RequestMapping("/set")
     public void setUsername(HttpServletRequest request) {
         request.getSession().setAttribute("username", "taurin");

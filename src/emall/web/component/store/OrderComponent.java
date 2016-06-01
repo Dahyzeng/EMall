@@ -169,7 +169,7 @@ public class OrderComponent {
             map.put("itemId", itemId);
             map.put("unitCost", price - discount);
             itemList.add(map);
-            totalPrice = totalPrice + quantity * (Integer.parseInt(itemBean.get("price").toString()) - Integer.parseInt(itemBean.get("discount").toString()));
+            totalPrice = totalPrice + quantity * (Float.parseFloat(itemBean.get("price").toString()) - Float.parseFloat(itemBean.get("discount").toString()));
         }
 
         Order order = new Order(userId, addressId, payMethod, totalPrice, orderId);
@@ -186,14 +186,16 @@ public class OrderComponent {
         orderMap.put("orderId", orderId);
         session.removeAttribute("checkoutStep");
         session.removeAttribute("items");
-        Object newOrder = request.getServletContext().getAttribute("newOrder");
-        if (newOrder == null) {
-            request.getServletContext().setAttribute("newOrder", 1);
-            DwrScriptSessionManagerUtil.sendMessageAuto(1);
-        } else {
-            int count = Integer.parseInt(newOrder.toString());
-            request.getServletContext().setAttribute("newOrder", ++count);
-            DwrScriptSessionManagerUtil.sendMessageAuto(count);
+        if (payMethod.equals("Pay On Delivery")){
+            Object newOrder = request.getServletContext().getAttribute("newOrder");
+            if (newOrder == null) {
+                request.getServletContext().setAttribute("newOrder", 1);
+                DwrScriptSessionManagerUtil.sendMessageAuto(1);
+            } else {
+                int count = Integer.parseInt(newOrder.toString());
+                request.getServletContext().setAttribute("newOrder", ++count);
+                DwrScriptSessionManagerUtil.sendMessageAuto(count);
+            }
         }
         return orderMap;
     }

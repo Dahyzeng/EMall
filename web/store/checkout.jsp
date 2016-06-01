@@ -6,6 +6,7 @@
     <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
     <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
     <link href="<%request.getContextPath();%>/store/css/account.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/cartStyle.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%request.getContextPath();%>/store/js/jquery-2.1.1.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
     <script src="<%=request.getContextPath() %>/store/js/jsAddress.js"></script>
@@ -27,7 +28,7 @@
                         <li>
                             <input class="niceRadio" type="radio" name="addressId" data-bind="value: ko.toJSON(address)"/>
                             <span data-bind="text: address.consignee + ' ' + address.province + address.city + address.district + ' ' + address.detail"></span>
-                            <a href="#" class="c_edit_a" data-bind="click: $root.editAddressModal"><span data-bind="text: $root.headerMessage().edit"></span></a>
+                            <a href="#" class="c_edit_a" data-bind="click: $root.editAddressModal"><span data-bind="text: headerMessage().edit"></span></a>
                         </li>
                     </ul>
                     <!-- ko if: addressArray().length < 5 -->
@@ -68,23 +69,23 @@
                             </td>
                             <td class="bg price">
                                 <!-- ko ifnot: item.discount==0 -->
-                                <div class="price_new">$<span data-bind="text: $data.item.price - $data.item.discount"></span></div>
-                                <div id="price_old">$<span data-bind="text: $data.item.price"></span></div>
+                                <div class="price_new">$<span data-bind="text: ($data.item.price - $data.item.discount).toFixed(1)"></span></div>
+                                <div class="    price_old">$<span data-bind="text: $data.item.price"></span></div>
                                 <!-- /ko -->
                                 <!-- ko if: item.discount==0 -->
                                 <div class="price_new">$<span data-bind="text: $data.item.price"></span></div>
                                 <!-- /ko -->
                             </td>
-                            <td class="qty">
+                            <td>
                                 <span data-bind="text: $data.quantity"></span>
                             </td>
-                            <td class="bg subtotal">$<span data-bind="text: $data.item.price * $data.quantity"></span></td>
+                            <td class="bg subtotal">$<span data-bind="text: ($data.item.price - $data.item.discount).toFixed(1) * $data.quantity"></span></td>
 
                         </tr>
 
                     </table>
                     <div style="float: right">
-                        <h4><span data-bind="text: headerMessage().total"></span>: $400</h4>
+                        <h4><span data-bind="text: headerMessage().total"></span>: $<span data-bind="text: selectTotalPrice"></span></h4>
                         <button style="margin-left: 60px" data-bind="click: placeOrder">&nbsp <span data-bind="text: headerMessage().submitOrder"></span> &nbsp</button>
                     </div>
                 </div>
@@ -161,6 +162,7 @@
         self.addressArray = ko.observableArray();
         self.currentAddress = ko.observable({});
         self.operationType = ko.observable();
+        self.selectTotalPrice = ko.observable();
 
         self.showAddressModal = function () {
             openModal();
@@ -198,19 +200,27 @@
         };
 
         self.placeOrder = function () {
-            var address = $("input[name='addressId']").val();
+            var address = $("input[name='addressId']:checked ").val();
             var payMethod = $("input[name='payMethod']:checked").val();
-            $.post("/order/confirm", {addressJson: address, payMethod: payMethod}, function (json) {
-                if (json['success']) {
-                    window.location.href = "/checkout/confirm";
-                }
-            })
+            if (address && payMethod) {
+                $.post("/order/confirm", {addressJson: address, payMethod: payMethod}, function (json) {
+                    if (json['success']) {
+                        window.location.href = "/checkout/confirm";
+                    }
+                })
+            }
+
         };
 
         (function () {
             $.get("/order/flow_data", function (json) {
                 if (json['success']) {
                     self.items(eval('('+ json['items']+')'));
+                    var total = 0;
+                    for (var i = 0; i < self.items().length; i++) {
+                        total = self.items()[i].quantity * (self.items()[i].item.price - self.items()[i].item.discount);
+                    }
+                    self.selectTotalPrice(total.toFixed(1));
                 }
             });
             headerPage();
@@ -219,9 +229,6 @@
                     self.addressArray(json['addressArray']);
                 }
             });
-
-
-
         })();
     }
     ko.applyBindings(new checkoutPage());

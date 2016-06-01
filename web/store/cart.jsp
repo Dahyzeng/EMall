@@ -1,12 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
     <title>Shoping cart</title>
     <link href="<%request.getContextPath();%>/store/css/style.css" media="screen" rel="stylesheet" type="text/css">
     <link href="<%request.getContextPath();%>/store/css/grid.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%request.getContextPath();%>/store/css/cartStyle.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%request.getContextPath();%>/store/js/jquery-1.7.2.min.js"></script>
     <script src="<%request.getContextPath();%>/store/js/knockoutjs.js"></script>
 </head>
@@ -40,8 +38,8 @@
                     </td>
                     <td class="bg price">
                         <!-- ko ifnot: itemMap.item.discount==0 -->
-                        <div class="price_new">$<span data-bind="text: itemMap.item.price - item.discount"></span></div>
-                        <div id="price_old">$<span data-bind="text: itemMap.item.price"></span></div>
+                        <div class="price_new">$<span data-bind="text: (itemMap.item.price - item.discount).toFixed(1)"></span></div>
+                        <div class="price_old">$<span data-bind="text: itemMap.item.price"></span></div>
                         <!-- /ko -->
                         <!-- ko if: item.discount==0 -->
                         <div class="price_new">$<span data-bind="text: itemMap.item.price"></span></div>
@@ -64,7 +62,7 @@
                             }
                         </script>
                     </td>
-                    <td class="bg subtotal">$<span data-bind="text: itemMap.item.price * itemMap.quantity"></span></td>
+                    <td class="bg subtotal">$<span data-bind="text:  (itemMap.item.price - item.discount).toFixed(1) * itemMap.quantity"></span></td>
                     <td class="close">
                         <a data-bind="click: deleteItem, attr: {title: headerMessage().del}" class="close" href="#"></a>
                     </td>
@@ -72,12 +70,12 @@
                 </tbody>
                 <tr>
                     <td colspan="7" class="cart_but">
-                        <button style="width: 150px; float: left"><< <span data-bind="text: headerMessage().continueShopping"></span></button>
                         <span style="float: right" ><span data-bind="text: headerMessage().total"></span>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span data-bind="text: total"></span></span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="7" class="cart_but">
+                        <button data-bind="click: continueShopping" style="width: 150px; float: left"><< <span data-bind="text: headerMessage().continueShopping"></span></button>
                         <button style="float: right; width: 90px" data-bind="click: placeOrder"><span data-bind="text: headerMessage().placeOrder"></span></button>
                     </td>
                 </tr>
@@ -109,10 +107,18 @@
             for (var i = 0; i < self.selectItems().length; i ++) {
                 totalPrice = (self.selectItems()[i].item.price - self.selectItems()[i].item.discount) * self.selectItems()[i].quantity + totalPrice;
             }
-            self.total(totalPrice);
+            self.total(totalPrice.toFixed(1));
         });
 
+        self.continueShopping = function () {
+            window.location.href = "/home";
+        };
+
         self.placeOrder = function () {
+            if (self.selectItems().length == 0) {
+                alert("please select items");
+                return;
+            }
             $.post("/order/items", {items: JSON.stringify(self.selectItems())}, function (json) {
                 if (json['success']) {
                     window.location.href = "/checkout";

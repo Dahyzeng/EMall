@@ -15,4 +15,5 @@ public class ErrorMessageConstant {
     public static final String GET_ITEM_ERROR_NO_ITEM = "Sorry, there is no this category item";
     public static final String NO_LOGIN_ERROR = "Please login first";
     public static final String SYSTEM_ERROR = "Sorry, there is an unknown error";
+    public static final String PERMISSION_ERROR = "Sorry, you do not have the permission";
 }
