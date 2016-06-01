@@ -1,5 +1,7 @@
 package emall.web.page.merchant;
 
+import emall.entity.MallInfo;
+import emall.service.merchant.profile.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/merchant")
 public class BackendPage {
-
+    @Autowired
+    private InfoService infoService;
     @Autowired
     private HttpServletRequest request;
 
@@ -61,6 +64,7 @@ public class BackendPage {
         }
         return mav;
     }
+
     @RequestMapping("/product/{operation}")
     public ModelAndView productEditNavigate(@PathVariable("operation") String operation, String itemId) {
         ModelAndView mav = commonFunction("/product_edit");
@@ -101,6 +105,15 @@ public class BackendPage {
         return mav;
     }
 
+    @RequestMapping("/account")
+    public ModelAndView merchantAccount() {
+        ModelAndView mav = commonFunction("/account");
+        if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
+            mav.addObject("activeTab", "account");
+        }
+        return mav;
+    }
+
     @RequestMapping("/log")
     public ModelAndView merchantLog() {
         ModelAndView mav = commonFunction("/merchant_log");
@@ -119,6 +132,21 @@ public class BackendPage {
         return mav;
     }
 
+
+    @RequestMapping("/info")
+    public ModelAndView mallPage() {
+        ModelAndView mav = commonFunction("/mall");
+        if (!"redirect:/merchant/signIn".equals(mav.getViewName())) {
+            mav.addObject("activeTab", "mall");
+            MallInfo mallInfo = infoService.getMall();
+            if (mallInfo == null) {
+                mallInfo = new MallInfo();
+            }
+            mav.addObject("mallInfo", mallInfo);
+        }
+        return mav;
+    }
+
     public ModelAndView commonFunction(String url) {
         ModelAndView mav = new ModelAndView();
         Object merchantName = request.getSession().getAttribute("merchantName");
@@ -129,4 +157,6 @@ public class BackendPage {
         }
         return mav;
     }
+
+
 }

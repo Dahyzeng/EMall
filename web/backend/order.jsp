@@ -45,7 +45,7 @@
                             <a href="#" data-bind="click: getOrderByStatus.bind($data, -2)">Not-payment</a>
                         </li>
                         <li data-bind="attr: {class: unConfirmClass}" style="margin-left: 20px">
-                            <a href="#" data-bind="click: getOrderByStatus.bind($data, 0)">Unconfirmed</a>
+                            <a href="#" data-bind="click: getOrderByStatus.bind($data, 0)">Unconfirmed <div class="badge" id="unconfirmedTabCount"></div></a>
                         </li>
                         <li data-bind="attr: {class: confirmClass}" style="margin-left: 20px">
                             <a href="#" data-bind="click: getOrderByStatus.bind($data, 1)">Confirmed</a>
@@ -383,7 +383,11 @@
                     case 10: self.allClass('active');break;
                     case -2: self.payClass('active');break;
                     case -1: self.cancelClass('active');break;
-                    case 0: self.unConfirmClass('active');break;
+                    case 0:
+                        self.unConfirmClass('active');
+                        document.getElementById("unconfirmedTabCount").innerHTML = "";
+                        document.getElementById("orderCountBadge").innerHTML = "";
+                        break;
                     case 1: self.confirmClass('active');break;
                     case 2: self.deliverClass('active');break;
                     case 3: self.finishClass('active');break;

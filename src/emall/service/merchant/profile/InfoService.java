@@ -1,9 +1,12 @@
 package emall.service.merchant.profile;
 
+import emall.dao.profile.merchant.MallDao;
 import emall.dao.profile.merchant.MerchantProfileDao;
+import emall.entity.MallInfo;
 import emall.entity.Merchant;
 import emall.entity.MerchantLog;
 import emall.service.merchant.log.LogService;
+import emall.util.string.Constants;
 import emall.util.string.constants.MerchantConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import java.util.List;
 public class InfoService {
     @Autowired
     private MerchantProfileDao merchantDao;
+    @Autowired
+    private MallDao mallDao;
     @Autowired
     private LogService logService;
 
@@ -100,6 +105,23 @@ public class InfoService {
         merchantDao.updatePassword(merchant);
         logService.addMerchantLog(log);
         return 1;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateMall(MallInfo mallInfo) {
+        MerchantLog log = new MerchantLog();
+        SimpleDateFormat toDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp date = Timestamp.valueOf(toDateTime.format(new Date().getTime()));
+        log.setDate(date);
+        log.setMerchantName(request.getSession().getAttribute("merchantName").toString());
+        log.setOperation("update mall info");
+        logService.addMerchantLog(log);
+        mallDao.addOrUpdate(mallInfo);
+        return Constants.SUCCESS_NUMBER;
+    }
+
+    public MallInfo getMall() {
+        return mallDao.getMallInfo();
     }
 
     public String getSessionName() {

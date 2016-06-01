@@ -1,6 +1,8 @@
 package emall.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import emall.entity.PK.ItemEvaluatePK;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -81,6 +83,8 @@ public class ItemEvaluate {
         this.comment = comment;
     }
 
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Timestamp getDate() {
         return date;
     }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,11 @@ public class ReviewService {
 
     public List getItemEvaluate(int itemId) {
         return evaluateDao.getItemEvaluate(itemId);
+    }
+
+    public float getAverage() {
+        DecimalFormat df = new DecimalFormat("#.0");
+        return Float.parseFloat(df.format(evaluateDao.getAverage()));
     }
 
 }

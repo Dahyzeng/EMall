@@ -2,11 +2,14 @@ package emall.web;
 
 import emall.entity.Category;
 import emall.entity.Merchant;
+import emall.util.DwrScriptSessionManagerUtil;
 import emall.util.EmailSender;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,8 @@ import java.util.List;
 @RequestMapping("/test")
 public class Test {
 
+    @Autowired
+    HttpServletRequest request;
     @RequestMapping("/json_test")
     @ResponseBody
     public List testJson() {
@@ -38,5 +43,21 @@ public class Test {
 
     public void emailSend() {
         new EmailSender().sendEmail("734711226@qq.com", "test email sender", "if u see this mail, it means success");
+    }
+
+    @RequestMapping("/order")
+    @ResponseBody
+    public void testMessage() {
+        Object newOrder = request.getServletContext().getAttribute("newOrder");
+        if (newOrder == null) {
+            request.getServletContext().setAttribute("newOrder", 1);
+            DwrScriptSessionManagerUtil.sendMessageAuto(1);
+        } else {
+            int count = Integer.parseInt(newOrder.toString());
+            request.getServletContext().setAttribute("newOrder", ++count);
+            DwrScriptSessionManagerUtil.sendMessageAuto(count);
+        }
+
+
     }
 }

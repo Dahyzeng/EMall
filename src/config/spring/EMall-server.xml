@@ -4,22 +4,19 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:p="http://www.springframework.org/schema/p"
-
-    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.2.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-
-	http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
 
     <mvc:annotation-driven/>
     <!-- 注解扫描包 -->
     <context:component-scan base-package="emall.web" />
-    <context:component-scan base-package="emall.aop" />
     <context:component-scan base-package="emall.util.file" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -29,7 +26,6 @@
             </list>
         </property>
     </bean>
-    <aop:aspectj-autoproxy/>
 	<!-- 开启注解 -->
 
     <bean id="message" class="org.springframework.context.support.ResourceBundleMessageSource"/>
@@ -51,4 +47,16 @@
             </props>
         </property>
     </bean>
+
+    <dwr:annotation-config/>
+    <dwr:url-mapping/>
+    <dwr:controller id="dwrController" debug="true">
+        <dwr:config-param name="activeReverseAjaxEnabled" value="true"/>
+        <dwr:config-param name="allowScriptTagRemoting"
+                          value="true" />
+        <dwr:config-param name="crossDomainSessionSecurity"
+                          value="false" />
+        <dwr:config-param name="scriptSessionTimeout" value="3600000" />
+        <dwr:config-param name="org.directwebremoting.extend.ScriptSessionManager" value="emall.util.DWRScriptSessionManager"/>
+    </dwr:controller>
 </beans>

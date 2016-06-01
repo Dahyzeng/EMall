@@ -58,4 +58,8 @@ public class MerchantOrderService {
     public ExpressInfo getExpressInfo(String orderId) {
         return (ExpressInfo) expressInfoDao.getExpressInfo(orderId).get(0);
     }
+
+//    public int countUnconfirmedOrder() {
+//        return orderDao.countUnconfirmedOrder();
+//    }
 }

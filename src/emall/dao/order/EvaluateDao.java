@@ -26,4 +26,8 @@ public class EvaluateDao {
         return query.list();
     }
 
+    public Double getAverage () {
+        Query query = sessionFactory.getCurrentSession().createQuery("select AVG(qualityLevel) from ItemEvaluate");
+        return (Double) query.uniqueResult();
+    }
 }

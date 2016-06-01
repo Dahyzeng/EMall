@@ -127,5 +127,6 @@ var chineseMessage = {
     expressName: "快递公司",
     expressNumber: "单号",
     expressInfo: "快递信息",
+    grade: "评分",
 
 };

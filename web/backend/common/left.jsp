@@ -12,21 +12,15 @@
                 <span>Home</span>
             </a>
         </li>
-        <li <c:if test="${requestScope.activeTab eq 'user'}">class="active" >
+        <li <c:if test="${requestScope.activeTab eq 'mall'}">class="active" >
             <div class="pointer">
                 <div class="arrow"></div>
                 <div class="arrow_border"></div>
             </div </c:if>>
-            <a class="dropdown-toggle" href="#">
-                <i class="icon-group"></i>
-                <span>Users</span>
-                <i class="icon-chevron-down"></i>
+            <a href="/merchant/info">
+                <i class="icon-pencil"></i>
+                <span>Mall Info</span>
             </a>
-            <ul class="submenu">
-                <li><a href="#">User list</a></li>
-                <li><a href="#">New user form</a></li>
-                <li><a href="#">User profile</a></li>
-            </ul>
         </li>
 
         <li <c:if test="${requestScope.activeTab eq 'category'}">class="active" >
@@ -68,12 +62,16 @@
             </div </c:if>>
             <a href="/merchant/order">
                 <i class="icon-truck"></i>
-                <span>Order</span>
+                <span>Order</span><div class="badge" style="float: right" id="orderCountBadge"></div>
             </a>
         </li>
 
-        <li>
-            <a href="account.html">
+        <li <c:if test="${requestScope.activeTab eq 'account'}">class="active" >
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div </c:if>>
+            <a href="/merchant/account">
                 <i class="icon-user"></i>
                 <span>Account</span>
             </a>

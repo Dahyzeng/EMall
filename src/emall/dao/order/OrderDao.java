@@ -100,4 +100,9 @@ public class OrderDao {
         query.setInteger(1, itemId);
         return query.list();
     }
+
+//    public int countUnconfirmedOrder() {
+//        Query query = sessionFactory.getCurrentSession().createQuery("select COUNT(*) from Order where status=-1");
+//        return Integer.parseInt(query.uniqueResult().toString());
+//    }
 }

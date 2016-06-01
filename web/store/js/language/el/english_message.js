@@ -41,7 +41,7 @@ var englishMessage = {
     sale: "Sale",
     showMore: "Show More",
     bottom: "At The Bottom",
-    review: "Review(S)",
+    review: "Reviews",
     learnMore: "Learn More",
     loginOrCreate : "Login Or Create An Account",
     newCustomer: "New Customers",
@@ -125,5 +125,6 @@ var englishMessage = {
     expressName: "Express",
     expressNumber: "Number",
     expressInfo: "Express Info",
+    grade: "Grade"
 
 };

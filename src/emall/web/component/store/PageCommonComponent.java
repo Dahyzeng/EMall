@@ -90,12 +90,16 @@ public class PageCommonComponent {
     public Map getItemById(@PathVariable int itemId) {
         List itemList = storeItemService.getItemById(itemId);
         List itemPicList = storeItemService.getItemPic(itemId);
+        List list = reviewService.getItemEvaluate(itemId);
+        float averageLevel = reviewService.getAverage();
         Item item = new Item();
         if (itemList.size() != 0) {
             item = (Item) itemList.get(0);
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("item", item);
+        map.put("evaluateList", list);
+        map.put("averageLevel", averageLevel);
         map.put("itemPicList", itemPicList);
         return map;
     }
@@ -136,11 +140,6 @@ public class PageCommonComponent {
             }
         }
         return list;
-    }
-
-    @RequestMapping("/item_review")
-    public List getItemReview(int itemId) {
-        return reviewService.getItemEvaluate(itemId);
     }
 
     @RequestMapping("/page_size")

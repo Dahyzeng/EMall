@@ -57,13 +57,8 @@
                 <div class="grid_7">
                     <div class="entry_content">
                         <div class="review">
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a class="plus" href="#"></a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                            <span>1 <span data-bind="text: headerMessage().review"></span></span>
-                            <a class="add_review" href="#"><span data-bind="text: headerMessage().addReview"></span></a>
+                            <span data-bind="text: headerMessage().grade"></span>
+                            <span data-bind="text: averageLevel"></span>
                         </div>
                         <p><span data-bind="text: itemDetail().itemName"></span></p>
 
@@ -113,12 +108,33 @@
                         </div>
                         <!-- .tab1 .tab_body -->
                         <div class="tab2 tab_body">
-
-                        </div>
-                        <div class="tab3 tab_body">
-                            <h4>Custom Tab</h4>
-
-                            <div class="clear"></div>
+                            <h4>Customer reviews</h4>
+                            <ul class="comments" data-bind="foreach: {data: itemReview, as: 'review'}">
+                                <li>
+                                    <div class="autor"><span data-bind="text: review.username"></span></div>,
+                                    <time datetime="2012-11-03"><span data-bind="text: review.date"></span></time>
+                                    <div class="evaluation">
+                                        <div class="quality">
+                                            <strong>Quality</strong>
+                                            <a data-bind="attr: {class: $root.oneLevel()[review.qualityLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.twoLevel()[review.qualityLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.threeLevel()[review.qualityLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.fourLevel()[review.qualityLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.fiveLevel()[review.qualityLevel - 1]}"></a>
+                                        </div>
+                                        <div class="price">
+                                            <strong>Price</strong>
+                                            <a data-bind="attr: {class: $root.oneLevel()[review.priceLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.twoLevel()[review.priceLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.threeLevel()[review.priceLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.fourLevel()[review.priceLevel - 1]}"></a>
+                                            <a data-bind="attr: {class: $root.fiveLevel()[review.priceLevel - 1]}"></a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <p data-bind="text: review.comment"></p>
+                                </li>
+                            </ul>
                         </div>
                         <div class="clear"></div>
                     </div>
@@ -138,10 +154,19 @@
         var self = this;
         var itemId = '${requestScope.itemId}';
 
+        self.oneLevel = ko.observableArray(['plus', 'plus', 'plus', 'plus', 'plus']);
+        self.twoLevel = ko.observableArray(['', 'plus', 'plus', 'plus', 'plus']);
+        self.threeLevel = ko.observableArray(['', '', 'plus', 'plus', 'plus']);
+        self.fourLevel = ko.observableArray(['', '', '', 'plus', 'plus']);
+        self.fiveLevel = ko.observableArray(['', '', '', '', 'plus']);
+
         self.itemDetail = ko.observable({});
         self.currentShowPicURL = ko.observable();
         self.itemPicArray = ko.observableArray();
         self.itemQuantity = ko.observable(1);
+        self.itemReview = ko.observableArray();
+        self.averageLevel = ko.observable();
+
         self.changeShowPic = function (p) {
             self.currentShowPicURL(p.picURL);
         };
@@ -179,6 +204,8 @@
                 self.currentShowPicURL(itemJson['item'].showPicURL);
                 self.itemPicArray(itemJson['itemPicList']);
                 self.itemPicArray.push({picURL: itemJson['item'].showPicURL});
+                self.itemReview(itemJson['evaluateList']);
+                self.averageLevel(itemJson['averageLevel']);
             });
         })();
     }

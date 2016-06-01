@@ -60,6 +60,7 @@
 				<value>emall.entity.ExpressInfo</value>
 				<value>emall.entity.Statistic</value>
 				<value>emall.entity.ItemEvaluate</value>
+				<value>emall.entity.MallInfo</value>
 			</list>
 		</property>
 	</bean>

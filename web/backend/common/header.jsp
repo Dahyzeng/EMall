@@ -20,4 +20,36 @@
             </li>
         </ul>
     </div>
+    <audio id="newOrderAudio">
+        <source src="<%request.getContextPath();%>/backend/img/newOrder.mp3" type="audio/mpeg"/>
+    </audio>
 </div>
+
+<script type="text/javascript" src="/dwr/util.js" ></script>
+<script type="text/javascript" src="/dwr/engine.js" ></script>
+<script type="text/javascript" src="/dwr/interface/promptNewOrder.js" ></script>
+<script>
+    (function() {
+        dwr.engine.setActiveReverseAjax(true);
+        dwr.engine.setNotifyServerOnPageUnload(true);
+        prompt1();
+    })();
+    function promptOrder (count) {
+        if (count != null) {
+            document.getElementById("orderCountBadge").innerHTML = count;
+            if (document.getElementById("unconfirmedTabCount")) {
+                document.getElementById("unconfirmedTabCount").innerHTML = count;
+            }
+        }
+    }
+    function prompt1() {
+        promptNewOrder.prompt(function(count) {
+            promptOrder(count);
+        });
+    }
+    function prompt(count) {
+        promptOrder(count);
+        $("#newOrderAudio")[0].play();
+    }
+
+</script>

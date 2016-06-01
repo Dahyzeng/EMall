@@ -8,6 +8,7 @@ import emall.service.merchant.item.ItemBaseService;
 import emall.service.user.address.AddressService;
 import emall.service.user.cart.CartService;
 import emall.service.user.order.OrderService;
+import emall.util.DwrScriptSessionManagerUtil;
 import emall.util.EmailSender;
 import emall.util.string.IdGeneral;
 import emall.util.string.constants.EmailConstant;
@@ -185,6 +186,15 @@ public class OrderComponent {
         orderMap.put("orderId", orderId);
         session.removeAttribute("checkoutStep");
         session.removeAttribute("items");
+        Object newOrder = request.getServletContext().getAttribute("newOrder");
+        if (newOrder == null) {
+            request.getServletContext().setAttribute("newOrder", 1);
+            DwrScriptSessionManagerUtil.sendMessageAuto(1);
+        } else {
+            int count = Integer.parseInt(newOrder.toString());
+            request.getServletContext().setAttribute("newOrder", ++count);
+            DwrScriptSessionManagerUtil.sendMessageAuto(count);
+        }
         return orderMap;
     }
 

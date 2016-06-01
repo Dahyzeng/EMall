@@ -44,6 +44,7 @@ public class MerchantOrderComponent {
         if (!(Boolean) map.get("success")) {
             return map;
         }
+
         List<Map> orderList = new ArrayList<Map>();
         List orderArray;
         int count;
@@ -51,6 +52,9 @@ public class MerchantOrderComponent {
             orderArray = merchantOrderService.getAllOrder(page, PageSizeConstant.BACKEND_ORDER_PAGE_SIZE);
             count = merchantOrderService.getAllOrderCount();
         } else {
+            if (Integer.parseInt(status) == 0) {
+                request.getServletContext().removeAttribute("newOrder");
+            }
             orderArray = merchantOrderService.getOrderByStatus(Integer.parseInt(status), page, PageSizeConstant.BACKEND_ORDER_PAGE_SIZE);
             count = merchantOrderService.getStatusOrderCount(Integer.parseInt(status));
         }
@@ -119,6 +123,17 @@ public class MerchantOrderComponent {
         map.put("expressInfo", merchantOrderService.getExpressInfo(orderId));
         return map;
     }
+
+//    @RequestMapping("/count_unconfirmed")
+//    @ResponseBody
+//    public Map getCountUnconfirmedOrder() {
+//        Map<String, Object> map = checkStatus();
+//        if (!(Boolean) map.get("success")) {
+//            return map;
+//        }
+//        map.put("count", merchantOrderService.countUnconfirmedOrder());
+//        return map;
+//    }
 
     public Map<String, Object> checkStatus() {
         Map<String, Object> itemMap = new HashMap<String, Object>();

@@ -43,7 +43,7 @@
             <div class="table-wrapper products-table section">
                 <div>
                     <input type="text" style="height: 30px" data-bind="value: searchName" placeholder="search account name" >
-                    <button class="btn btn-success" data-bind="click: searchLog">Search</button>
+                    <button class="btn btn-success" style="margin-top: -10px" data-bind="click: searchLog">Search</button>
                 </div>
                 <div class="row-fluid">
                     <table class="table table-hover">
