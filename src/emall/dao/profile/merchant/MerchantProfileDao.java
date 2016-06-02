@@ -67,10 +67,12 @@ public class MerchantProfileDao {
     /**
      * function:
      * update merchant password
-     * @param merchant merchant
      */
-    public void updatePassword(Merchant merchant) {
-        sessionFactory.getCurrentSession().update(merchant);
+    public void updatePassword(String password, String merchantName) {
+        Query query = sessionFactory.getCurrentSession().createQuery("update Merchant set password=? where merchantName=?");
+        query.setString(0, password);
+        query.setString(1, merchantName);
+        query.executeUpdate();
     }
 
     @Autowired

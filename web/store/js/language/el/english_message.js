@@ -114,7 +114,7 @@ var englishMessage = {
     merchantAddress: "Address",
     phone: "Phones",
     support: "Support",
-    saleManager: "Sales Manager",
+    saleManager: "Merchant",
     quickContact: "Quick Contact",
     submit: "Submit",
     comment: "Comment",
@@ -125,6 +125,10 @@ var englishMessage = {
     expressName: "Express",
     expressNumber: "Number",
     expressInfo: "Express Info",
-    grade: "Grade"
+    grade: "Grade",
+    evaluate: "Evaluate",
+    evaluated: "Evaluated",
+    notFountText: "Sorry, not found the items ",
+    emptyCart: "Empty Cart"
 
 };

@@ -85,14 +85,14 @@
                                 <h3 class="title" data-bind="text: item.itemName"></h3>
                             </a>
 
-                            <div class="review" style="margin-bottom: 4px">
-                                <a class="plus" href="#"></a>
-                                <a class="plus" href="#"></a>
-                                <a class="plus" href="#"></a>
-                                <a href="#"></a>
-                                <a href="#"></a>
-                                <span>1 <span data-bind="text: $root.itemListMessage().review"></span></span>
-                            </div>
+                            <%--<div class="review" style="margin-bottom: 4px">--%>
+                                <%--<a class="plus" href="#"></a>--%>
+                                <%--<a class="plus" href="#"></a>--%>
+                                <%--<a class="plus" href="#"></a>--%>
+                                <%--<a href="#"></a>--%>
+                                <%--<a href="#"></a>--%>
+                                <%--<span>1 <span data-bind="text: $root.itemListMessage().review"></span></span>--%>
+                            <%--</div>--%>
                             <a class="more" data-bind="attr: { href: '/pdp/' + item.itemId }"><span data-bind="text: $root.itemListMessage().learnMore"></span></a>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
             }
             self.hasMore(true);
             self.currentPage(1);
-            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[sortValue], function (itemList) {
+            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=list&sortValue=" + messageJson[sortValue], function (itemList) {
                 self.itemArray(itemList);
             });
         });
@@ -184,8 +184,8 @@
             if (pageSize) {
                 self.hasMore(true);
                 self.currentPage(1);
-                $.get("/store/page_size?type=grid&pageSize=" + pageSize, function () {
-                    $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[self.sortValue()], function (itemList) {
+                $.get("/store/page_size?type=list&pageSize=" + pageSize, function () {
+                    $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=list&sortValue=" + messageJson[self.sortValue()], function (itemList) {
                         self.itemArray(itemList);
                     });
                 })
@@ -202,7 +202,7 @@
         self.hasMore = ko.observable(true);
         self.showMore = function() {
             self.currentPage(self.currentPage() + 1);
-            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=grid&sortValue=" + messageJson[self.sortValue()], function (itemList) {
+            $.get("/store/get_item_category?" + self.categoryIdType() + self.typeId() + "&page=" + self.currentPage() + "&pageType=list&sortValue=" + messageJson[self.sortValue()], function (itemList) {
                 if (itemList.length > 0) {
                     if (self.pageSizeValue() > itemList.length) {
                         self.hasMore(false);

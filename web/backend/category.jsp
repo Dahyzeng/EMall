@@ -82,17 +82,17 @@
                                                 <span data-bind="text: category.fatherCategory.categoryName"></span>
                                             </h4>
                                         </li>
-                                        <li class="icon">
+                                        <li class="icon" style="margin-left: 10px">
                                             <a href="#modifyCategory" data-bind="click: $root.setModifyCategoryData" data-toggle="modal" title="modify the category name">
                                                 <i class="icon-wrench"></i>
                                             </a>
                                         </li>
-                                        <li class="icon">
+                                        <li class="icon" style="margin-left: 10px">
                                             <a href="#AddSubCategory" data-bind="click: $root.setSubCategoryFatherId" data-toggle="modal"  title="Add A Sub Category">
                                                 <i class="icon-plus"></i>
                                             </a>
                                         </li>
-                                        <li class="icon">
+                                        <li class="icon" style="margin-left: 10px">
                                             <a href="#" data-toggle="modal" data-bind="click: $root.deleteCategory" title="Delete the Category">
                                                 <i class="icon-remove"></i>
                                             </a>

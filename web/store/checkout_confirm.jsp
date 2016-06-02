@@ -207,7 +207,8 @@
                     self.payMethod(json['payMethod']);
                     self.items(eval('(' + json['items'] + ')'));
                     for (var i = 0; i < self.items().length; i++) {
-                        self.total(((self.items()[i].item.price - self.items()[i].item.discount) * self.items()[i].quantity + self.total()).toFixed(1));
+                        self.total(((self.items()[i].item.price - self.items()[i].item.discount) * self.items()[i].quantity + self.total()))
+                        self.total().toFixed(1);
                     }
                 }
             })

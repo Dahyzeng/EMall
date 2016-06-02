@@ -41,7 +41,7 @@ public class LogComponent {
         }
         map.put("logArray", tmpMap.get("logList"));
         map.put("logCount", tmpMap.get("count"));
-        map.put("totalPage", Math.ceil((float) (Integer.parseInt(tmpMap.get("count").toString()) / PageSizeConstant.LOG_PAGE_SIZE)));
+        map.put("totalPage", Math.ceil(Integer.parseInt(tmpMap.get("count").toString()) / (float) PageSizeConstant.LOG_PAGE_SIZE));
         return map;
     }
 

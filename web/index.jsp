@@ -106,7 +106,7 @@
                 return;
             }
             self.currentBestSalePage(self.currentBestSalePage() + 1);
-            if ((self.currentBestSalePage() - 1) * 4 > self.bestSale().length) {
+            if ((self.currentBestSalePage() - 1) * 4 >= self.bestSale().length) {
                 self.currentBestSalePage(1);
                 self.currentBestSale(self.bestSale().slice(0, 4));
 

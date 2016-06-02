@@ -108,6 +108,8 @@
             $.get("/log/get?name=" + self.searchName() + "&page=" + self.currentPage(), function(json) {
                 if (json['success']) {
                     self.logArray(json['logArray']);
+                    self.logCount(json['logCount']);
+                    self.totalPage(json['totalPage']);
                 }
             })
         };

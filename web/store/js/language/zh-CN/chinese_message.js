@@ -115,7 +115,7 @@ var chineseMessage = {
     merchantAddress: "地址",
     phone: "联系电话",
     support: "技术支持",
-    saleManager: "销售经理",
+    saleManager: "商家",
     quickContact: "即时联系",
     submit: "提交",
     comment: "留言",
@@ -128,5 +128,9 @@ var chineseMessage = {
     expressNumber: "单号",
     expressInfo: "快递信息",
     grade: "评分",
+    evaluate: "评价",
+    evaluated: "已评价",
+    notFountText: "对不起，未找到相应商品",
+    emptyCart: "购物车中还没有商品，赶紧选购吧！",
 
 };

@@ -29,10 +29,13 @@
     <div class="container-fluid">
         <div id="pad-wrapper" class="users-list">
             <div class="row-fluid header">
-                <h3>Users</h3>
+                <h3>Merchants</h3>
                 <div class="span10 pull-right">
+                    <a href="#updatePassword" data-toggle="modal" style="text-decoration: none" class="btn btn-success pull-right">
+                        Update Password
+                    </a>
                     <c:if test="${sessionScope.isAdmin eq 1}">
-                        <a href="#addMerchant" data-toggle="modal" class="btn-flat success pull-right">
+                        <a href="#addMerchant" data-toggle="modal" style="text-decoration: none; margin-right: 30px" class="btn btn-success pull-right">
                             <span>&#43;</span>
                             NEW USER
                         </a>
@@ -63,7 +66,7 @@
                     <!-- row -->
                     <tr class="first">
                         <td>
-                            <img data-bind="attr: {src: merchant.pic}" class="img-circle avatar hidden-phone" />
+                            <%--<img data-bind="attr: {src: merchant.pic}" class="img-circle avatar hidden-phone" />--%>
                             <a class="name"><span data-bind="text: merchant.merchantName"></span></a>
                         </td>
                         <td>
@@ -85,7 +88,7 @@
 </div>
 <div id="addMerchant" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
-        <button type="button" class="close" id="modalClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="close" id="addModalClose" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">
             Add Merchant
         </h3>
@@ -101,19 +104,47 @@
         <button class="btn btn-primary" data-bind="click: addAccount">Save</button>
     </div>
 </div>
+<div id="updatePassword" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" id="updateModalClose" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>
+            Update Password
+        </h3>
+    </div>
+    <div class="modal-body">
+        old password: <input type="password" data-bind="value: oldPassword"/><br/>
+        password: <input type="password" data-bind="value: updatePassword"/><br/>
+        passwordConfirm: <input type="password" data-bind="value: updateConfirmPassword"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary" data-bind="click: onUpdatePassword">Save</button>
+    </div>
+</div>
 </body>
 <script>
     function accountPage() {
         var self = this;
         self.username = ko.observable();
         self.email = ko.observable();
+        self.oldPassword = ko.observable();
         self.password = ko.observable();
         self.confirmPassword = ko.observable();
+        self.updatePassword = ko.observable();
+        self.updateConfirmPassword = ko.observable();
         self.merchantArray = ko.observableArray();
         self.addAccount = function () {
-            $.get("/merchant/addMerchant", {merchantName: self.username, email:self.email(), password: self.password}, function (json) {
+            $.post("/merchant/addMerchant", {merchantName: self.username, email:self.email(), password: self.password}, function (json) {
                 if (json['success']) {
-                    $("#modalClose").trigger('click');
+                    $("#addModalClose").trigger('click');
+                }
+            });
+        };
+
+        self.onUpdatePassword = function () {
+            $.post("/merchant/update/password", {password: self.updatePassword()}, function (json) {
+                if (json['success']) {
+                    $("#updateModalClose").trigger('click');
                 }
             })
         };

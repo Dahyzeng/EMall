@@ -100,11 +100,6 @@
                                                             <span data-bind="text: headerMessage().check"></span>
                                                         </button>
                                                     </span>
-                                                    <span>
-                                                        <button style="width: 65px; height: 28px; margin-left: 60px">
-                                                            <span data-bind="text: headerMessage().review"></span>
-                                                        </button>
-                                                    </span>
                                                 </td>
                                                 <!-- /ko -->
 
@@ -126,10 +121,10 @@
                                                 <td colspan="1">x<span data-bind="text: itemMap.quantity"></span></td>
                                                 <!-- ko if: order.status == "Finished" -->
                                                 <!-- ko if: itemMap.evaluated == 0-->
-                                                <td colspan="1"><button style="float: right; margin-right: 30px; width: 50px;" data-bind="click: $root.onEvaluate.bind($data, order.orderId)">Evaluate</button></td>
+                                                <td colspan="1"><button style="float: right; margin-right: 67px; width: 50px;" data-bind="click: $root.onEvaluate.bind($data, order.orderId)"><span data-bind="text: headerMessage().evaluate"></span></button></td>
                                                 <!-- /ko -->
                                                 <!-- ko ifnot: itemMap.evaluated == 0-->
-                                                <td colspan="1">Evaluated</td>
+                                                <td colspan="1"><span data-bind="text: headerMessage().evaluated"></span></td>
                                                 <!-- /ko -->
                                                 <!-- /ko -->
                                             </tr>

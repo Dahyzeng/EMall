@@ -23,20 +23,20 @@
 
             <div class="grid_4 adress">
                 <h3><span data-bind="text: headerMessage().merchantAddress"></span></h3>
-                <p>49 Archdale, 2B Charleston, New York City, USA</p>
+                <p data-bind="text: mallInfo().address"></p>
                 <hr>
 
                 <h3><span data-bind="text: headerMessage().phone"></span></h3>
                 <p>
-                    <span data-bind="text: headerMessage().support"></span>: <span>+777 (100) 1234</span><br/>
-                    <span data-bind="text: headerMessage().saleManager"></span>: <span>+777 (100) 4321</span><br/>
+                    <span data-bind="text: headerMessage().support"></span>: <span data-bind="text: mallInfo().cellPhone"></span><br/>
+                    <span data-bind="text: headerMessage().saleManager"></span>: +<span data-bind="text: mallInfo().telephone"></span><br/>
                 </p>
                 <hr>
 
                 <h3><span data-bind="text: headerMessage().email"></span></h3>
-                <p><span data-bind="text: headerMessage().support"></span>: <span>support@example.com</span><br/>
-                    <span data-bind="text: headerMessage().saleManager"></span>: <span>manager@example.com</span><br/>
-                    </p>
+                <p>
+                    <span data-bind="text: headerMessage().saleManager"></span>: <span data-bind="text: mallInfo().email"></span><br/>
+                </p>
             </div>
 
             <div class="grid_8">

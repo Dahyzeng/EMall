@@ -4,6 +4,7 @@ import emall.aop.annotation.CheckMerchantName;
 import emall.entity.MallInfo;
 import emall.entity.Merchant;
 import emall.service.merchant.profile.InfoService;
+import emall.util.encryption.EncryptionByMD5;
 import emall.util.file.UploadFile;
 import emall.util.string.Constants;
 import emall.util.string.constants.ErrorMessageConstant;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,21 +34,19 @@ public class UpdateInfo {
     private HttpServletRequest request;
 
     @RequestMapping("/update/password")
-    @CheckMerchantName
-    public ModelAndView UpdatePassword(Merchant merchant) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/merchant/profile/updatePassword");
-        if("".equals(merchant.getPassword())) {
-            return modelAndView;
-        }else {
-            int result = infoService.updatePassword(merchant);
-            if(result == 1) {
-                modelAndView.addObject(Constants.UPDATE_SUCCESS_MESSAGE);
-            }else {
-                modelAndView.addObject(Constants.UPDATE_FAIL_MESSAGE);
-            }
+    @ResponseBody
+    public Map UpdatePassword(String password) throws NoSuchAlgorithmException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Object merchantName = request.getSession().getAttribute("merchantName");
+        if (merchantName == null) {
+            map.put("success", false);
+            map.put("errorMessage", ErrorMessageConstant.NO_LOGIN_ERROR);
+        } else {
+            String enPassword = new EncryptionByMD5().encodeByMD5(password);
+            infoService.updatePassword(enPassword, merchantName.toString());
+            map.put("success", true);
         }
-        return modelAndView;
+        return map;
     }
 
     @RequestMapping("/update/mall")

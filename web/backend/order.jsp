@@ -358,7 +358,7 @@
             if (self.count() <= self.pageSize()) {
                 self.totalPage(1);
             } else {
-                self.totalPage(Math.floor(self.count() / self.pageSize()));
+                self.totalPage(Math.ceil(self.count() / self.pageSize()));
             }
         };
         self.prevPage = function () {

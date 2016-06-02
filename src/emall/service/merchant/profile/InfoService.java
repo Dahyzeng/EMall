@@ -96,16 +96,15 @@ public class InfoService {
      * function:
      * merchant update password, if there are any
      * exception, the data will be rolled back
-     * @param merchant merchant entity
      * @return
      * 1 represent success
      * 0 represent fail
      */
     @Transactional(rollbackFor = Exception.class)
-    public int updatePassword(Merchant merchant) {
+    public int updatePassword(String password, String merchantName) {
         MerchantLog log = getAdminLog();
         log.setOperation(MerchantConstants.UPDATE_PASSWORD_LOG);
-        merchantDao.updatePassword(merchant);
+        merchantDao.updatePassword(password, merchantName);
         logService.addMerchantLog(log);
         return 1;
     }

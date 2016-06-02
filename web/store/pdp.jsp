@@ -42,7 +42,7 @@
                     <div class="preview slides_container">
                         <div class="prev_bg">
                             <a data-bind="attr: { href: currentShowPicURL }">
-                                <img data-bind="attr: { src: currentShowPicURL }" style="width:294px; height:294px" title="" alt=""/>
+                                <img data-bind="attr: { src: currentShowPicURL }" style="width:294px; height:220px" title="" alt=""/>
                             </a>
                         </div>
                     </div>
@@ -56,10 +56,10 @@
                 </div>
                 <div class="grid_7">
                     <div class="entry_content">
-                        <div class="review">
-                            <span data-bind="text: headerMessage().grade"></span>
-                            <span data-bind="text: averageLevel"></span>
-                        </div>
+                        <%--<div class="review">--%>
+                            <%--<span data-bind="text: headerMessage().grade"></span>--%>
+                            <%--<span data-bind="text: averageLevel"></span>--%>
+                        <%--</div>--%>
                         <p><span data-bind="text: itemDetail().itemName"></span></p>
 
                         <div class="ava_price">

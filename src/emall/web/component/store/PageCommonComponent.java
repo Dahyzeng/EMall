@@ -6,6 +6,7 @@ import emall.entity.ItemEvaluate;
 import emall.service.merchant.item.ItemBaseService;
 import emall.service.store.common.StoreCategoryService;
 import emall.service.store.common.StoreItemService;
+import emall.service.store.home.HomePageService;
 import emall.service.user.profile.ProfileService;
 import emall.service.user.review.ReviewService;
 import emall.util.string.constants.PageSizeConstant;
@@ -39,7 +40,7 @@ public class PageCommonComponent {
     @Autowired
     private ReviewService  reviewService;
     @Autowired
-    private ProfileService profileService;
+    private HomePageService homePageService;
 
     @RequestMapping("/get_categories")
     @ResponseBody
@@ -156,5 +157,13 @@ public class PageCommonComponent {
     @ResponseBody
     public void changeLanguage(String language) {
         request.getSession().setAttribute("siteLanguage", language);
+    }
+
+    @RequestMapping("/mall_info")
+    @ResponseBody
+    public Map getMallInfo() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mallInfo", homePageService.getMallInfo());
+        return map;
     }
 }

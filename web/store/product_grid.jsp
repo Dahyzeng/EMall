@@ -56,16 +56,13 @@
                     </select>
                     <span data-bind="text: itemListMessage().perPage"></span>
                 </div>
-                <!-- .show -->
 
                 <div class="sort">
                     <span data-bind="text: itemListMessage().sortBy"></span>
                     <select name="sort" data-bind="options: sortByOptions, value: sortValue, optionsCaption: itemListMessage().select">
                     </select>
                 </div>
-                <!-- .sort -->
             </div>
-            <!-- .options -->
 
             <div class="grid_product" data-bind="foreach: { data: itemArray, as: 'item'}">
                 <div class="grid_3 product" style="width: 22%">
@@ -102,6 +99,7 @@
 
             <div class="clear"></div>
 
+            <!-- ko if: itemArray().length != 0 -->
             <div class="pagination">
                 <!-- ko if: hasMore -->
                 <ul>
@@ -114,6 +112,13 @@
                 </ul>
                 <!-- /ko -->
             </div>
+            <!-- /ko -->
+            <!-- ko if: itemArray().length == 0 -->
+            <div>
+                <img style="float: left" src="<%request.getContextPath();%>/store/images/notfound.png"/>
+                <div style="padding: 100 0 0 40; font-size: xx-large"><span data-bind="text: headerMessage().notFountText"></span></div>
+            </div>
+            <!-- /ko -->
         </div>
 
         <div class="clear"></div>

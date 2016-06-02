@@ -7,7 +7,7 @@
         <div id="top">
             <div class="grid_3">
                 <div class="phone_top">
-                    <span data-bind="text: headerMessage().callUs"></span> +777 (100) 1234
+                    <span data-bind="text: headerMessage().callUs"></span>  +<span data-bind="text: mallInfo().telephone"></span>
                 </div>
             </div>
 
@@ -36,10 +36,15 @@
                 <hgroup>
                     <h1 id="site_logo">
                         <a href="/home" title="">
-                            <img src="<%request.getContextPath();%>/store/images/logo.png"
-                                 alt="Online Store Theme Logo"/></a></h1>
+                            <!-- ko if: mallInfo().storePicURL == null || mallInfo().storePicURL == '' -->
+                            <img src="<%request.getContextPath();%>/store/images/logo.png" alt="Online Store Theme Logo"/>
+                            <!-- /ko -->
+                            <!-- ko if: mallInfo().storePicURL != null && mallInfo().storePicURL != '' -->
+                            <img data-bind="attr: {src: mallInfo().storePicURL}" alt="Online Store Theme Logo"/>
+                            <!-- /ko -->
+                        </a>
+                    </h1>
 
-                    <h2 id="site_description">Online Store Theme</h2>
                 </hgroup>
             </div>
             <div class="grid_3">
@@ -51,32 +56,37 @@
             <div class="grid_6">
                 <ul id="cart_nav">
                     <li>
-                        <a class="cart_li" href="#"><span data-bind="text: headerMessage().cart"></span> <span data-bind="text: totalPrice"></span></a>
+                        <a style="width: 100px" class="cart_li" href="#"><span data-bind="text: headerMessage().cart"></span> <span data-bind="text: totalPrice"></span></a>
                         <ul class="cart_cont">
-                        <span data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
-                        <li>
-                            <a data-bind="attr: {href: '/pdp/' + itemMap.item.itemId}" class="prev_cart">
-                                <div class="cart_vert">
-                                    <img data-bind="attr: {src: itemMap.item.showPicURL}" alt="" title=""/>
-                                </div>
-                            </a>
+                            <!-- ko if: cartItemArray().length != 0-->
+                            <span data-bind="foreach: {data: cartItemArray, as: 'itemMap'}">
+                                <li>
+                                    <a data-bind="attr: {href: '/pdp/' + itemMap.item.itemId}" class="prev_cart">
+                                        <div class="cart_vert">
+                                            <img data-bind="attr: {src: itemMap.item.showPicURL}" alt="" title=""/>
+                                        </div>
+                                    </a>
 
-                            <div class="cont_cart">
-                                <h4><span data-bind="text: itemMap.item.itemName"></span></h4>
+                                    <div class="cont_cart">
+                                        <h4><span data-bind="text: itemMap.item.itemName"></span></h4>
 
-                                <div class="price">
-                                    <span data-bind="text: 'x ' + itemMap.quantity + '  $' + (itemMap.item.price - itemMap.item.discount).toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <a title="close" data-bind="click: headerDeleteItem" class="close" href="#"></a>
+                                        <div class="price">
+                                            <span data-bind="text: 'x ' + itemMap.quantity + '  $' + (itemMap.item.price - itemMap.item.discount).toFixed(1)"></span>
+                                        </div>
+                                    </div>
+                                    <a title="close" data-bind="click: headerDeleteItem" class="close" href="#"></a>
 
-                            <div class="clear"></div>
-                        </li>
-                        </span>
+                                    <div class="clear"></div>
+                                </li>
+                            </span>
                             <li class="no_border">
                                 <a href="/cart" class="view_cart"><span data-bind="text: headerMessage().viewShoppingCart"></span></a>
                                 <a href="#" data-bind="click: placeOrderNow" class="checkout"><span data-bind="text: headerMessage().checkout"></span></a>
                             </li>
+                            <!-- /ko -->
+                            <!-- ko if: cartItemArray().length == 0-->
+                            <li><span data-bind="text: headerMessage().emptyCart"></span></li>
+                            <!-- /ko -->
                         </ul>
                     </li>
                 </ul>
@@ -176,6 +186,7 @@
         self.headerCategories = ko.observableArray();
         self.cartItemArray = ko.observableArray();
         self.totalPrice = ko.observableArray();
+        self.mallInfo = ko.observable({});
         self.headerDeleteItem = function (p) {
             $.get("/cart/delete?itemId=" + p.item.itemId, function (resultJson) {
                 if (resultJson['success']) {
@@ -198,6 +209,9 @@
         (function () {
             $.get("/store/get_categories", function (categoryJson) {
                 self.headerCategories(categoryJson);
+            });
+            $.get("/store/mall_info", function (json) {
+                self.mallInfo(json['mallInfo']);
             });
             getCartItem();
         })();

@@ -218,7 +218,7 @@
                     self.items(eval('('+ json['items']+')'));
                     var total = 0;
                     for (var i = 0; i < self.items().length; i++) {
-                        total = self.items()[i].quantity * (self.items()[i].item.price - self.items()[i].item.discount);
+                        total = self.items()[i].quantity * (self.items()[i].item.price - self.items()[i].item.discount) + total;
                     }
                     self.selectTotalPrice(total.toFixed(1));
                 }
