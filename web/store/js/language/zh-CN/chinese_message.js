@@ -102,6 +102,7 @@ var chineseMessage = {
     status: "订单状态",
     unconfirmed: "未确认",
     cancel: "取消",
+    canceled: "已取消",
     orderId: "订单号",
     nonPayment: "未付款",
     confirmed: "已确认",

@@ -66,7 +66,7 @@
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Non-payment" -->
                                                 <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().nonPayment"></span></td>
-                                                <td colspan="2"><span><button style="width: 65px; height: 28px;"><span data-bind="text: headerMessage().pay"></span></button></span></td>
+                                                <td colspan="2"><span><button style="width: 65px; height: 28px;margin-left: 60px"><span data-bind="text: headerMessage().pay"></span></button></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Delivered" -->
                                                 <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().delivered"></span></td>
@@ -84,10 +84,17 @@
                                                 </td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Canceled" -->
-                                                <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().canceled"></span></td>
+                                                <td colspan="4"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().canceled"></span></td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Confirmed" -->
                                                 <td colspan="2"><span data-bind="text: headerMessage().status"></span>: <span data-bind="text: headerMessage().confirmed"></span></td>
+                                                <td colspan="2">
+                                                    <span>
+                                                        <button style="width: 65px; height: 28px; margin-left: 60px" data-bind="click: $root.updateStatus.bind($data, -1, order.orderId)">
+                                                            <span data-bind="text: headerMessage().cancel"></span>
+                                                        </button>
+                                                    </span>
+                                                </td>
                                                 <!-- /ko -->
                                                 <!-- ko if: order.status == "Finished" -->
                                                 <td colspan="2">

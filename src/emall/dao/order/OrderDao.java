@@ -50,7 +50,7 @@ public class OrderDao {
     }
 
     public List getUserOrder(int userId) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Order where userId=? and status != 5");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where userId=? and status != 5 order by createTime DESC ");
         query.setInteger(0, userId);
         return query.list();
     }
@@ -98,6 +98,12 @@ public class OrderDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from OrderItem where orderId=? and itemId=?");
         query.setString(0, orderId);
         query.setInteger(1, itemId);
+        return query.list();
+    }
+
+    public List getOrderById(String orderId) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Order where orderId=?");
+        query.setString(0, orderId);
         return query.list();
     }
 

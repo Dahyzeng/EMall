@@ -174,7 +174,7 @@ public class ProfileInfo {
         return personalMap;
     }
 
-    @RequestMapping("update_email")
+    @RequestMapping("/update_email")
     @ResponseBody
     public Map updateEmail(String email, String code) {
         Object userId = request.getSession().getAttribute("userId").toString();

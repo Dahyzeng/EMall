@@ -90,7 +90,7 @@
                         </ul>
                     </li>
                 </ul>
-                <nav class="private">
+                <nav class="private" style="margin-right: 30px">
                     <ul>
                         <li><a href="/account"><span data-bind="text: headerMessage().myAccount"></span></a></li>
                         <li class="separator">|</li>
@@ -159,7 +159,6 @@
         } else {
             self.headerMessage(englishMessage);
             self.currentLanguage(englishMessage["${sessionScope.siteLanguage}"]);
-
         }
         self.languageOptions = [self.headerMessage()['english'], self.headerMessage()['chinese']];
 

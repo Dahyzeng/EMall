@@ -49,11 +49,11 @@
     <ul class="breadcrumb">
         <li><a href="/merchant/home" style="color: #0088cc">Home</a> <span class="divider">/</span></li>
         <li><a href="/merchant/product" style="color: #0088cc">Product</a> <span class="divider">/</span></li>
-        <li class="active">Add Picture</li>
+        <li class="active">添加图片</li>
     </ul>
 
     <div class="container-fluid">
-        <div><h3>Add Picture</h3><h5>(only allow 5 pictures)</h5></div>
+        <div><h3>添加图片</h3><h5>(最多允许5张图片)</h5></div>
         <div id="pad-wrapper" class="gallery">
             <div class="gallery-wrapper">
                 <div class="row gallery-row" data-bind="foreach: { data: itemPicURLArray, as: 'itemPic'}">

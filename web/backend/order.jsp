@@ -63,8 +63,8 @@
                             <a href="#" data-bind="click: getOrderByStatus.bind($data, 5)">Deleted</a>
                         </li>
                         <li style="margin-left: 154px">
-                            <input style="margin-top: 7px; height: 28px" type="text" placeholder="order id"/>
-                            <button class="btn btn-success">search</button>
+                            <input style="margin-top: 7px; height: 28px" type="text" data-bind="value: orderId" placeholder="order id"/>
+                            <button class="btn btn-success" data-bind="click: searchOrder">search</button>
                         </li>
                     </ul>
                 </div>
@@ -309,6 +309,7 @@
         self.totalPage = ko.observable();
         self.currentStatus = ko.observable();
 
+        self.orderId = ko.observable();
         self.expressOrderId = ko.observable();
         self.setOrderId = function (p) {
             self.expressOrderId(p.orderId);
@@ -346,6 +347,17 @@
                         }
                     }
                     self.getOrderByStatus(self.currentStatus());
+                }
+            })
+        };
+
+        self.searchOrder = function () {
+            $.get("/merchant/order/find?orderId=" + self.orderId(), function(json) {
+                if (json['success']) {
+                    self.orderArray(json['orderArray']);
+                    self.pageSize(json['pageSize']);
+                    self.count(json['count']);
+                    self.countTotalPage();
                 }
             })
         };

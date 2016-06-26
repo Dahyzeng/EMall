@@ -68,11 +68,10 @@
                             <div class="personal_info_content">
                                 <div class="p_label">
                                     <div class="p_property">
-                                        <sup class="surely"
-                                             style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().gender"></span>:</strong>
+                                        <sup class="surely" style="vertical-align:middle">*</sup><strong><span data-bind="text: headerMessage().gender"></span>:</strong>
                                     </div>
                                 </div>
-                                <input type="radio" value="male" style="margin: 0" name="gender"><span data-bind="text: headerMessage().male"></span></input>
+                                <input type="radio" value="male" checked style="margin: 0" name="gender"><span data-bind="text: headerMessage().male"></span></input>
                                 <input type="radio" value="female" style="margin: 0 0 0 20px; " name="gender"><span data-bind="text: headerMessage().female"></span></input>
                             </div>
                             <div class="personal_info_content">

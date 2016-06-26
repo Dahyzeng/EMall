@@ -101,6 +101,7 @@ var englishMessage = {
     status: "Status",
     unconfirmed: "Unconfirmed",
     cancel: "Cancel",
+    canceled: "Canceled",
     orderId: "Order Id",
     nonPayment: "Not-payment",
     confirmed: "Confirmed",

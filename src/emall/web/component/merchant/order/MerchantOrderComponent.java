@@ -135,6 +135,46 @@ public class MerchantOrderComponent {
 //        return map;
 //    }
 
+    @RequestMapping("/find")
+    @ResponseBody
+    public Map getOrderById(String orderId) {
+        Map<String, Object> infoMap = checkStatus();
+        if (!(Boolean)infoMap.get("success")) {
+            return infoMap;
+        }
+        List<Map> orderList = new ArrayList<Map>();
+        List orderArray = orderService.getOrderById(orderId);
+        for (Object tmp : orderArray) {
+            Map<String, Object> orderMap = new HashMap<String, Object>();
+            List<Object> itemArray = new ArrayList<Object>();
+            Order order = (Order) tmp;
+            Address address = addressService.getAddressById(order.getAddressId());
+            List itemList = orderService.getItem(order.getOrderId());
+            for (Object itemTmp : itemList) {
+                Map<String, Object> itemMap = new HashMap<String, Object>();
+                OrderItem orderItem = (OrderItem) itemTmp;
+                Item item = (Item) itemBaseService.getItemById(orderItem.getItemId()).get(0);
+                itemMap.put("item", item);
+                itemMap.put("quantity", orderItem.getQuantity());
+                itemMap.put("unitCost", orderItem.getUnitCost());
+                itemArray.add(itemMap);
+            }
+            orderMap.put("orderId", order.getOrderId());
+            orderMap.put("address", address);
+            orderMap.put("items", itemArray);
+            orderMap.put("payMethod", order.getPayMethod());
+            String createTime = order.getCreateTime().toString();
+            orderMap.put("createTime", createTime.substring(0, createTime.length() - 2));
+            orderMap.put("totalPrice", order.getTotalPrice());
+            orderMap.put("status", MapConstant.ORDER_STATUS_MAP.get(order.getStatus()));
+            orderList.add(orderMap);
+        }
+        infoMap.put("orderArray", orderList);
+        infoMap.put("count", 1);
+        infoMap.put("pageSize", PageSizeConstant.BACKEND_ORDER_PAGE_SIZE);
+        return infoMap;
+    }
+
     public Map<String, Object> checkStatus() {
         Map<String, Object> itemMap = new HashMap<String, Object>();
         itemMap.put("success",true);

@@ -111,6 +111,10 @@ public class OrderService {
         return Constants.SUCCESS_NUMBER;
     }
 
+    public List getOrderById(String orderId) {
+        return orderDao.getOrderById(orderId);
+    }
+
     public List getOrderItem(String orderId, int itemId) {
         return orderDao.getOrderItem(orderId, itemId);
     }
